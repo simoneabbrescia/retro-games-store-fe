@@ -1,0 +1,103 @@
+<!--[if lte IE 9]>
+  <p class="browserupgrade">
+    You are using an <strong>outdated</strong> browser. Please
+    <a href="#">upgrade your browser</a> to improve your experience and
+    security.
+  </p>
+<![endif]-->
+
+<!-- Preloader -->
+<div class="preloader">
+  <div class="preloader-inner">
+    <div class="preloader-icon">
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+<!-- /End Preloader -->
+
+<app-header></app-header>
+
+<!-- Start Catalog Area -->
+<section class="trending-product section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="section-title">
+          <h2>Catalogo Completo</h2>
+          <p>
+            Rivivi l’emozione del passato: colleziona, gioca e riscopri i grandi
+            classici del videogioco, dalle leggendarie console anni ’80 e ’90 ai
+            titoli indimenticabili che hanno segnato generazioni di gamer.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngFor="let prodotto of prodotti" class="col-lg-3 col-md-6 col-12">
+        <!-- Start Single Product -->
+        <div class="single-product">
+          <div class="product-image">
+            <img [src]="prodotto.imgUrl" alt="{{ prodotto.nome }}" />
+            <div class="button">
+              <a href="#" class="btn"><i class="lni lni-cart"></i> Aggiungi</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <span class="category">{{ prodotto.categoria }}</span>
+            <h4 class="title">
+              <a href="#">{{ prodotto.nome }}</a>
+            </h4>
+            <span class="category">{{ prodotto.descrizione }}</span>
+            <select
+              class="form-select myselect"
+              name="select-prodotto{{ prodotto.id }}"
+              required
+              *ngIf="prodotto.categoria.toLowerCase() === 'videogioco'"
+            >
+              <option value="" disabled selected>Seleziona Piattaforma</option>
+              <option
+                *ngFor="let piattaforma of prodotto.piattaforme"
+                [value]="piattaforma.id"
+              >
+                {{ piattaforma.nome }}
+              </option>
+            </select>
+            <div class="price">
+              <span>€{{ prodotto.prezzo }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- End Single Product -->
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Trending Product Area -->
+
+<!-- Start Brands Area -->
+<div class="brands">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3 col-md-12 col-12">
+        <h2 class="title">Brand Popolari</h2>
+      </div>
+    </div>
+    <div class="brands-logo-wrapper">
+      <div
+        class="brands-logo-carousel d-flex align-items-center justify-content-between"
+      >
+        <div class="brand-logo">
+          <img src="assets/images/brands/01.png" alt="#" />
+          <img src="assets/images/brands/02.png" alt="#" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Brands Area -->
+
+<app-shopping-info></app-shopping-info>
+
+<app-footer></app-footer>
