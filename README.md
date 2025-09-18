@@ -21,9 +21,9 @@ Il progetto combina un backend robusto e un frontend moderno per garantire stabi
 - **Database**: PostgreSQL con gestione tramite JPA
 - **Frontend**: Angular e Bootstrap
 
-# RetroGamesStoreAngular
 
 ---
+
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
 
