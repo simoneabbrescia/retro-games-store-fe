@@ -19,11 +19,8 @@
               <div class="search-select">
                 <div class="select-position">
                   <select name="select-">
-                    <option selected>Tutto</option>
-                    <option
-                      *ngFor="let categoria of categorie"
-                      [value]="categoria.id"
-                    >
+                    <option selected>Categorie</option>
+                    <option *ngFor="let categoria of categorie" [value]="categoria.id">
                       {{ categoria.nome }}
                     </option>
                   </select>
@@ -67,18 +64,10 @@
                   </div>
                   <ul class="shopping-list">
                     <li>
-                      <a
-                        href="javascript:void(0)"
-                        class="remove"
-                        title="Remove this item"
-                        ><i class="lni lni-close"></i
-                      ></a>
+                      <a href="javascript:void(0)" class="remove" title="Remove this item"><i
+                          class="lni lni-close"></i></a>
                       <div class="cart-img-head">
-                        <a class="cart-img" href="#"
-                          ><img
-                            src="assets/images/header/cart-items/item1.jpg"
-                            alt="#"
-                        /></a>
+                        <a class="cart-img" href="#"><img src="assets/images/header/cart-items/item1.jpg" alt="#" /></a>
                       </div>
 
                       <div class="content">
@@ -89,18 +78,10 @@
                       </div>
                     </li>
                     <li>
-                      <a
-                        href="javascript:void(0)"
-                        class="remove"
-                        title="Remove this item"
-                        ><i class="lni lni-close"></i
-                      ></a>
+                      <a href="javascript:void(0)" class="remove" title="Remove this item"><i
+                          class="lni lni-close"></i></a>
                       <div class="cart-img-head">
-                        <a class="cart-img" href="#"
-                          ><img
-                            src="assets/images/header/cart-items/item2.jpg"
-                            alt="#"
-                        /></a>
+                        <a class="cart-img" href="#"><img src="assets/images/header/cart-items/item2.jpg" alt="#" /></a>
                       </div>
                       <div class="content">
                         <h4><a href="#">Wi-Fi Smart Camera</a></h4>
@@ -141,10 +122,7 @@
               Piattaforme
             </span>
             <ul class="sub-category">
-              <li
-                *ngFor="let piattaforma of piattaforme"
-                [value]="piattaforma.id"
-              >
+              <li *ngFor="let piattaforma of piattaforme" [value]="piattaforma.id">
                 <a href="#">{{ piattaforma.nome }}</a>
               </li>
             </ul>
@@ -152,49 +130,26 @@
           <!-- End Mega Category Menu -->
           <!-- Start Navbar -->
           <nav class="navbar navbar-expand-lg">
-            <button
-              class="navbar-toggler mobile-menu-btn"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
+            <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+              aria-label="Toggle navigation">
               <span class="toggler-icon"></span>
               <span class="toggler-icon"></span>
               <span class="toggler-icon"></span>
             </button>
-            <div
-              class="collapse navbar-collapse sub-menu-bar"
-              id="navbarSupportedContent"
-            >
+            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
               <ul id="nav" class="navbar-nav ms-auto">
                 <li class="nav-item">
-                  <a
-                    routerLink=""
-                    routerLinkActive="active"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                    aria-label="Toggle navigation"
-                  >
+                  <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    aria-label="Toggle navigation">
                     Home
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a
-                    routerLink="/faq"
-                    routerLinkActive="active"
-                    aria-label="Toggle navigation"
-                    >FAQ</a
-                  >
+                  <a routerLink="/faq" routerLinkActive="active" aria-label="Toggle navigation">FAQ</a>
                 </li>
                 <li class="nav-item">
-                  <a
-                    routerLink="/contatti"
-                    routerLinkActive="active"
-                    aria-label="Toggle navigation"
-                    >Contatti</a
-                  >
+                  <a routerLink="/contatti" routerLinkActive="active" aria-label="Toggle navigation">Contatti</a>
                 </li>
               </ul>
             </div>
@@ -202,10 +157,7 @@
           </nav>
           <div class="w-100 d-flex justify-content-end align-items-center">
             <ul class="navbar-nav flex-row align-items-center">
-              <li
-                class="nav-item ms-auto"
-                style="height: 100%; margin-right: 0px"
-              >
+              <li class="nav-item ms-auto" style="height: 100%; margin-right: 0px">
                 <a routerLink="/accedi" class="nav-link px-2">Accedi</a>
               </li>
               <li class="d-flex align-items-center" style="height: 100%">
