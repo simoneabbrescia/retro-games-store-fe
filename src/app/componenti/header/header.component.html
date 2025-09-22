@@ -32,7 +32,7 @@
             <div class="nav-hotline"></div>
 
             <!-- Profilo -->
-            <div class="navbar-cart" style="margin-right: 10px">
+            <div class="navbar-cart" style="margin-right: 10px" *ngIf="isLoggedIn();">
               <div class="cart-items">
                 <a href="javascript:void(0)" class="main-btn">
                   <i class="lni lni-user"></i>
@@ -40,7 +40,7 @@
               </div>
             </div>
 
-            <div class="navbar-cart">
+            <div class="navbar-cart" *ngIf="isLoggedIn();">
               <div class="cart-items">
                 <a href="javascript:void(0)" class="main-btn">
                   <i class="lni lni-cart"></i>
@@ -139,7 +139,7 @@
             </div>
             <!-- navbar collapse -->
           </nav>
-          <div class="w-100 d-flex justify-content-end align-items-center">
+          <div class="w-100 d-flex justify-content-end align-items-center" *ngIf="!isLoggedIn();">
             <ul class="navbar-nav flex-row align-items-center">
               <li class="nav-item ms-auto" style="height: 100%; margin-right: 0px">
                 <a routerLink="/accedi" class="nav-link px-2">Accedi</a>

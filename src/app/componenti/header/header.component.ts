@@ -31,6 +31,10 @@ export class HeaderComponent implements OnInit {
     this.loadCarrello();
   }
 
+  public isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+  
   private loadPiattaforme() {
     this.piattaformaApi.getAll().subscribe((response: any) => {
       if (response.returnCode) {
