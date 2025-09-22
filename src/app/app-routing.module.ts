@@ -13,6 +13,11 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
+    path: 'home',
+    title: 'Home Page',
+    component: HomeComponent,
+  },
+  {
     path: 'faq',
     title: 'FAQ',
     component: FaqComponent,

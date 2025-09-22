@@ -1,0 +1,14 @@
+.disabled-cart-add-button {
+  pointer-events: none; /* Disabilita tutti gli eventi del mouse */
+  opacity: 0.7 !important; /* Opacità ridotta per indicare che è disabilitato */
+}
+
+.brands-logo-carousel {
+  padding: 20px;
+}
+
+.brands-logo-carousel > img {
+  height: 120px;
+  object-fit: contain;
+  border-radius: 10px;
+}

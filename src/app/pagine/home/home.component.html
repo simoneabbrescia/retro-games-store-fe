@@ -29,8 +29,11 @@
         <div class="single-product">
           <div class="product-image">
             <img [src]="prodotto.imgUrl" alt="{{ prodotto.nome }}" />
-            <div class="button">
-              <a href="#" class="btn"><i class="lni lni-cart"></i> Aggiungi</a>
+            <div class="button"
+            [ngClass]="{'disabled-cart-add-button': prodotto.categoria.toLowerCase() === 'videogiochi' && 
+              !prodotto.idPiattaformaSelezionata
+            }">
+              <a (click)="addToCart(prodotto)" class="btn"><i class="lni lni-cart"></i> Aggiungi</a>
             </div>
           </div>
           <div class="product-info">
@@ -39,7 +42,7 @@
               <a href="#">{{ prodotto.nome }}</a>
             </h4>
             <span class="category">{{ prodotto.descrizione }}</span>
-            <select class="form-select myselect" name="select-prodotto{{ prodotto.id }}" required
+            <select (change)="onProductSelectPlatformChange(prodotto, $event)" class="form-select myselect" name="select-prodotto{{ prodotto.id }}" required
               *ngIf="prodotto.categoria.toLowerCase() === 'videogiochi'">
               <option value="" disabled selected>Seleziona Piattaforma</option>
               <option *ngFor="let piattaforma of prodotto.piattaforme" [value]="piattaforma.id">
@@ -68,10 +71,14 @@
     </div>
     <div class="brands-logo-wrapper">
       <div class="brands-logo-carousel d-flex align-items-center justify-content-between">
-        <div class="brand-logo">
           <img src="assets/images/brands/01.png" alt="#" />
           <img src="assets/images/brands/02.png" alt="#" />
-        </div>
+          <img src="assets/images/brands/03.png" alt="#" />
+          <img src="assets/images/brands/04.png" alt="#" />
+          <img src="assets/images/brands/05.png" alt="#" />
+          <img src="assets/images/brands/07.png" alt="#" />
+          <img src="assets/images/brands/09.png" alt="#" />
+          <img src="assets/images/brands/10.png" alt="#" />
       </div>
     </div>
   </div>
