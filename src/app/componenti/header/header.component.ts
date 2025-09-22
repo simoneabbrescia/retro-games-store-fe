@@ -3,6 +3,7 @@ import { PiattaformaApi } from '../../api/piattaforma-api.service';
 import { CategoriaApi } from '../../api/categoria-api.service';
 import { CarrelloApi } from '../../api/carrello-api.service';
 import { AuthService } from '../../auth/auth.service';
+import { CarrelloRigaApi } from '../../api/carrello-riga-api.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit {
     private piattaformaApi: PiattaformaApi,
     private categoriaApi: CategoriaApi,
     private carrelloApi: CarrelloApi,
-    private authService: AuthService
+    private authService: AuthService,
+    private carrelloRigaApi: CarrelloRigaApi
   ) {}
 
   ngOnInit() {
@@ -57,5 +59,21 @@ export class HeaderComponent implements OnInit {
           }
         });
     }
+  }
+
+  public rimuoviDalCarrello(rigaId: number) {
+    this.carrelloRigaApi.removeProductFromCart(rigaId)
+      .subscribe({
+        next: (response: any) => {
+          if (response.returnCode) {
+            this.loadCarrello();
+          } else {
+            console.error('Errore nella rimozione del prodotto dal carrello:', response.msg);
+          }
+        },
+        error: (error: any) => {
+          console.error('Errore nella rimozione del prodotto dal carrello:', error);
+        },
+      });
   }
 }

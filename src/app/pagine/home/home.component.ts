@@ -55,39 +55,19 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/accedi']);
       return;
     }
-
-    let accountId = this.authService.getAccountId();
-    this.carrelloApi.getCarrelloByAccountId(accountId).subscribe({
-      next: (response: any) => {
-        if (!response.returnCode)
-          console.error('Errore nel recupero del carrello:', response.msg);
-        let carrello = response.dati;
-        this.carrelloRigaApi
-          .addProductToCart(carrello.id, prodotto.id, 1)
-          .subscribe({
-            next: (response: any) => {
-              if (!response.returnCode) {
-                console.error(
-                  "Errore nell'aggiunta del prodotto al carrello:",
-                  response.msg
-                );
-              } else {
-                this.headerComponent.loadCarrello();
-              }
-            },
-            error: (error: any) => {
-              console.error(
-                "Errore nell'aggiunta del prodotto al carrello:",
-                error
-              );
-            },
-          });
-
-        alert('Prodotto aggiunto al carrello con successo!');
-      },
-      error: (error: any) => {
-        console.error('Errore nel recupero del carrello:', error);
-      },
-    });
+    this.carrelloRigaApi.addProductToCart(this.headerComponent.carrello.id, prodotto.id, 1)
+      .subscribe({
+        next: (response: any) => {
+          if (!response.returnCode) {
+            console.error("Errore nell'aggiunta del prodotto al carrello:", response.msg);
+            return;
+          }
+          this.headerComponent.loadCarrello();
+          alert('Prodotto aggiunto al carrello con successo!');
+        },
+        error: (error: any) => {
+          console.error("Errore nell'aggiunta del prodotto al carrello:", error);
+        },
+      });
   }
 }
