@@ -13,4 +13,12 @@ export class CarrelloRigaApi extends BaseApi {
   }
 
   // TODO: Metodo per aggiungere un prodotto al carrello
+  public addProductToCart(carrelloId: number, prodottoId: number, quantita: number) {
+    const body = {
+      'carrelloId': carrelloId,
+      'prodottoId': prodottoId,
+      'quantita': quantita
+    };
+    return this.http.post<any>(`${this.url}/add-product`, body);
+  }
 }

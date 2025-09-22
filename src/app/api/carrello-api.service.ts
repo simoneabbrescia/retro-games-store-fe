@@ -5,15 +5,15 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class CarrelloApiService extends BaseApi{
+export class CarrelloApi extends BaseApi{
   private readonly url = this.baseUrl + '/carrelli';
 
   constructor(protected override http: HttpClient) {
     super(http);
   }
 
-  getCartByAccountID(accountId: number) {
+  public getCarrelloByAccountId(accountId: number): any {
     let params = new HttpParams().set('accountId', accountId);
-    return this.http.get(this.url, { params });
+    return this.http.get<any>(this.url + '/get-carrello-by-account', { params });
   }
 }

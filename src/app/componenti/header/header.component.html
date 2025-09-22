@@ -44,66 +44,36 @@
               <div class="cart-items">
                 <a href="javascript:void(0)" class="main-btn">
                   <i class="lni lni-cart"></i>
-                  <span class="total-items">2</span>
+                  <span class="total-items">{{ carrello.totaleQuantita }}</span>
                 </a>
                 <!-- Shopping Item -->
                 <div class="shopping-item">
                   <div class="dropdown-cart-header">
-                    <span>2 Items</span>
-                    <a href="#">Vedi Carrello</a>
+                    <span>Prodotti</span>
                   </div>
                   <ul class="shopping-list">
-                    <li>
-                      <a
-                        href="javascript:void(0)"
-                        class="remove"
-                        title="Remove this item"
-                        ><i class="lni lni-close"></i
-                      ></a>
+                    <li *ngFor="let riga of carrello.righe">
+                      <a href="javascript:void(0)" class="remove" title="Rimuovi questo elemento"><i
+                          class="lni lni-close"></i></a>
                       <div class="cart-img-head">
-                        <a class="cart-img" href="#"
-                          ><img
-                            src="assets/images/header/cart-items/item1.jpg"
-                            alt="#"
-                        /></a>
-                      </div>
-
-                      <div class="content">
-                        <h4><a href="#"> Apple Watch Series 6</a></h4>
-                        <p class="quantity">
-                          1x - <span class="amount">$99.00</span>
-                        </p>
-                      </div>
-                    </li>
-                    <li>
-                      <a
-                        href="javascript:void(0)"
-                        class="remove"
-                        title="Remove this item"
-                        ><i class="lni lni-close"></i
-                      ></a>
-                      <div class="cart-img-head">
-                        <a class="cart-img" href="#"
-                          ><img
-                            src="assets/images/header/cart-items/item2.jpg"
-                            alt="#"
-                        /></a>
+                        <a class="cart-img" href="#"><img [src]="riga.prodotto.imgUrl" alt="#" /></a>
                       </div>
                       <div class="content">
-                        <h4><a href="#">Wi-Fi Smart Camera</a></h4>
+                        <h4><a href="#">{{ riga.prodotto.nome }}</a></h4>
                         <p class="quantity">
-                          1x - <span class="amount">$35.00</span>
+                          {{ riga.quantita }}x - <span class="amount">€{{ riga.prodotto.prezzo }}</span>
                         </p>
                       </div>
                     </li>
                   </ul>
+
                   <div class="bottom">
                     <div class="total">
                       <span>Total</span>
-                      <span class="total-amount">$134.00</span>
+                      <span class="total-amount">€{{ carrello.totale }}</span>
                     </div>
                     <div class="button">
-                      <a href="#" class="btn animate">Checkout</a>
+                      <a href="#" class="btn animate">Ordina</a>
                     </div>
                   </div>
                 </div>
@@ -134,7 +104,8 @@
                 </a>
                 <ul class="inner-sub-category" *ngIf="categoria.nome.toLowerCase() === 'videogiochi'">
                   <li *ngFor="let piattaforma of piattaforme">
-                    <a [routerLink]="['/']" [queryParams]="{ c: categoria.id, p: piattaforma.id }">{{ piattaforma.nome }}</a>
+                    <a [routerLink]="['/']" [queryParams]="{ c: categoria.id, p: piattaforma.id }">{{ piattaforma.nome
+                      }}</a>
                   </li>
                 </ul>
               </li>
@@ -143,49 +114,26 @@
           <!-- End Mega Category Menu -->
           <!-- Start Navbar -->
           <nav class="navbar navbar-expand-lg">
-            <button
-              class="navbar-toggler mobile-menu-btn"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
+            <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+              aria-label="Toggle navigation">
               <span class="toggler-icon"></span>
               <span class="toggler-icon"></span>
               <span class="toggler-icon"></span>
             </button>
-            <div
-              class="collapse navbar-collapse sub-menu-bar"
-              id="navbarSupportedContent"
-            >
+            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
               <ul id="nav" class="navbar-nav ms-auto">
                 <li class="nav-item">
-                  <a
-                    routerLink=""
-                    routerLinkActive="active"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                    aria-label="Toggle navigation"
-                  >
+                  <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    aria-label="Toggle navigation">
                     Home
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a
-                    routerLink="/faq"
-                    routerLinkActive="active"
-                    aria-label="Toggle navigation"
-                    >FAQ</a
-                  >
+                  <a routerLink="/faq" routerLinkActive="active" aria-label="Toggle navigation">FAQ</a>
                 </li>
                 <li class="nav-item">
-                  <a
-                    routerLink="/contatti"
-                    routerLinkActive="active"
-                    aria-label="Toggle navigation"
-                    >Contatti</a
-                  >
+                  <a routerLink="/contatti" routerLinkActive="active" aria-label="Toggle navigation">Contatti</a>
                 </li>
               </ul>
             </div>
@@ -193,10 +141,7 @@
           </nav>
           <div class="w-100 d-flex justify-content-end align-items-center">
             <ul class="navbar-nav flex-row align-items-center">
-              <li
-                class="nav-item ms-auto"
-                style="height: 100%; margin-right: 0px"
-              >
+              <li class="nav-item ms-auto" style="height: 100%; margin-right: 0px">
                 <a routerLink="/accedi" class="nav-link px-2">Accedi</a>
               </li>
               <li class="d-flex align-items-center" style="height: 100%">

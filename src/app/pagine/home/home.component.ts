@@ -1,5 +1,17 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  ViewChild,
+} from '@angular/core';
 import { ProdottoApi } from '../../api/prodotto-api.service';
+import { AuthService } from '../../auth/auth.service';
+import { Router } from '@angular/router';
+import { CarrelloApi } from '../../api/carrello-api.service';
+import { CarrelloRigaApi } from '../../api/carrello-riga-api.service';
+import { HeaderComponent } from '../../componenti/header/header.component';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +22,16 @@ import { ProdottoApi } from '../../api/prodotto-api.service';
 export class HomeComponent implements OnInit {
   prodotti: any[] = [];
 
-  constructor(private prodottoApi: ProdottoApi) {}
+  @ViewChild(HeaderComponent)
+  headerComponent!: HeaderComponent;
+
+  constructor(
+    private prodottoApi: ProdottoApi,
+    private authService: AuthService,
+    private router: Router,
+    private carrelloApi: CarrelloApi,
+    private carrelloRigaApi: CarrelloRigaApi
+  ) {}
 
   ngOnInit() {
     this.loadProdotti();
@@ -29,10 +50,44 @@ export class HomeComponent implements OnInit {
   }
 
   public addToCart(prodotto: any) {
-    /* TODO: Implementare la logica per aggiungere il prodotto al carrello.
-      Se l'account non è loggato, mostrare un messaggio di errore o reindirizzare alla pagina di login
-      altrimenti recupera il carrello dell'utente e aggiungi il prodotto.
-    */
-  }
+    if (!this.authService.isLoggedIn()) {
+      alert('Devi effettuare il login per aggiungere prodotti al carrello.');
+      this.router.navigate(['/accedi']);
+      return;
+    }
 
+    let accountId = this.authService.getAccountId();
+    this.carrelloApi.getCarrelloByAccountId(accountId).subscribe({
+      next: (response: any) => {
+        if (!response.returnCode)
+          console.error('Errore nel recupero del carrello:', response.msg);
+        let carrello = response.dati;
+        this.carrelloRigaApi
+          .addProductToCart(carrello.id, prodotto.id, 1)
+          .subscribe({
+            next: (response: any) => {
+              if (!response.returnCode) {
+                console.error(
+                  "Errore nell'aggiunta del prodotto al carrello:",
+                  response.msg
+                );
+              } else {
+                this.headerComponent.loadCarrello();
+              }
+            },
+            error: (error: any) => {
+              console.error(
+                "Errore nell'aggiunta del prodotto al carrello:",
+                error
+              );
+            },
+          });
+
+        alert('Prodotto aggiunto al carrello con successo!');
+      },
+      error: (error: any) => {
+        console.error('Errore nel recupero del carrello:', error);
+      },
+    });
+  }
 }
