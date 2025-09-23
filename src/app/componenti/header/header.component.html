@@ -53,12 +53,13 @@
                     <a routerLink="/carrello">Vedi Carrello</a>
                   </div>
                   <ul class="shopping-list">
-                    <span style="margin-bottom: 20px;"
-                    *ngIf="carrello.totaleQuantita === 0">
-                    Nessun prodotto aggiunto al carrello. </span>
+                    <mat-card-content class="empty-cart" *ngIf="carrello.totaleQuantita === 0">
+                      <mat-icon class="empty-ico">shopping_cart</mat-icon>
+                      <p>Il tuo carrello è vuoto.</p>
+                    </mat-card-content>
                     <li *ngFor="let riga of carrello.righe">
-                      <a (click)="rimuoviDalCarrello(riga.id);" href="javascript:void(0)" class="remove" title="Rimuovi questo elemento"><i
-                          class="lni lni-close"></i></a>
+                      <a (click)="rimuoviDalCarrello(riga.id);" href="javascript:void(0)" class="remove"
+                        title="Rimuovi questo elemento"><i class="lni lni-close"></i></a>
                       <div class="cart-img-head">
                         <a class="cart-img" href="#"><img [src]="riga.prodotto.imgUrl" alt="#" /></a>
                       </div>

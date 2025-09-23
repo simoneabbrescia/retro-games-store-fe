@@ -18,6 +18,8 @@ import { HomeComponent } from './pagine/home/home.component';
 import { RegistratiComponent } from './pagine/registrati/registrati.component';
 import { MaterialModule } from './shared/material.module';
 import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
+import { CarrelloComponent } from './pagine/carrello/carrello.component';
+import { CheckoutComponent } from './pagine/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettagli
     ContattiComponent,
     AccediComponent,
     RegistratiComponent,
-    DettaglioProdottoComponent
+    DettaglioProdottoComponent,
+    CarrelloComponent,
+    CheckoutComponent
   ],
   imports: [BrowserModule, AppRoutingModule, MaterialModule],
   providers: [

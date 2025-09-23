@@ -19,4 +19,8 @@ export class CarrelloRigaApi extends BaseApi {
   public removeProductFromCart(body: {}) {
     return this.http.post<any>(`${this.url}/remove-product`, body);
   }
+
+  public updateRiga(body: {}) {
+    return this.http.put<any>(`${this.url}/update-row`, body);
+  }
 }

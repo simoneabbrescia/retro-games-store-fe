@@ -25,6 +25,7 @@
     </div>
     <div class="row">
       <div *ngFor="let prodotto of prodotti" class="col-lg-3 col-md-6 col-12">
+
         <!-- Start Single Product -->
         <div class="single-product">
           <div class="product-image">
@@ -35,12 +36,14 @@
               <a (click)="addToCart(prodotto)" class="btn"><i class="lni lni-cart"></i> Aggiungi</a>
             </div>
           </div>
+
           <div class="product-info">
-            <span class="category">{{ prodotto.categoria }}</span>
-            <h4 class="title">
+            <span class="chip">{{ prodotto.categoria }}</span>
+            <h4 class="title product-name">
               <a [routerLink]="['/prodotti', prodotto.id]">{{ prodotto.nome }}</a>
             </h4>
             <span class="category">{{ prodotto.descrizione }}</span>
+
             <select (change)="onProductSelectPlatformChange(prodotto, $event)" class="form-select myselect"
               name="select-prodotto{{ prodotto.id }}" required
               *ngIf="prodotto.categoria.toLowerCase() === 'videogiochi'">
@@ -49,12 +52,14 @@
                 {{ piattaforma.nome }}
               </option>
             </select>
+
             <div class="price">
               <span>€{{ prodotto.prezzo }}</span>
             </div>
           </div>
         </div>
         <!-- End Single Product -->
+
       </div>
     </div>
   </div>

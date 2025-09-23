@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
             return;
           }
           this.headerComponent.loadCarrello();
-          this._snackBar.open('Prodotto aggiunto al carrello con successo!', 'Ok', { duration: 5000 });
+          this._snackBar.open('Prodotto aggiunto al carrello con successo!', 'Ok', { duration: 5000, panelClass: ['snackbar-success']});
         },
         error: (error: any) => {
           console.error("Errore nell'aggiunta del prodotto al carrello:", error);
