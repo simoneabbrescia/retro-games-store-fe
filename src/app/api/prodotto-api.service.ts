@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseApi } from './base-api.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -14,5 +14,10 @@ export class ProdottoApi extends BaseApi {
 
   getAll() {
     return this.http.get(this.url + '/list-active');
+  }
+
+  getById(id: number) {
+    let params = new HttpParams().set('id', id);
+    return this.http.get(this.url + '/get-by-id', { params});
   }
 }

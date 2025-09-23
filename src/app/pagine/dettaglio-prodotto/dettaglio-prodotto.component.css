@@ -1,0 +1,66 @@
+.page {
+  margin: 40px 16px 40px 16px;
+  display: grid;
+  place-items: center;
+}
+.card {
+  padding: 16px 0px 16px 0px;
+  display: grid;
+  gap: 24px;
+  width: 100%;
+  max-width: 1100px;
+  grid-template-columns: 1fr 1.2fr;
+}
+@media (max-width: 900px) {
+  .card {
+    grid-template-columns: 1fr;
+  }
+}
+.media {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cover {
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.content {
+  padding: 16px 24px 32px 8px;
+}
+.title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 700;
+}
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+}
+.price {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color:rgb(0, 179, 0);
+}
+.desc {
+  margin: 16px 0 24px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  font-size: 15px;
+}
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.category {
+  font-size: 14px;
+}

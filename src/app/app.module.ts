@@ -17,6 +17,7 @@ import { FaqComponent } from './pagine/faq/faq.component';
 import { HomeComponent } from './pagine/home/home.component';
 import { RegistratiComponent } from './pagine/registrati/registrati.component';
 import { MaterialModule } from './shared/material.module';
+import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MaterialModule } from './shared/material.module';
     ContattiComponent,
     AccediComponent,
     RegistratiComponent,
+    DettaglioProdottoComponent
   ],
   imports: [BrowserModule, AppRoutingModule, MaterialModule],
   providers: [

@@ -5,16 +5,17 @@ import { FaqComponent } from './pagine/faq/faq.component';
 import { ContattiComponent } from './pagine/contatti/contatti.component';
 import { AccediComponent } from './pagine/accedi/accedi.component';
 import { RegistratiComponent } from './pagine/registrati/registrati.component';
+import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
 
 const routes: Routes = [
   {
     path: '',
-    title: 'Home Page',
+    title: 'RetroGames Store',
     component: HomeComponent,
   },
   {
     path: 'home',
-    title: 'Home Page',
+    title: 'RetroGames Store',
     component: HomeComponent,
   },
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
     title: 'Registrati',
     component: RegistratiComponent,
   },
+  {
+    path: 'prodotti/:id',
+    component: DettaglioProdottoComponent
+  }
 ];
 
 @NgModule({

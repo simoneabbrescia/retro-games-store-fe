@@ -1,0 +1,53 @@
+<app-header></app-header>
+
+<div class="page">
+  <mat-card appearance="outlined" class="card">
+    <div class="media">
+      <ng-container *ngIf="this.prodotto">
+        <img class="cover" [src]="this.prodotto.imgUrl" [alt]="this.prodotto.nome" loading="lazy">
+      </ng-container>
+    </div>
+
+    <div class="content">
+      <ng-container *ngIf="this.prodotto">
+        <h1 class="title">{{ this.prodotto.nome }}</h1>
+
+        <div class="priceRow">
+          <span class="price">{{ this.prodotto.prezzo | currency:'EUR':'symbol':'1.2-2' }}</span>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="category">
+          <span>{{ this.prodotto.categoria ? (this.prodotto.categoria.charAt(0).toUpperCase() +
+            this.prodotto.categoria.slice(1)) : '' }}</span>
+        </div>
+        <div class="desc" [innerText]="this.prodotto.descrizione"></div>
+
+        <mat-form-field *ngIf="this.prodotto.categoria.toLowerCase() === 'videogiochi'">
+          <mat-label>Piattaforma</mat-label>
+          <mat-select (selectionChange)="onProductSelectPlatformChange($event.value)" required>
+            <mat-option *ngFor="let piattaforma of prodotto.piattaforme" [value]="piattaforma.id">
+              {{ piattaforma.nome }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="actions">
+          <button mat-flat-button color="primary" (click)="addToCart()"
+            [disabled]="this.prodotto.categoria.toLowerCase() === 'videogiochi' && !this.prodotto.idPiattaformaSelezionata">
+            <mat-icon>add_shopping_cart</mat-icon>
+            Aggiungi al carrello
+          </button>
+          <button mat-stroked-button color="primary" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            Torna al catalogo
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </mat-card>
+</div>
+
+<app-shopping-info></app-shopping-info>
+<app-footer></app-footer>

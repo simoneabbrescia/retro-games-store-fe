@@ -38,7 +38,7 @@
           <div class="product-info">
             <span class="category">{{ prodotto.categoria }}</span>
             <h4 class="title">
-              <a href="#">{{ prodotto.nome }}</a>
+              <a [routerLink]="['/prodotti', prodotto.id]">{{ prodotto.nome }}</a>
             </h4>
             <span class="category">{{ prodotto.descrizione }}</span>
             <select (change)="onProductSelectPlatformChange(prodotto, $event)" class="form-select myselect"

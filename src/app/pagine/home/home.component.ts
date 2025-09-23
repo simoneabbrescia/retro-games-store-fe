@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -8,6 +9,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { CarrelloRigaApi } from '../../api/carrello-riga-api.service';
 import { HeaderComponent } from '../../componenti/header/header.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +19,8 @@ import { HeaderComponent } from '../../componenti/header/header.component';
 })
 export class HomeComponent implements OnInit {
   prodotti: any[] = [];
+
+  private _snackBar = inject(MatSnackBar);
 
   @ViewChild(HeaderComponent)
   headerComponent!: HeaderComponent;
@@ -63,7 +67,7 @@ export class HomeComponent implements OnInit {
             return;
           }
           this.headerComponent.loadCarrello();
-          alert('Prodotto aggiunto al carrello con successo!');
+          this._snackBar.open('Prodotto aggiunto al carrello con successo!', 'Ok', { duration: 5000 });
         },
         error: (error: any) => {
           console.error("Errore nell'aggiunta del prodotto al carrello:", error);
