@@ -1,21 +1,22 @@
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './pagine/home/home.component';
-import { HeaderComponent } from './componenti/header/header.component';
 import { FooterComponent } from './componenti/footer/footer.component';
+import { HeaderComponent } from './componenti/header/header.component';
 import { ShoppingInfoComponent } from './componenti/shopping-info/shopping-info.component';
-import { FaqComponent } from './pagine/faq/faq.component';
-import { ContattiComponent } from './pagine/contatti/contatti.component';
 import { AccediComponent } from './pagine/accedi/accedi.component';
+import { ContattiComponent } from './pagine/contatti/contatti.component';
+import { FaqComponent } from './pagine/faq/faq.component';
+import { HomeComponent } from './pagine/home/home.component';
 import { RegistratiComponent } from './pagine/registrati/registrati.component';
+import { MaterialModule } from './shared/material.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { RegistratiComponent } from './pagine/registrati/registrati.component';
     AccediComponent,
     RegistratiComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, MaterialModule],
   providers: [
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),

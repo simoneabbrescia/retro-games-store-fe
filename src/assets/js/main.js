@@ -1,6 +1,6 @@
 /*
-Template Name: Loda LELE - Bootstrap 5 eCommerce HTML Template.
-Author: BiBi Chod Rani
+Template Name: E-Commerce HTML Template - Angular 19 Bootstrap 5.
+Author: Betacom S.r.l - Bari
 */
 
 (function () {
