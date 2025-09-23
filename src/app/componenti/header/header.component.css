@@ -1,0 +1,6 @@
+.empty-cart {
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  padding: 12px;
+}

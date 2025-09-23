@@ -6,6 +6,8 @@ import { ContattiComponent } from './pagine/contatti/contatti.component';
 import { AccediComponent } from './pagine/accedi/accedi.component';
 import { RegistratiComponent } from './pagine/registrati/registrati.component';
 import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
+import { CarrelloComponent } from './pagine/carrello/carrello.component';
+import { CheckoutComponent } from './pagine/checkout/checkout.component';
 
 const routes: Routes = [
   {
@@ -41,6 +43,16 @@ const routes: Routes = [
   {
     path: 'prodotti/:id',
     component: DettaglioProdottoComponent
+  },
+  {
+    path: 'carrello',
+    title: 'Carrello',
+    component: CarrelloComponent,
+  },
+  {
+    path: 'checkout',
+    title: 'Checkout',
+    component: CheckoutComponent
   }
 ];
 

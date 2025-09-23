@@ -19,10 +19,9 @@
         <mat-divider></mat-divider>
 
         <div class="category">
-          <span>{{ this.prodotto.categoria ? (this.prodotto.categoria.charAt(0).toUpperCase() +
-            this.prodotto.categoria.slice(1)) : '' }}</span>
+          <span class="chip">{{ prodotto.categoria }}</span>
         </div>
-        <div class="desc" [innerText]="this.prodotto.descrizione"></div>
+        <div class="desc" [innerText]="this.prodotto.descrizione + '\nAnno uscita: ' + this.prodotto.annoUscita"></div>
 
         <mat-form-field *ngIf="this.prodotto.categoria.toLowerCase() === 'videogiochi'">
           <mat-label>Piattaforma</mat-label>

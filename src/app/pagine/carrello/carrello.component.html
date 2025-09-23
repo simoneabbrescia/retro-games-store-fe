@@ -1,0 +1,110 @@
+<app-header></app-header>
+
+<div class="cart-page" *ngIf="carrello as c">
+  <h1 class="page-title">Il tuo carrello</h1>
+
+  <ng-container *ngIf="c.righe?.length; else emptyCart">
+    <div class="layout">
+      <!-- Lista articoli -->
+      <mat-card appearance="outlined" class="list-card">
+        <mat-card-header>
+          <mat-card-title>Articoli</mat-card-title>
+          <mat-card-subtitle>{{ c.totaleQuantita }} element{{ c.totaleQuantita === 1 ? 'o' : 'i' }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+
+        <div class="cart-list">
+          <div class="cart-item" *ngFor="let r of c.righe">
+            <div class="thumb">
+              <img [src]="r.prodotto.imgUrl" [alt]="r.prodotto.nome" loading="lazy" />
+            </div>
+
+            <div class="details">
+              <div class="title-row">
+                <h2 class="name">{{ r.prodotto.nome }}</h2>
+                <span class="chip">{{ r.prodotto.categoria }}</span>
+              </div>
+
+              <p class="desc">
+                {{ r.prodotto.descrizione }}
+              </p>
+
+              <div class="meta-grid">
+                <div class="meta">
+                  <span class="label">Prezzo</span>
+                  <span class="value price">{{ r.prodotto.prezzo | currency:'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+                <div class="meta">
+                  <span class="label">Quantità</span>
+                  <span class="value">{{ r.quantita || 1 }}</span>
+                </div>
+                <div class="meta total">
+                  <span class="label">Subtotale</span>
+                  <span class="value line-total">
+                    {{ (r.prodotto.prezzo * (r.quantita || 1)) | currency:'EUR':'symbol':'1.2-2' }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="actions">
+                <button mat-stroked-button color="primary" class="icon-only" aria-label="Rimuovi"
+                  (click)="decreaseFromCart(r.quantita, r.id)">
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <button mat-stroked-button color="primary" class="icon-only" aria-label="Aggiungi"
+                  (click)="addToCart(r.prodotto.id)">
+                  <mat-icon>add</mat-icon>
+                </button>
+                <button mat-flat-button color="warn" style="background-color:rgba(255, 0, 0, 0.7)"
+                  (click)="removeFromCart(r.id)">
+                  <mat-icon>delete</mat-icon>
+                  Rimuovi
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- Riepilogo -->
+      <mat-card appearance="outlined" class="summary-card">
+        <mat-card-header>
+          <mat-card-title>Riepilogo</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+          <div class="summary-row">
+            <span>Totale articoli</span>
+            <span>{{ c.totaleQuantita }}</span>
+          </div>
+          <div class="summary-row grand">
+            <span>Totale</span>
+            <span>{{ c.totale | currency:'EUR':'symbol':'1.2-2' }}</span>
+          </div>
+
+          <button mat-flat-button color="primary" class="btn-block" routerLink="/checkout">
+            Procedi al checkout
+          </button>
+
+          <button mat-stroked-button color="primary" class="btn-block" routerLink="/">
+            Continua lo shopping
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyCart>
+    <mat-card appearance="outlined" class="empty-card">
+      <mat-card-content class="empty">
+        <mat-icon class="empty-ico">shopping_cart</mat-icon>
+        <p>Il tuo carrello è vuoto.</p>
+        <button mat-flat-button color="primary" routerLink="/">Vai al catalogo</button>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+</div>
+
+<app-shopping-info></app-shopping-info>
+<app-footer></app-footer>

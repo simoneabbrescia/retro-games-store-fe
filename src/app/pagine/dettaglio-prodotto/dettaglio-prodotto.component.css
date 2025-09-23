@@ -63,4 +63,14 @@
 }
 .category {
   font-size: 14px;
+  margin-top: 10px;
+}
+.chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: #eef2ff;
+  color: #3441d9;
+  margin-left: -2px;
 }
