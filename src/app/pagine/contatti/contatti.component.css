@@ -1,0 +1,87 @@
+/* Impostazioni di base per il layout */
+.contatti-container {
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 900px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  color: #4A90E2;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.contatti-item {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.contatti-item:last-child {
+  margin-bottom: 0;
+}
+
+.contatti-item h2 {
+  font-size: 1.8em;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 600;
+  border-bottom: 2px solid #4A90E2;
+  padding-bottom: 5px;
+}
+
+.contatti-item p {
+  font-size: 1.1em;
+  color: #555;
+}
+
+.contatti-item p strong {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Aggiungere uno sfondo di hover per ogni sezione */
+.contatti-item:hover {
+  background-color: #f0f8ff;
+  transition: background-color 0.3s ease;
+}
+
+/* Ottimizzazione per schermi più piccoli */
+@media (max-width: 768px) {
+  .contatti-container {
+    padding: 15px;
+    margin: 20px;
+  }
+
+  .contatti-item {
+    padding: 15px;
+  }
+
+  .contatti-item h2 {
+    font-size: 1.6em;
+  }
+
+  p {
+    font-size: 1em;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+}
