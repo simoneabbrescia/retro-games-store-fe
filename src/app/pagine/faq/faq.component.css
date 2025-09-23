@@ -1,0 +1,104 @@
+/* Impostazioni di base per il layout */
+.faq-container {
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 900px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titolo principale */
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  color: #4A90E2;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+/* Stile per ogni sezione di FAQ */
+.faq-item {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Rimuove il margine inferiore dell'ultimo elemento */
+.faq-item:last-child {
+  margin-bottom: 0; 
+}
+
+/* Titolo di ogni domanda */
+.faq-item h2 {
+  font-size: 1.8em;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 600;
+  border-bottom: 2px solid #4A90E2;
+  padding-bottom: 5px;
+}
+
+/* Paragrafo della risposta */
+.faq-item p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #555;
+  margin: 10px 0;
+}
+
+/* Stile per la lista di opzioni */
+.faq-item ol {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.faq-item ol li {
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  color: #555;
+  list-style-type: disc;
+}
+
+/* Aggiungere uno sfondo di hover per ogni domanda */
+.faq-item:hover {
+  background-color: #f0f8ff;
+  transition: background-color 0.3s ease;
+}
+
+/* Stile per il footer */
+app-footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #777;
+}
+
+/* Ottimizzazione per schermi più piccoli */
+@media (max-width: 768px) {
+  .faq-container {
+    padding: 15px;
+    margin: 20px;
+  }
+
+  .faq-item {
+    padding: 15px;
+  }
+
+  .faq-item h2 {
+    font-size: 1.6em;
+  }
+
+  .faq-item p,
+  .faq-item ul li {
+    font-size: 1em;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+}
