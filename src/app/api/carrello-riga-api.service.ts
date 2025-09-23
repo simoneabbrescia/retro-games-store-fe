@@ -12,11 +12,11 @@ export class CarrelloRigaApi extends BaseApi {
     super(http);
   }
 
-  public addProductToCart(body: any) {
+  public addProductToCart(body: {}) {
     return this.http.post<any>(`${this.url}/add-product`, body);
   }
 
-  public removeProductFromCart(body: any) {
+  public removeProductFromCart(body: {}) {
     return this.http.post<any>(`${this.url}/remove-product`, body);
   }
 }
