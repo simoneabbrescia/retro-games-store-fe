@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public rimuoviDalCarrello(rigaId: number) {
-    this.carrelloRigaApi.removeProductFromCart(rigaId)
+    this.carrelloRigaApi.removeProductFromCart({'id': rigaId})
       .subscribe({
         next: (response: any) => {
           if (response.returnCode) {

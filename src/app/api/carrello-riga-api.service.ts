@@ -12,19 +12,11 @@ export class CarrelloRigaApi extends BaseApi {
     super(http);
   }
 
-  public addProductToCart(carrelloId: number, prodottoId: number, quantita: number) {
-    const body = {
-      'carrelloId': carrelloId,
-      'prodottoId': prodottoId,
-      'quantita': quantita
-    };
+  public addProductToCart(body: any) {
     return this.http.post<any>(`${this.url}/add-product`, body);
   }
 
-  public removeProductFromCart(rigaId: number) {
-    const body = {
-      'id': rigaId
-    };
+  public removeProductFromCart(body: any) {
     return this.http.post<any>(`${this.url}/remove-product`, body);
   }
 }

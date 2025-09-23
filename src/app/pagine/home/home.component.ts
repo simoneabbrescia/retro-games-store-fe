@@ -1,15 +1,11 @@
 import {
   Component,
-  ElementRef,
   OnInit,
-  QueryList,
-  ViewChildren,
   ViewChild,
 } from '@angular/core';
 import { ProdottoApi } from '../../api/prodotto-api.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-import { CarrelloApi } from '../../api/carrello-api.service';
 import { CarrelloRigaApi } from '../../api/carrello-riga-api.service';
 import { HeaderComponent } from '../../componenti/header/header.component';
 
@@ -29,7 +25,6 @@ export class HomeComponent implements OnInit {
     private prodottoApi: ProdottoApi,
     private authService: AuthService,
     private router: Router,
-    private carrelloApi: CarrelloApi,
     private carrelloRigaApi: CarrelloRigaApi
   ) {}
 
@@ -55,7 +50,12 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/accedi']);
       return;
     }
-    this.carrelloRigaApi.addProductToCart(this.headerComponent.carrello.id, prodotto.id, 1)
+    const body = {
+      'carrelloId': this.headerComponent.carrello.id,
+      'prodottoId': prodotto.id,
+      'quantita': 1
+    };
+    this.carrelloRigaApi.addProductToCart(body)
       .subscribe({
         next: (response: any) => {
           if (!response.returnCode) {
