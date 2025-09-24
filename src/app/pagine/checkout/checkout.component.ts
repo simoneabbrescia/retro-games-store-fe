@@ -69,6 +69,11 @@ export class CheckoutComponent implements OnInit {
       email: [''],
       terms: [false, Validators.requiredTrue],
     });
+
+    // Aggiorna i validators in base al metodo scelto
+    this.pagamentoForm.get('metodo')?.valueChanges.subscribe((metodo) => {
+      this.updatePaymentValidators(metodo);
+    });
   }
 
   private loadPaymentMethods() {
@@ -77,7 +82,10 @@ export class CheckoutComponent implements OnInit {
         if (response.returnCode) {
           this.metodiPagamento = response.dati;
           if (this.metodiPagamento.length > 0) {
-            this.pagamentoForm.get('metodo')?.setValue(this.metodiPagamento[0].id);
+            const initialMetodo = this.metodiPagamento[0].id;
+            this.pagamentoForm.get('metodo')?.setValue(initialMetodo);
+            // Allinea i validators allo stato iniziale
+            this.updatePaymentValidators(initialMetodo);
           }
         } else {
           console.error(
@@ -93,15 +101,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   public paymentStepInvalid(): boolean {
-    const metodo = this.pagamentoForm.get('metodo')?.value;
-    const card = this.pagamentoForm.get('card')?.value;
-    const email = this.pagamentoForm.get('email')?.value;
-    const terms = this.pagamentoForm.get('terms')?.value;
-    if (!terms) return true;
-    if (metodo === 1 && card) return false;
-    if (metodo === 2 && email) return false;
-    if (metodo === 3) return false;
-    return true;
+    // Usa direttamente la validità del form per abilitare/disabilitare il bottone
+    return this.pagamentoForm.invalid;
   }
 
   public onAddressStepContinue() {
@@ -135,5 +136,42 @@ export class CheckoutComponent implements OnInit {
         
       }
     }
+  }
+
+  private updatePaymentValidators(metodo: number | null) {
+    const cardCtrl = this.pagamentoForm.get('card');
+    const emailCtrl = this.pagamentoForm.get('email');
+
+    if (!cardCtrl || !emailCtrl) return;
+
+    // Pulisce sempre prima
+    cardCtrl.clearValidators();
+    emailCtrl.clearValidators();
+
+    // Applica validators in base al metodo
+    if (metodo === 1) {
+      // Carta: richiedi numero carta (13-19 cifre)
+      cardCtrl.setValidators([
+        Validators.required,
+        Validators.pattern(/^\d{13,19}$/),
+      ]);
+      // azzera email quando non serve
+      emailCtrl.setValue('');
+    } else if (metodo === 2) {
+      // PayPal: richiedi email valida
+      emailCtrl.setValidators([
+        Validators.required,
+        Validators.email,
+      ]);
+      // azzera card quando non serve
+      cardCtrl.setValue('');
+    } else if (metodo === 3) {
+      // Bonifico: nessun dato aggiuntivo richiesto; pulisci entrambi
+      cardCtrl.setValue('');
+      emailCtrl.setValue('');
+    }
+
+    cardCtrl.updateValueAndValidity({ emitEvent: false });
+    emailCtrl.updateValueAndValidity({ emitEvent: false });
   }
 }
