@@ -8,6 +8,7 @@ import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettagli
 import { FaqComponent } from './pagine/faq/faq.component';
 import { HomeComponent } from './pagine/home/home.component';
 import { RegistratiComponent } from './pagine/registrati/registrati.component';
+import { authGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -48,12 +49,14 @@ const routes: Routes = [
     path: 'carrello',
     title: 'Carrello',
     component: CarrelloComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'checkout',
     title: 'Checkout',
     component: CheckoutComponent,
-  },
+    canActivate: [authGuard]
+  }
 ];
 
 @NgModule({

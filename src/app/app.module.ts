@@ -6,7 +6,7 @@ import {
   withEventReplay,
 } from '@angular/platform-browser';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './componenti/footer/footer.component';
@@ -37,12 +37,7 @@ import { MaterialModule } from './shared/material.module';
     CarrelloComponent,
     CheckoutComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MaterialModule,
-    ReactiveFormsModule,
-  ],
+  imports: [BrowserModule, AppRoutingModule, MaterialModule, ReactiveFormsModule, FormsModule],
   providers: [
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),

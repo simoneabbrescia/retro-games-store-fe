@@ -1,5 +1,59 @@
 <!-- Start Footer Area -->
 <footer class="footer">
+  <!-- Start Footer Top -->
+  <div class="footer-top">
+    <div class="container">
+      <div class="row g-3">
+        <!-- About + Trust -->
+        <div class="col-lg-4 col-md-6">
+          <div class="footer-widget">
+            <h4 class="footer-title">RetroGames Store</h4>
+            <p class="footer-text">
+              Console e videogiochi d’epoca selezionati, testati e garantiti. Rivivi i classici con pezzi originali e
+              accessori per veri appassionati.
+            </p>
+            <ul class="footer-trust list-unstyled">
+              <li>
+                <i class="lni lni-lock"></i>
+                Pagamenti sicuri: trattiamo i dati della tua carta con la massima sicurezza.
+              </li>
+              <li>
+                <i class="lni lni-shield"></i>
+                Resi facili entro 14 giorni &amp; assistenza dedicata.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Link utili -->
+        <div class="col-lg-4 col-md-6">
+          <div class="footer-widget text-center">
+            <h4 class="footer-title">Scopri</h4>
+            <ul class="footer-links list-unstyled">
+              <li><a routerLink="">Catalogo</a></li>
+              <li><a routerLink="/faq">FAQ</a></li>
+              <li><a routerLink="/contatti">Contatti</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Social -->
+        <div class="col-lg-4 col-md-6">
+          <div class="footer-widget">
+            <h4 class="footer-title">Seguici</h4>
+            <div class="socials">
+              <a href="#" aria-label="Facebook"><i class="lni lni-facebook-filled"></i></a>
+              <a href="#" aria-label="Instagram"><i class="lni lni-instagram-filled"></i></a>
+              <a href="#" aria-label="YouTube"><i class="lni lni-youtube"></i></a>
+              <a href="#" aria-label="TikTok"><i class="lni lni-tiktok"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /container -->
+  </div>
+  <!-- End Footer Top -->
+
   <!-- Start Footer Bottom -->
   <div class="footer-bottom">
     <div class="container">
@@ -8,31 +62,36 @@
           <div class="col-lg-4 col-12">
             <div class="payment-gateway">
               <span>Accettiamo:</span>
-              <img src="assets/images/footer/credit-cards-footer.png" alt="#" />
+              <img src="assets/images/footer/credit-cards-footer.png" alt="Carte di credito accettate" />
             </div>
           </div>
           <div class="col-lg-4 col-12">
             <div class="copyright">
               <p>
-                Designed and Developed by<a
-                  href="#"
-                  rel="nofollow"
-                  target="_blank"
-                >
-                  Betacom Srl - Bari
-                </a>
+                &#169; {{ currentYear }} RetroGames Store — Tutti i diritti riservati.
               </p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-12">
+            <ul class="legal list-unstyled">
+              <li><a routerLink="/termini">Termini e Informativa Privacy</a></li>
+            </ul>
+          </div>
+          <div class="col-12">
+            <div class="credits">
+              Designed and Developed by
+              <a href="https://betacom.it" rel="nofollow" target="_blank">Betacom Srl - Bari</a>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div> <!-- /container -->
   </div>
   <!-- End Footer Bottom -->
 </footer>
 <!--/ End Footer Area -->
 
 <!-- ========================= scroll-top ========================= -->
-<a (click)="scrollToTop();" class="scroll-top">
+<a (click)="scrollToTop();" class="scroll-top" aria-label="Torna su">
   <i class="lni lni-chevron-up"></i>
 </a>

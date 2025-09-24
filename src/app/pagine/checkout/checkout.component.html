@@ -1,1 +1,186 @@
-<p>checkout works!</p>
+<app-header></app-header>
+
+<div class="checkout-page" *ngIf="carrello as c">
+  <h1 class="page-title">Checkout</h1>
+
+  <div class="layout">
+    <!-- STEPPER -->
+    <section class="flow">
+      <mat-stepper linear>
+        <!-- STEP 1: INDIRIZZO SPEDIZIONE -->
+        <mat-step label="Indirizzo di spedizione" [stepControl]="checkoutForm">
+          <form class="form-grid" [formGroup]="checkoutForm">
+            <div class="row col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="nome" required>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Cognome</mat-label>
+                <input matInput formControlName="cognome" required>
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <mat-form-field appearance="outline" class="full">
+                <mat-label>Indirizzo</mat-label>
+                <input matInput formControlName="indirizzo" required>
+              </mat-form-field>
+            </div>
+
+            <div class="row col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Città</mat-label>
+                <input matInput formControlName="citta" required>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>CAP</mat-label>
+                <input matInput inputmode="numeric" formControlName="cap" required>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Nazione</mat-label>
+                <input matInput formControlName="nazione" required>
+              </mat-form-field>
+            </div>
+            <div class="row">
+            </div>
+          </form>
+
+          <div class="step-actions">
+            <button mat-flat-button color="primary" matStepperNext [disabled]="checkoutForm.invalid"
+              (click)="onAddressStepContinue()">Continua</button>
+          </div>
+        </mat-step>
+
+        <!-- STEP 2: PAGAMENTO -->
+        <mat-step label="Pagamento" [stepControl]="pagamentoForm">
+          <form class="payment" [formGroup]="pagamentoForm">
+            <h2 class="h2">Metodo di pagamento</h2>
+
+            <mat-radio-group class="pay-group" aria-label="Scegli un metodo" formControlName="metodo" required>
+              <mat-radio-button *ngFor="let metodo of metodiPagamento" [value]="metodo.id">
+                {{ metodo.nome }}
+              </mat-radio-button>
+            </mat-radio-group>
+
+            <mat-divider></mat-divider>
+
+            <!-- CARTA: solo numero carta -->
+            <div class="pay-section" *ngIf="pagamentoForm.get('metodo')?.value === 1">
+              <mat-form-field appearance="outline" class="full">
+                <mat-label>Numero della carta</mat-label>
+                <input matInput inputmode="numeric" autocomplete="cc-number" maxlength="19" formControlName="card"
+                  required>
+                <mat-hint>Inserisci solo il numero (nessun altro dato richiesto).</mat-hint>
+              </mat-form-field>
+              <!-- placeholder UI per integrazione (Stripe Elements, ecc.) -->
+              <div class="card-placeholder">
+                <mat-icon>credit_card</mat-icon>
+                <span>I dati della tua carta vengono gestiti in modo sicuro e protetto.</span>
+              </div>
+            </div>
+
+            <!-- PAYPAL: email -->
+            <div class="pay-section" *ngIf="pagamentoForm.get('metodo')?.value === 2">
+              <mat-form-field appearance="outline" class="full">
+                <mat-label>Email PayPal</mat-label>
+                <input matInput type="email" autocomplete="email" formControlName="email" required>
+              </mat-form-field>
+              <div class="info-note">
+                Verrai reindirizzato su PayPal per autorizzare il pagamento.
+              </div>
+            </div>
+
+            <!-- BONIFICO: sole istruzioni -->
+            <div class="pay-section bank" *ngIf="pagamentoForm.get('metodo')?.value === 3">
+              <div class=" bank-head">
+                <mat-icon>account_balance</mat-icon>
+                <strong>Dati per bonifico bancario</strong>
+              </div>
+              <div class="bank-lines">
+                <div><span>Intestatario:</span> RetroGames Store S.r.l.</div>
+                <div><span>IBAN:</span> IT60X0542811101000000123456</div>
+                <div><span>BIC/SWIFT:</span> UNCRITMM</div>
+                <div><span>Banca:</span> UniCredit – Filiale Roma Centro</div>
+                <div><span>Causale:</span> Ordine: #XXXX</div>
+              </div>
+              <div class="note">
+                L’ordine verrà evaso dopo la ricezione del pagamento.
+              </div>
+            </div>
+
+            <mat-checkbox class="terms" formControlName="terms" required>
+              Accetto termini e condizioni e l’informativa sulla privacy *
+            </mat-checkbox>
+          </form>
+
+          <div class="step-actions">
+            <button mat-stroked-button color="primary" matStepperPrevious>Indietro</button>
+            <button mat-flat-button color="primary" matStepperNext [disabled]="paymentStepInvalid()">Continua</button>
+          </div>
+        </mat-step>
+
+        <!-- STEP 3: RIEPILOGO -->
+        <mat-step label="Riepilogo">
+          <div class="review">
+            <h2 class="h2">Riepilogo ordine</h2>
+
+            <!-- Lista articoli dal carrello -->
+            <div class="items">
+              <div class="item" *ngFor="let r of c.righe">
+                <div class="thumb">
+                  <img [src]="r.prodotto.imgUrl" [alt]="r.prodotto.nome" loading="lazy" />
+                </div>
+                <div class="info">
+                  <a [routerLink]="['/prodotti', r.prodotto.id]" class="name">{{ r.prodotto.nome }}</a>
+                  <div class="meta">
+                    <span class="chip">{{ r.prodotto.categoria }}</span>
+                    <span class="qty">Quantità: {{ r.quantita || 1 }}</span>
+                  </div>
+                </div>
+                <div class="price">
+                  {{ (r.prodotto.prezzo * (r.quantita || 1)) | currency:'EUR':'symbol':'1.2-2' }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <button mat-stroked-button color="primary" matStepperPrevious>Indietro</button>
+            <button mat-flat-button color="primary" (click)="placeOrder()">Conferma ordine</button>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </section>
+
+    <!-- RIEPILOGO LATERALE (sempre visibile su desktop) -->
+    <aside class="summary" aria-label="Riepilogo ordine">
+      <mat-card appearance="outlined" class="summary-card">
+        <mat-card-header>
+          <mat-card-title>Riepilogo</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="summary-row">
+            <span>Totale articoli</span>
+            <span>{{ c.totaleQuantita }}</span>
+          </div>
+          <div class="summary-row grand">
+            <span>Totale</span>
+            <span>{{ c.totale | currency:'EUR':'symbol':'1.2-2' }}</span>
+          </div>
+          <button mat-stroked-button color="primary" class="btn-block" routerLink="/carrello">
+            Torna al carrello
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </aside>
+  </div>
+</div>
+
+
+<app-shopping-info></app-shopping-info>
+<app-footer></app-footer>

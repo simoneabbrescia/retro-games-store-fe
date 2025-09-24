@@ -21,7 +21,7 @@
 
             <div class="details">
               <div class="title-row">
-                <h2 class="name">{{ r.prodotto.nome }}</h2>
+                <a [routerLink]="['/prodotti', r.prodotto.id]" class="name">{{ r.prodotto.nome }}</a>
                 <span class="chip">{{ r.prodotto.categoria }}</span>
               </div>
 
