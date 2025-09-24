@@ -6,20 +6,21 @@ import {
   withEventReplay,
 } from '@angular/platform-browser';
 
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './componenti/footer/footer.component';
 import { HeaderComponent } from './componenti/header/header.component';
 import { ShoppingInfoComponent } from './componenti/shopping-info/shopping-info.component';
 import { AccediComponent } from './pagine/accedi/accedi.component';
+import { CarrelloComponent } from './pagine/carrello/carrello.component';
+import { CheckoutComponent } from './pagine/checkout/checkout.component';
 import { ContattiComponent } from './pagine/contatti/contatti.component';
+import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
 import { FaqComponent } from './pagine/faq/faq.component';
 import { HomeComponent } from './pagine/home/home.component';
 import { RegistratiComponent } from './pagine/registrati/registrati.component';
 import { MaterialModule } from './shared/material.module';
-import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
-import { CarrelloComponent } from './pagine/carrello/carrello.component';
-import { CheckoutComponent } from './pagine/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -34,9 +35,14 @@ import { CheckoutComponent } from './pagine/checkout/checkout.component';
     RegistratiComponent,
     DettaglioProdottoComponent,
     CarrelloComponent,
-    CheckoutComponent
+    CheckoutComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, MaterialModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    MaterialModule,
+    ReactiveFormsModule,
+  ],
   providers: [
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),

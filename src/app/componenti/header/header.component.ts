@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PiattaformaApi } from '../../api/piattaforma-api.service';
-import { CategoriaApi } from '../../api/categoria-api.service';
 import { CarrelloApi } from '../../api/carrello-api.service';
-import { AuthService } from '../../auth/auth.service';
 import { CarrelloRigaApi } from '../../api/carrello-riga-api.service';
+import { CategoriaApi } from '../../api/categoria-api.service';
+import { PiattaformaApi } from '../../api/piattaforma-api.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -32,9 +32,9 @@ export class HeaderComponent implements OnInit {
   }
 
   public isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
+    return this.authService.isLogged();
   }
-  
+
   private loadPiattaforme() {
     this.piattaformaApi.getAll().subscribe((response: any) => {
       if (response.returnCode) {
@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public loadCarrello() {
-    if (this.authService.isLoggedIn()) {
+    if (this.authService.isLogged()) {
       this.carrelloApi
         .getCarrelloByAccountId(this.authService.getAccountId())
         .subscribe((response: any) => {
@@ -66,18 +66,23 @@ export class HeaderComponent implements OnInit {
   }
 
   public rimuoviDalCarrello(rigaId: number) {
-    this.carrelloRigaApi.removeProductFromCart({'id': rigaId})
-      .subscribe({
-        next: (response: any) => {
-          if (response.returnCode) {
-            this.loadCarrello();
-          } else {
-            console.error('Errore nella rimozione del prodotto dal carrello:', response.msg);
-          }
-        },
-        error: (error: any) => {
-          console.error('Errore nella rimozione del prodotto dal carrello:', error);
-        },
-      });
+    this.carrelloRigaApi.removeProductFromCart({ id: rigaId }).subscribe({
+      next: (response: any) => {
+        if (response.returnCode) {
+          this.loadCarrello();
+        } else {
+          console.error(
+            'Errore nella rimozione del prodotto dal carrello:',
+            response.msg
+          );
+        }
+      },
+      error: (error: any) => {
+        console.error(
+          'Errore nella rimozione del prodotto dal carrello:',
+          error
+        );
+      },
+    });
   }
 }

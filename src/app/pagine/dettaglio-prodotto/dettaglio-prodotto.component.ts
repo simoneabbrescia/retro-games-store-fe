@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ProdottoApi } from '../../api/prodotto-api.service';
-import { Title } from '@angular/platform-browser';
-import { AuthService } from '../../auth/auth.service';
-import { CarrelloRigaApi } from '../../api/carrello-riga-api.service';
-import { HeaderComponent } from '../../componenti/header/header.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CarrelloRigaApi } from '../../api/carrello-riga-api.service';
+import { ProdottoApi } from '../../api/prodotto-api.service';
+import { AuthService } from '../../auth/auth.service';
+import { HeaderComponent } from '../../componenti/header/header.component';
 
 @Component({
   selector: 'app-dettaglio-prodotto',
@@ -53,7 +53,7 @@ export class DettaglioProdottoComponent implements OnInit {
   }
 
   public addToCart() {
-    if (!this.authService.isLoggedIn()) {
+    if (!this.authService.isLogged()) {
       alert('Devi effettuare il login per aggiungere prodotti al carrello.');
       this.router.navigate(['/accedi']);
       return;
@@ -73,7 +73,11 @@ export class DettaglioProdottoComponent implements OnInit {
           return;
         }
         this.headerComponent.loadCarrello();
-        this._snackBar.open('Prodotto aggiunto al carrello con successo!', 'Ok', { duration: 5000, panelClass: ['snackbar-success'] });
+        this._snackBar.open(
+          'Prodotto aggiunto al carrello con successo!',
+          'Ok',
+          { duration: 5000, panelClass: ['snackbar-success'] }
+        );
       },
       error: (error: any) => {
         console.error("Errore nell'aggiunta del prodotto al carrello:", error);

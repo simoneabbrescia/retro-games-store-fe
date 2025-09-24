@@ -1,1 +1,40 @@
-<p>accedi works!</p>
+<div class="container">
+  <h1>Accedi</h1>
+
+  <form [formGroup]="accediForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
+      <mat-error *ngIf="getErrorMessage('email')">
+        {{ getErrorMessage('email') }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+      <mat-error *ngIf="getErrorMessage('password')">
+        {{ getErrorMessage('password') }}
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-container" style="color: red;" *ngIf="errorMsg">
+      <p>{{ errorMsg }}</p>
+    </div>
+
+    <div class="form-container" style="color: green;" *ngIf="successMsg">
+      {{ successMsg }}
+    </div>
+
+    <div class="button-group">
+      <button mat-flat-button type="submit" [disabled]="accediForm.invalid || isSubmitting">
+        {{ isSubmitting ? 'Caricamento...' : 'Accedi' }}
+      </button>
+      <button mat-raised-button type="button" [routerLink]="'/home'">
+        Torna alla Home
+      </button>
+    </div>
+  </form>
+</div>
+
+<app-footer></app-footer>

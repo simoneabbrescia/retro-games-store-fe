@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pagine/home/home.component';
-import { FaqComponent } from './pagine/faq/faq.component';
-import { ContattiComponent } from './pagine/contatti/contatti.component';
 import { AccediComponent } from './pagine/accedi/accedi.component';
-import { RegistratiComponent } from './pagine/registrati/registrati.component';
-import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
 import { CarrelloComponent } from './pagine/carrello/carrello.component';
 import { CheckoutComponent } from './pagine/checkout/checkout.component';
+import { ContattiComponent } from './pagine/contatti/contatti.component';
+import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
+import { FaqComponent } from './pagine/faq/faq.component';
+import { HomeComponent } from './pagine/home/home.component';
+import { RegistratiComponent } from './pagine/registrati/registrati.component';
 
 const routes: Routes = [
   {
@@ -42,7 +42,7 @@ const routes: Routes = [
   },
   {
     path: 'prodotti/:id',
-    component: DettaglioProdottoComponent
+    component: DettaglioProdottoComponent,
   },
   {
     path: 'carrello',
@@ -52,8 +52,8 @@ const routes: Routes = [
   {
     path: 'checkout',
     title: 'Checkout',
-    component: CheckoutComponent
-  }
+    component: CheckoutComponent,
+  },
 ];
 
 @NgModule({
