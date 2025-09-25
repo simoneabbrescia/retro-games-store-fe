@@ -9,6 +9,7 @@ import { FaqComponent } from './pagine/faq/faq.component';
 import { HomeComponent } from './pagine/home/home.component';
 import { RegistratiComponent } from './pagine/registrati/registrati.component';
 import { authGuard } from './auth/auth.guard';
+import { DashboardComponent } from './pagine/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,12 @@ const routes: Routes = [
     path: 'checkout',
     title: 'Checkout',
     component: CheckoutComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'dashboard',
+    title: 'Dashboard',
+    component: DashboardComponent,
     canActivate: [authGuard]
   }
 ];

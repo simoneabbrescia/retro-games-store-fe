@@ -21,6 +21,8 @@ import { FaqComponent } from './pagine/faq/faq.component';
 import { HomeComponent } from './pagine/home/home.component';
 import { RegistratiComponent } from './pagine/registrati/registrati.component';
 import { MaterialModule } from './shared/material.module';
+import { TerminiComponent } from './pagine/termini/termini.component';
+import { DashboardComponent } from './pagine/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { MaterialModule } from './shared/material.module';
     DettaglioProdottoComponent,
     CarrelloComponent,
     CheckoutComponent,
+    TerminiComponent,
+    DashboardComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, MaterialModule, ReactiveFormsModule, FormsModule],
   providers: [
