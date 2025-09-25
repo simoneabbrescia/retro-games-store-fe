@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CredenzialeApiService } from '../../api/credenziale-api.service';
@@ -17,7 +17,6 @@ export class AccediComponent implements OnInit {
   isSubmitting: boolean = false;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
     private auth: AuthService,
     private credenziale: CredenzialeApiService
@@ -71,31 +70,8 @@ export class AccediComponent implements OnInit {
     return '';
   }
 
-  /*onSubmit(): void {
-    this.auth.resetAll();
-    this.accediForm.markAllAsTouched(); // Mostra errori sui singoli campi
-    if (this.accediForm.invalid) {
-      return;
-    }
-
-    this.isSubmitting = true;
-    const { email, password } = this.accediForm.value;
-
-    this.credenziale.login({ email, password }).subscribe((res: any) => {
-      if (res.returnCode) {
-        this.auth.setAuthenticated();
-        this.auth.setAccountId(res.accountId);
-
-        this.router.navigate(['home']);
-      } else {
-        this.errorMsg = 'Credenziali errate';
-        this.isSubmitting = false;
-      }
-    });
-  }*/
-
   onSubmit(): void {
-    this.auth.resetAll(); // Resetta stato precedenti
+    this.auth.resetAll(); // Reset stato precedente
     this.accediForm.markAllAsTouched(); // Mostra errori sui singoli campi
 
     // Blocca se il form non è valido
@@ -111,8 +87,6 @@ export class AccediComponent implements OnInit {
         // Controllo returnCode dal backend
         if (res.returnCode) {
           // Login riuscito
-          console.log('accountId: ', res.dati.accountId);
-
           this.auth.setAccountId(res.dati.accountId); // Salva accountId
           this.auth.setAuthenticated();
 
