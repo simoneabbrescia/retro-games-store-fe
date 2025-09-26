@@ -48,6 +48,12 @@ export class AuthService {
     }
   }
 
+  logout() 
+  {
+    localStorage.removeItem('token');
+    localStorage.removeItem('accountId');
+  }
+
   accountId: number = 0;
   public setAccountId(accountId: number): void {
     this.accountId = accountId;

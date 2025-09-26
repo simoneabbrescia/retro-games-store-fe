@@ -23,6 +23,7 @@ import { AppComponent } from './app.component';
 import { CheckoutComponent } from './pagine/checkout/checkout.component';
 import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
 import { TerminiComponent } from './pagine/termini/termini.component';
+import { AccountComponent } from './pagine/account/account.component'
 
 @NgModule({
   declarations: [
@@ -39,13 +40,14 @@ import { TerminiComponent } from './pagine/termini/termini.component';
     CarrelloComponent,
     CheckoutComponent,
     TerminiComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule,
+    FormsModule
   ],
   providers: [
     provideClientHydration(withEventReplay()),
