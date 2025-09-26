@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AccediComponent } from './pagine/accedi/accedi.component';
-import { CarrelloComponent } from './pagine/carrello/carrello.component';
-import { CheckoutComponent } from './pagine/checkout/checkout.component';
-import { ContattiComponent } from './pagine/contatti/contatti.component';
-import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
-import { FaqComponent } from './pagine/faq/faq.component';
-import { HomeComponent } from './pagine/home/home.component';
-import { RegistratiComponent } from './pagine/registrati/registrati.component';
+import { CarrelloComponent } from '@features/carrello';
+import { ContattiComponent } from '@features/contatti';
+import { AccediComponent, RegistratiComponent } from '@features/credenziale';
+import { FaqComponent } from '@features/faq';
+import { HomeComponent } from '@features/home';
 import { authGuard } from './auth/auth.guard';
-import { DashboardComponent } from './pagine/dashboard/dashboard.component';
+import { CheckoutComponent } from './pagine/checkout/checkout.component';
+import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
+import { TerminiComponent } from './pagine/termini/termini.component';
 
 const routes: Routes = [
   {
@@ -50,20 +49,19 @@ const routes: Routes = [
     path: 'carrello',
     title: 'Carrello',
     component: CarrelloComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
   {
     path: 'checkout',
     title: 'Checkout',
     component: CheckoutComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
   {
-    path: 'dashboard',
-    title: 'Dashboard',
-    component: DashboardComponent,
-    canActivate: [authGuard]
-  }
+    path: 'termini',
+    title: 'Termini',
+    component: TerminiComponent,
+  },
 ];
 
 @NgModule({

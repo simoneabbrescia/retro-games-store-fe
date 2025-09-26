@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CarrelloApi } from '../../api/carrello-api.service';
-import { AuthService } from '../../auth/auth.service';
-import { TipoMetodoPagamentoApi } from '../../api/tipo-metodo-pagamento-api.service';
+import { CarrelloApiService } from '@features/carrello';
 import { OrdineApiService } from '../../api/ordine-api.service';
+import { TipoMetodoPagamentoApiService } from '../../api/tipo-metodo-pagamento-api.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-checkout',
@@ -20,11 +20,11 @@ export class CheckoutComponent implements OnInit {
   ordineId: number | undefined;
 
   constructor(
-    private carrelloApi: CarrelloApi,
+    private carrelloApiService: CarrelloApiService,
     private authService: AuthService,
-    private tipoMetodoPagamentoApi: TipoMetodoPagamentoApi,
+    private tipoMetodoPagamentoApiService: TipoMetodoPagamentoApiService,
     private fb: FormBuilder,
-    private ordineApi: OrdineApiService
+    private ordineApiService: OrdineApiService
   ) {}
 
   ngOnInit() {
@@ -35,7 +35,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   private loadCarrello() {
-    this.carrelloApi
+    this.carrelloApiService
       .getCarrelloByAccountId(this.authService.getAccountId())
       .subscribe({
         next: (response: any) => {
@@ -77,7 +77,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   private loadPaymentMethods() {
-    this.tipoMetodoPagamentoApi.getAll().subscribe({
+    this.tipoMetodoPagamentoApiService.getAll().subscribe({
       next: (response: any) => {
         if (response.returnCode) {
           this.metodiPagamento = response.dati;
@@ -106,22 +106,24 @@ export class CheckoutComponent implements OnInit {
   }
 
   public onAddressStepContinue() {
-    this.ordineApi.createOrder({
-      accountId: this.authService.getAccountId(),
-      carrelloId: this.carrello.id,
-    }).subscribe({
-      next: (response: any) => {
-        if (response.returnCode) {
-          this.ordineId = response.dati.id;
-          console.log('Ordine creato con successo:', this.ordineId);
-        } else {
-          console.error('Errore nella creazione dell\'ordine:', response.msg);
-        }
-      },
-      error: (err: any) => {
-        console.error('Errore nella creazione dell\'ordine:', err);
-      },
-    });
+    this.ordineApiService
+      .createOrder({
+        accountId: this.authService.getAccountId(),
+        carrelloId: this.carrello.id,
+      })
+      .subscribe({
+        next: (response: any) => {
+          if (response.returnCode) {
+            this.ordineId = response.dati.id;
+            console.log('Ordine creato con successo:', this.ordineId);
+          } else {
+            console.error("Errore nella creazione dell'ordine:", response.msg);
+          }
+        },
+        error: (err: any) => {
+          console.error("Errore nella creazione dell'ordine:", err);
+        },
+      });
   }
 
   public placeOrder() {
@@ -133,9 +135,8 @@ export class CheckoutComponent implements OnInit {
       pagamento: {
         ordineId: this.ordineId,
         metodoPagamentoId: this.pagamentoForm.get('metodo')?.value,
-        
-      }
-    }
+      },
+    };
   }
 
   private updatePaymentValidators(metodo: number | null) {
@@ -155,15 +156,12 @@ export class CheckoutComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^\d{13,19}$/),
       ]);
-      // azzera email quando non serve
+      // Azzera email quando non serve
       emailCtrl.setValue('');
     } else if (metodo === 2) {
       // PayPal: richiedi email valida
-      emailCtrl.setValidators([
-        Validators.required,
-        Validators.email,
-      ]);
-      // azzera card quando non serve
+      emailCtrl.setValidators([Validators.required, Validators.email]);
+      // Azzera card quando non serve
       cardCtrl.setValue('');
     } else if (metodo === 3) {
       // Bonifico: nessun dato aggiuntivo richiesto; pulisci entrambi

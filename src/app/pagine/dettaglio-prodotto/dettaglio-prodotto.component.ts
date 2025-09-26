@@ -2,10 +2,10 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CarrelloRigaApi } from '../../api/carrello-riga-api.service';
-import { ProdottoApi } from '../../api/prodotto-api.service';
+import { CarrelloRigaApiService } from '../../api/carrello-riga-api.service';
+import { ProdottoApiService } from '../../api/prodotto-api.service';
 import { AuthService } from '../../auth/auth.service';
-import { HeaderComponent } from '../../componenti/header/header.component';
+import { HeaderComponent } from '../../core/layout/header/header.component';
 
 @Component({
   selector: 'app-dettaglio-prodotto',
@@ -22,11 +22,11 @@ export class DettaglioProdottoComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private prodottoApi: ProdottoApi,
+    private prodottoApiService: ProdottoApiService,
     private title: Title,
     private authService: AuthService,
     private router: Router,
-    private carrelloRigaApi: CarrelloRigaApi
+    private carrelloRigaApiService: CarrelloRigaApiService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class DettaglioProdottoComponent implements OnInit {
   }
 
   private loadProdotto(prodottoId: number) {
-    this.prodottoApi.getById(prodottoId).subscribe({
+    this.prodottoApiService.getById(prodottoId).subscribe({
       next: (response: any) => {
         if (!response.returnCode) {
           console.error('Errore nel recupero del prodotto:', response.msg);
@@ -63,7 +63,7 @@ export class DettaglioProdottoComponent implements OnInit {
       prodottoId: this.prodotto.id,
       quantita: 1,
     };
-    this.carrelloRigaApi.addProductToCart(body).subscribe({
+    this.carrelloRigaApiService.addProductToCart(body).subscribe({
       next: (response: any) => {
         if (!response.returnCode) {
           console.error(
