@@ -2,9 +2,10 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { HeaderComponent } from '@core/layout/header/header.component';
-import { CarrelloRigaApiService } from '../../../api/carrello-riga-api.service';
-import { ProdottoApiService } from '../../../api/prodotto-api.service';
+import { ResponseBase, ResponseList } from '@core/types';
+import { ProdottoApiService, ProdottoDTO } from '@features/prodotto';
 import { AuthService } from '../../../auth/auth.service';
+import { CarrelloRigaApiService } from '../../carrello-riga/data-access/carrello-riga-api.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ import { AuthService } from '../../../auth/auth.service';
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  prodotti: any[] = [];
+  prodotti: ProdottoDTO[] = [];
+  idPiattaformaSelezionata!: number;
 
   private _snackBar = inject(MatSnackBar);
 
@@ -32,18 +34,20 @@ export class HomeComponent implements OnInit {
   }
 
   private loadProdotti() {
-    this.prodottoApiService.getAll().subscribe((response: any) => {
-      if (response.returnCode) {
-        this.prodotti = response.dati;
-      }
-    });
+    this.prodottoApiService
+      .listActive()
+      .subscribe((response: ResponseList<ProdottoDTO>) => {
+        if (response.returnCode) {
+          this.prodotti = response.dati;
+        }
+      });
   }
 
-  public onProductSelectPlatformChange(prodotto: any, event: any) {
-    prodotto.idPiattaformaSelezionata = event.target.value;
+  public onProductSelectPlatformChange(event: any) {
+    this.idPiattaformaSelezionata = event.target.value;
   }
 
-  public addToCart(prodotto: any) {
+  public addToCart(prodotto: ProdottoDTO) {
     if (!this.authService.isLogged()) {
       alert('Devi effettuare il login per aggiungere prodotti al carrello.');
       this.router.navigate(['/accedi']);
@@ -55,7 +59,7 @@ export class HomeComponent implements OnInit {
       quantita: 1,
     };
     this.carrelloRigaApiService.addProductToCart(body).subscribe({
-      next: (response: any) => {
+      next: (response: ResponseBase) => {
         if (!response.returnCode) {
           console.error(
             "Errore nell'aggiunta del prodotto al carrello:",
@@ -70,7 +74,7 @@ export class HomeComponent implements OnInit {
           { duration: 5000, panelClass: ['snackbar-success'] }
         );
       },
-      error: (error: any) => {
+      error: (error: ResponseBase) => {
         console.error("Errore nell'aggiunta del prodotto al carrello:", error);
       },
     });

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
-import { AccountApiService } from '../../api/account-api.service';
 import { Router } from '@angular/router';
+import { AccountApiService } from '../../api/account-api.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-profilo',
@@ -46,6 +46,6 @@ export class AccountComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['home']);
   }
 }

@@ -18,12 +18,12 @@ import { ContattiComponent } from '@features/contatti';
 import { AccediComponent, RegistratiComponent } from '@features/credenziale';
 import { FaqComponent } from '@features/faq';
 import { HomeComponent } from '@features/home';
+import { CheckoutComponent } from '@features/ordine';
+import { DettaglioProdottoComponent } from '@features/prodotto';
+import { TerminiComponent } from '@features/termini/termini.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CheckoutComponent } from './pagine/checkout/checkout.component';
-import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
-import { TerminiComponent } from './pagine/termini/termini.component';
-import { AccountComponent } from './pagine/account/account.component'
+import { AccountComponent } from './pagine/account/account.component';
 
 @NgModule({
   declarations: [
@@ -40,14 +40,14 @@ import { AccountComponent } from './pagine/account/account.component'
     CarrelloComponent,
     CheckoutComponent,
     TerminiComponent,
-    AccountComponent
+    AccountComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     provideClientHydration(withEventReplay()),

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CarrelloApiService } from '@features/carrello';
-import { CarrelloRigaApiService } from '../../../api/carrello-riga-api.service';
+import { ResponseObject } from '@core/types';
+import { CarrelloApiService, CarrelloDTO } from '@features/carrello';
+import { CarrelloRigaApiService } from '@features/carrello-riga';
 import { AuthService } from '../../../auth/auth.service';
 
 @Component({
@@ -27,17 +28,18 @@ export class CarrelloComponent implements OnInit {
   private loadCarrello() {
     this.carrelloApiService
       .getCarrelloByAccountId(this.authService.getAccountId())
-      .subscribe(
-        (response: any) => {
+      .subscribe({
+        next: (response: ResponseObject<CarrelloDTO>) => {
           if (response.returnCode) {
             this.carrello = response.dati;
-          } else
+          } else {
             console.error('Errore nel caricamento del carrello:', response.msg);
+          }
         },
-        (error: any) => {
-          console.error('Errore durante il caricamento del carrello:', error);
-        }
-      );
+        error: (err: ResponseObject<CarrelloDTO>) => {
+          console.error('Errore durante il caricamento del carrello:', err);
+        },
+      });
   }
 
   removeFromCart(rigaId: number) {
@@ -88,7 +90,7 @@ export class CarrelloComponent implements OnInit {
         id: rigaId,
         quantita: quantitaDisponibile - 1,
       };
-      this.carrelloRigaApiService.updateRiga(body).subscribe({
+      this.carrelloRigaApiService.updateRow(body).subscribe({
         next: (response: any) => {
           if (response.returnCode) {
             this.loadCarrello();

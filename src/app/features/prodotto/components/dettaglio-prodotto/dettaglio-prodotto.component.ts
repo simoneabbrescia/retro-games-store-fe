@@ -2,10 +2,11 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CarrelloRigaApiService } from '../../api/carrello-riga-api.service';
-import { ProdottoApiService } from '../../api/prodotto-api.service';
-import { AuthService } from '../../auth/auth.service';
-import { HeaderComponent } from '../../core/layout/header/header.component';
+import { HeaderComponent } from '@core/layout';
+import { ResponseBase, ResponseObject } from '@core/types';
+import { CarrelloRigaApiService } from '@features/carrello-riga';
+import { ProdottoApiService, ProdottoDTO } from '@features/prodotto';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-dettaglio-prodotto',
@@ -38,7 +39,7 @@ export class DettaglioProdottoComponent implements OnInit {
 
   private loadProdotto(prodottoId: number) {
     this.prodottoApiService.getById(prodottoId).subscribe({
-      next: (response: any) => {
+      next: (response: ResponseObject<ProdottoDTO>) => {
         if (!response.returnCode) {
           console.error('Errore nel recupero del prodotto:', response.msg);
           return;
@@ -46,7 +47,7 @@ export class DettaglioProdottoComponent implements OnInit {
         this.prodotto = response.dati;
         this.title.setTitle(this.prodotto.nome);
       },
-      error: (error: any) => {
+      error: (error: ResponseObject<ProdottoDTO>) => {
         console.error('Errore nel recupero del prodotto:', error);
       },
     });
@@ -55,7 +56,7 @@ export class DettaglioProdottoComponent implements OnInit {
   public addToCart() {
     if (!this.authService.isLogged()) {
       alert('Devi effettuare il login per aggiungere prodotti al carrello.');
-      this.router.navigate(['/accedi']);
+      this.router.navigate(['accedi']);
       return;
     }
     const body = {
@@ -64,7 +65,7 @@ export class DettaglioProdottoComponent implements OnInit {
       quantita: 1,
     };
     this.carrelloRigaApiService.addProductToCart(body).subscribe({
-      next: (response: any) => {
+      next: (response: ResponseBase) => {
         if (!response.returnCode) {
           console.error(
             "Errore nell'aggiunta del prodotto al carrello:",
@@ -79,14 +80,14 @@ export class DettaglioProdottoComponent implements OnInit {
           { duration: 5000, panelClass: ['snackbar-success'] }
         );
       },
-      error: (error: any) => {
+      error: (error: ResponseBase) => {
         console.error("Errore nell'aggiunta del prodotto al carrello:", error);
       },
     });
   }
 
   public goBack() {
-    this.router.navigate(['/']);
+    this.router.navigate(['home']);
   }
 
   public onProductSelectPlatformChange(selectedId: any) {

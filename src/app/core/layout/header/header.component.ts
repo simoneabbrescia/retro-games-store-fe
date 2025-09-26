@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CarrelloApiService } from '@features/carrello';
-import { CarrelloRigaApiService } from '../../../api/carrello-riga-api.service';
+import { ResponseBase, ResponseList, ResponseObject } from '@core/types';
+import { CarrelloApiService, CarrelloDTO } from '@features/carrello';
+import { CarrelloRigaApiService } from '@features/carrello-riga';
+import { PiattaformaApiService, PiattaformaDTO } from '@features/piattaforma';
 import { CategoriaApiService } from '../../../api/categoria-api.service';
-import { PiattaformaApiService } from '../../../api/piattaforma-api.service';
 import { AuthService } from '../../../auth/auth.service';
 
 @Component({
@@ -12,10 +13,9 @@ import { AuthService } from '../../../auth/auth.service';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
-  piattaforme: any[] = [];
+  piattaforme: PiattaformaDTO[] = [];
   categorie: any[] = [];
-  rout: string = '';
-  carrello: any = {};
+  carrello!: CarrelloDTO;
 
   constructor(
     private piattaformaApiService: PiattaformaApiService,
@@ -36,11 +36,13 @@ export class HeaderComponent implements OnInit {
   }
 
   private loadPiattaforme() {
-    this.piattaformaApiService.getAll().subscribe((response: any) => {
-      if (response.returnCode) {
-        this.piattaforme = response.dati;
-      }
-    });
+    this.piattaformaApiService
+      .listActive()
+      .subscribe((response: ResponseList<PiattaformaDTO>) => {
+        if (response.returnCode) {
+          this.piattaforme = response.dati;
+        }
+      });
   }
 
   private loadCategorie() {
@@ -55,7 +57,7 @@ export class HeaderComponent implements OnInit {
     if (this.authService.isLogged()) {
       this.carrelloApiService
         .getCarrelloByAccountId(this.authService.getAccountId())
-        .subscribe((response: any) => {
+        .subscribe((response: ResponseObject<CarrelloDTO>) => {
           if (response.returnCode) {
             this.carrello = response.dati;
           } else {
@@ -69,7 +71,7 @@ export class HeaderComponent implements OnInit {
     this.carrelloRigaApiService
       .removeProductFromCart({ id: rigaId })
       .subscribe({
-        next: (response: any) => {
+        next: (response: ResponseBase) => {
           if (response.returnCode) {
             this.loadCarrello();
           } else {
@@ -79,7 +81,7 @@ export class HeaderComponent implements OnInit {
             );
           }
         },
-        error: (error: any) => {
+        error: (error: ResponseBase) => {
           console.error(
             'Errore nella rimozione del prodotto dal carrello:',
             error

@@ -31,7 +31,7 @@
           <div class="product-image">
             <img [src]="prodotto.imgUrl" alt="{{ prodotto.nome }}" />
             <div class="button" [ngClass]="{'disabled-cart-add-button': prodotto.categoria.toLowerCase() === 'videogiochi' && 
-              !prodotto.idPiattaformaSelezionata
+              !idPiattaformaSelezionata
             }">
               <a (click)="addToCart(prodotto)" class="btn"><i class="lni lni-cart"></i> Aggiungi</a>
             </div>
@@ -44,7 +44,7 @@
             </h4>
             <span class="category">{{ prodotto.descrizione }}</span>
 
-            <select (change)="onProductSelectPlatformChange(prodotto, $event)" class="form-select myselect"
+            <select (change)="onProductSelectPlatformChange($event)" class="form-select myselect"
               name="select-prodotto{{ prodotto.id }}" required
               *ngIf="prodotto.categoria.toLowerCase() === 'videogiochi'">
               <option value="" disabled selected>Seleziona Piattaforma</option>

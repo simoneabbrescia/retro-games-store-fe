@@ -6,9 +6,9 @@ import { AccediComponent, RegistratiComponent } from '@features/credenziale';
 import { FaqComponent } from '@features/faq';
 import { HomeComponent } from '@features/home';
 import { authGuard } from './auth/auth.guard';
-import { CheckoutComponent } from './pagine/checkout/checkout.component';
-import { DettaglioProdottoComponent } from './pagine/dettaglio-prodotto/dettaglio-prodotto.component';
-import { TerminiComponent } from './pagine/termini/termini.component';
+import { CheckoutComponent } from './features/ordine/components/checkout/checkout.component';
+import { DettaglioProdottoComponent } from './features/prodotto/components/dettaglio-prodotto/dettaglio-prodotto.component';
+import { TerminiComponent } from './features/termini/termini.component';
 
 const routes: Routes = [
   {

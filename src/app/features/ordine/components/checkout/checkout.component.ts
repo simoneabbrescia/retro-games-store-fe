@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CarrelloApiService } from '@features/carrello';
-import { OrdineApiService } from '../../api/ordine-api.service';
-import { TipoMetodoPagamentoApiService } from '../../api/tipo-metodo-pagamento-api.service';
-import { AuthService } from '../../auth/auth.service';
+import { ResponseList, ResponseObject } from '@core/types';
+import { CarrelloApiService, CarrelloDTO } from '@features/carrello';
+import { OrdineDTO } from '@features/ordine/data-access/dtos/ordine-response.dto';
+import { OrdineApiService } from '@features/ordine/data-access/ordine-api.service';
+import {
+  TipoMetodoPagamentoApiService,
+  TipoMetodoPagamentoDTO,
+} from '@features/tipo-metodo-pagamento';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-checkout',
@@ -12,7 +17,7 @@ import { AuthService } from '../../auth/auth.service';
   styleUrl: './checkout.component.css',
 })
 export class CheckoutComponent implements OnInit {
-  carrello: any = {};
+  carrello!: CarrelloDTO;
   account: any = {};
   metodiPagamento: any[] = [];
   checkoutForm!: FormGroup; // indirizzo
@@ -38,14 +43,14 @@ export class CheckoutComponent implements OnInit {
     this.carrelloApiService
       .getCarrelloByAccountId(this.authService.getAccountId())
       .subscribe({
-        next: (response: any) => {
+        next: (response: ResponseObject<CarrelloDTO>) => {
           if (response.returnCode) {
             this.carrello = response.dati;
           } else {
             console.error('Errore nel recupero del carrello:', response.msg);
           }
         },
-        error: (err: any) => {
+        error: (err: ResponseObject<CarrelloDTO>) => {
           console.error('Errore nel recupero del carrello:', err);
         },
       });
@@ -77,8 +82,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   private loadPaymentMethods() {
-    this.tipoMetodoPagamentoApiService.getAll().subscribe({
-      next: (response: any) => {
+    this.tipoMetodoPagamentoApiService.listActive().subscribe({
+      next: (response: ResponseList<TipoMetodoPagamentoDTO>) => {
         if (response.returnCode) {
           this.metodiPagamento = response.dati;
           if (this.metodiPagamento.length > 0) {
@@ -109,10 +114,9 @@ export class CheckoutComponent implements OnInit {
     this.ordineApiService
       .createOrder({
         accountId: this.authService.getAccountId(),
-        carrelloId: this.carrello.id,
       })
       .subscribe({
-        next: (response: any) => {
+        next: (response: ResponseObject<OrdineDTO>) => {
           if (response.returnCode) {
             this.ordineId = response.dati.id;
             console.log('Ordine creato con successo:', this.ordineId);
@@ -120,7 +124,7 @@ export class CheckoutComponent implements OnInit {
             console.error("Errore nella creazione dell'ordine:", response.msg);
           }
         },
-        error: (err: any) => {
+        error: (err: ResponseObject<OrdineDTO>) => {
           console.error("Errore nella creazione dell'ordine:", err);
         },
       });
