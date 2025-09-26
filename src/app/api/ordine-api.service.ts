@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BaseApi } from './base-api.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class OrdineApiService extends BaseApi {
-  private readonly url = this.baseUrl + '/ordini';
+export class OrdineApiService {
+  private readonly url = `${environment.apiUrl}/ordini`;
 
-  constructor(protected override http: HttpClient) {
-    super(http);
-  }
+  constructor(protected http: HttpClient) {}
 
   createOrder(body: {}) {
     return this.http.post(this.url + '/create', body);

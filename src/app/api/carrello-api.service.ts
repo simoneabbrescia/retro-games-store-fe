@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BaseApi } from './base-api.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CarrelloApi extends BaseApi{
-  private readonly url = this.baseUrl + '/carrelli';
+export class CarrelloApiService {
+  private readonly url = `${environment.apiUrl}/carrelli`;
 
-  constructor(protected override http: HttpClient) {
-    super(http);
-  }
+  constructor(protected http: HttpClient) {}
 
   public getCarrelloByAccountId(accountId: number): any {
     let params = new HttpParams().set('accountId', accountId);
-    return this.http.get<any>(this.url + '/get-carrello-by-account', { params });
+    return this.http.get<any>(this.url + '/get-carrello-by-account', {
+      params,
+    });
   }
 }

@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BaseApi } from './base-api.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CategoriaApi extends BaseApi {
-  private readonly url = this.baseUrl + '/categorie';
+export class CategoriaApiService {
+  private readonly url = `${environment.apiUrl}/categorie`;
 
-  constructor(protected override http: HttpClient) {
-    super(http);
-  }
+  constructor(protected http: HttpClient) {}
 
   getAll() {
     return this.http.get(this.url + '/list-active');

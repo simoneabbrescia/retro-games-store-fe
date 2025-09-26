@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BaseApi } from './base-api.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProdottoApi extends BaseApi {
-  private readonly url = this.baseUrl + '/prodotti';
+export class ProdottoApiService {
+  private readonly url = `${environment.apiUrl}/prodotti`;
 
-  constructor(protected override http: HttpClient) {
-    super(http);
-  }
+  constructor(protected http: HttpClient) {}
 
   getAll() {
     return this.http.get(this.url + '/list-active');
@@ -18,6 +16,6 @@ export class ProdottoApi extends BaseApi {
 
   getById(id: number) {
     let params = new HttpParams().set('id', id);
-    return this.http.get(this.url + '/get-by-id', { params});
+    return this.http.get(this.url + '/get-by-id', { params });
   }
 }

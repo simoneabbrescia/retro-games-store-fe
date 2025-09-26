@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BaseApi } from './base-api.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CarrelloRigaApi extends BaseApi {
-  private readonly url = this.baseUrl + '/carrello-righe';
+export class CarrelloRigaApiService {
+  private readonly url = `${environment.apiUrl}/carrello-righe`;
 
-  constructor(protected override http: HttpClient) {
-    super(http);
-  }
+  constructor(protected http: HttpClient) {}
 
   public addProductToCart(body: {}) {
     return this.http.post<any>(`${this.url}/add-product`, body);
