@@ -28,7 +28,7 @@
 
         <!-- Start Single Product -->
         <div class="single-product">
-          <div class="product-image">
+          <div class="product-image" [routerLink]="['/prodotti', prodotto.id]">
             <img [src]="prodotto.imgUrl" alt="{{ prodotto.nome }}" />
             <div class="button" [ngClass]="{'disabled-cart-add-button': prodotto.categoria.toLowerCase() === 'videogiochi' && 
               !idPiattaformaSelezionata

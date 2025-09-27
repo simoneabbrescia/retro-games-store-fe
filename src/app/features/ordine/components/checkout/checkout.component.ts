@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, of, throwError, firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
+import { firstValueFrom, Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { ResponseList, ResponseObject } from '@core/types';
@@ -12,24 +12,28 @@ import {
   AccountService,
 } from '@features/account';
 import { CarrelloDTO, CarrelloService } from '@features/carrello';
-import { MetodoPagamentoDTO } from '@features/metodo-pagamento';
-import { MetodoPagamentoReq } from '@features/metodo-pagamento/data-access/dtos/metodo-pagamento-request.dto';
-import { MetodoPagamentoApiService } from '@features/metodo-pagamento/data-access/metodo-pagamento-api.service';
+import { IndirizzoReq } from '@features/indirizzo';
+import {
+  MetodoPagamentoApiService,
+  MetodoPagamentoDTO,
+  MetodoPagamentoReq,
+} from '@features/metodo-pagamento';
 import { OrdineApiService, OrdineDTO, OrdineReq } from '@features/ordine';
+import {
+  PagamentoApiService,
+  PagamentoDTO,
+  PagamentoReq,
+} from '@features/pagamento';
 import {
   TipoMetodoPagamentoApiService,
   TipoMetodoPagamentoDTO,
 } from '@features/tipo-metodo-pagamento';
-import { PagamentoDTO, PagamentoReq } from '@features/pagamento';
-import { IndirizzoReq } from '@features/indirizzo';
-import { PagamentoApiService } from '@features/pagamento/data-access/pagamento-api.service';
 
 @Component({
   selector: 'app-checkout',
   standalone: false,
   templateUrl: './checkout.component.html',
-  // Angular metadata expects styleUrls (array). styleUrl would be ignored.
-  styleUrls: ['./checkout.component.css'],
+  styleUrl: './checkout.component.css',
 })
 export class CheckoutComponent implements OnInit {
   // DATA STATE

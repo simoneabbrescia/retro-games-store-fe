@@ -6,7 +6,7 @@
       <div class="row align-items-center">
         <div class="col-lg-3 col-md-3 col-7">
           <!-- Start Header Logo -->
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" routerLink="/home">
             <img src="assets/images/logo/logo.png" alt="Logo" />
           </a>
           <!-- End Header Logo -->
@@ -14,7 +14,7 @@
         <div class="col-lg-5 col-md-7 d-xs-none">
           <!-- Start Main Menu Search -->
           <div class="main-menu-search">
-            <!-- navbar search start -->
+            <!-- Navbar Search Start -->
             <div class="navbar-search search-style-5">
               <div class="search-input">
                 <input type="text" placeholder="Cerca" />
@@ -23,7 +23,7 @@
                 <button><i class="lni lni-search-alt"></i></button>
               </div>
             </div>
-            <!-- navbar search Ends -->
+            <!-- Navbar Search Ends -->
           </div>
           <!-- End Main Menu Search -->
         </div>
@@ -71,7 +71,6 @@
                       </div>
                     </li>
                   </ul>
-
                   <div class="bottom">
                     <div class="total">
                       <span>Totale</span>
@@ -142,7 +141,7 @@
                 </li>
               </ul>
             </div>
-            <!-- navbar collapse -->
+            <!-- Navbar collapse -->
           </nav>
           <div class="w-100 d-flex justify-content-end align-items-center" *ngIf="!isLoggedIn();">
             <ul class="navbar-nav flex-row align-items-center">

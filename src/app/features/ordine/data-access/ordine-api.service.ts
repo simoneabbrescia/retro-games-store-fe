@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResponseObject } from '@core/types';
+import { ResponseBase, ResponseObject } from '@core/types';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { OrdineReq } from './dtos/ordine-request.dto';
@@ -16,12 +16,12 @@ export class OrdineApiService {
 
   createOrder(req: OrdineReq): Observable<ResponseObject<OrdineDTO>> {
     return this.http.post<ResponseObject<OrdineDTO>>(
-      this.baseUrl + '/create',
+      `${this.baseUrl}/create`,
       req
     );
   }
 
-  updateStatus(req: OrdineReq): any {
-    return this.http.put(this.baseUrl + '/update-status', req);
+  updateStatus(req: OrdineReq): Observable<ResponseBase> {
+    return this.http.put<ResponseBase>(`${this.baseUrl}/update-status`, req);
   }
 }
