@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ResponseBase, ResponseObject } from '@core/types';
 import { environment } from 'environments/environment';
@@ -25,7 +25,8 @@ export class AccountApiService {
    * Recupera i dettagli account per ID
    */
   getById(id: number): Observable<ResponseObject<AccountDTO>> {
-    return this.http.get<ResponseObject<AccountDTO>>(`${this.baseUrl}/${id}`);
+    let params = new HttpParams().set('id', id);
+    return this.http.get<ResponseObject<AccountDTO>>(`${this.baseUrl}/get-by-id`, { params });
   }
 
   /**

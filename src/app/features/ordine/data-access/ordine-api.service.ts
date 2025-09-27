@@ -20,4 +20,8 @@ export class OrdineApiService {
       req
     );
   }
+
+  updateStatus(req: OrdineReq): any {
+    return this.http.put(this.baseUrl + '/update-status', req);
+  }
 }

@@ -51,7 +51,7 @@
 
           <div class="step-actions">
             <button mat-flat-button color="primary" matStepperNext [disabled]="checkoutForm.invalid"
-              (click)="onAddressStepContinue()">Continua</button>
+              >Continua</button>
           </div>
         </mat-step>
 
@@ -59,9 +59,11 @@
         <mat-step label="Pagamento" [stepControl]="pagamentoForm">
           <form class="payment" [formGroup]="pagamentoForm">
             <h2 class="h2">Metodo di pagamento</h2>
-
             <mat-radio-group class="pay-group" aria-label="Scegli un metodo" formControlName="metodo" required>
-              <mat-radio-button *ngFor="let metodo of tipiMetodoPagamento" [value]="metodo.id">
+              <mat-radio-button *ngIf="metodoPagamentoDefault" [value]="PAYMENT_METHOD_SAVED_ID">
+                Usa il mio metodo salvato: {{ metodoPagamentoDefault!.tipo.nome }} - {{ metodoPagamentoDefault!.token }}
+              </mat-radio-button>
+              <mat-radio-button *ngFor="let metodo of tipiMetodoPagamento" [value]="metodo.id.toString()">
                 {{ metodo.nome }}
               </mat-radio-button>
             </mat-radio-group>
@@ -69,7 +71,7 @@
             <mat-divider></mat-divider>
 
             <!-- CARTA: solo numero carta -->
-            <div class="pay-section" *ngIf="pagamentoForm.get('metodo')?.value === 1">
+            <div class="pay-section" *ngIf="pagamentoForm.get('metodo')?.value === PAYMENT_METHOD_CARD_ID">
               <mat-form-field appearance="outline" class="full">
                 <mat-label>Numero della carta</mat-label>
                 <input matInput inputmode="numeric" autocomplete="cc-number" maxlength="19" formControlName="card"
@@ -84,7 +86,7 @@
             </div>
 
             <!-- PAYPAL: email -->
-            <div class="pay-section" *ngIf="pagamentoForm.get('metodo')?.value === 2">
+            <div class="pay-section" *ngIf="pagamentoForm.get('metodo')?.value === PAYMENT_METHOD_PAYPAL_ID">
               <mat-form-field appearance="outline" class="full">
                 <mat-label>Email PayPal</mat-label>
                 <input matInput type="email" autocomplete="email" formControlName="email" required>
@@ -95,7 +97,7 @@
             </div>
 
             <!-- BONIFICO: sole istruzioni -->
-            <div class="pay-section bank" *ngIf="pagamentoForm.get('metodo')?.value === 3">
+            <div class="pay-section bank" *ngIf="pagamentoForm.get('metodo')?.value === PAYMENT_METHOD_BONIFICO_ID">
               <div class=" bank-head">
                 <mat-icon>account_balance</mat-icon>
                 <strong>Dati per bonifico bancario</strong>
@@ -150,7 +152,10 @@
 
           <div class="step-actions">
             <button mat-stroked-button color="primary" matStepperPrevious>Indietro</button>
-            <button mat-flat-button color="primary" (click)="placeOrder()">Conferma ordine</button>
+            <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="isSubmitting">
+              <ng-container *ngIf="!isSubmitting; else loadingBtn">Conferma ordine</ng-container>
+              <ng-template #loadingBtn>Elaborazione...</ng-template>
+            </button>
           </div>
         </mat-step>
       </mat-stepper>

@@ -37,24 +37,58 @@ export class RegistratiComponent implements OnInit {
   /** Form principale con 2 gruppi (per stepper linear) */
   registerForm = this.fb.group({
     account: this.fb.group({
-      nome: this.fb.nonNullable.control('', Validators.required),
-      cognome: this.fb.nonNullable.control('', Validators.required),
-      via: this.fb.nonNullable.control('', Validators.required),
-      citta: this.fb.nonNullable.control('', Validators.required),
+      nome: this.fb.nonNullable.control('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+        // Lettere (anche accentate), spazi, apostrofo, trattino
+        Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/),
+      ]),
+      cognome: this.fb.nonNullable.control('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+        Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/),
+      ]),
+      via: this.fb.nonNullable.control('', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(80),
+        // Consenti numeri e simboli semplici di indirizzo
+        Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ0-9'°., /-]+$/),
+      ]),
+      citta: this.fb.nonNullable.control('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(60),
+        Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/),
+      ]),
       cap: this.fb.nonNullable.control('', [
         Validators.required,
         Validators.pattern('^[0-9]{5}$'),
       ]),
-      nazione: this.fb.nonNullable.control('Italia', Validators.required),
+      nazione: this.fb.nonNullable.control('Italia', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(56), // lunghezza massima nomi nazioni
+        Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/),
+      ]),
     }),
     credentials: this.fb.group({
       email: this.fb.nonNullable.control('', {
-        validators: [Validators.required, Validators.email],
+        validators: [
+          Validators.required,
+          Validators.email,
+          Validators.maxLength(254), // RFC limite pratico
+        ],
         updateOn: 'blur',
       }),
       password: this.fb.nonNullable.control('', [
         Validators.required,
         Validators.minLength(8),
+        Validators.maxLength(64),
+        // Almeno una minuscola, una maiuscola, un numero e un simbolo
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/),
       ]),
     }),
   });
