@@ -8,6 +8,7 @@
 }
 
 .brands-logo-carousel > img {
+  width: auto;
   height: 120px;
   object-fit: contain;
   border-radius: 10px;
@@ -45,4 +46,10 @@
   align-items: flex-start;
   margin-bottom: 5px;
   margin-top: 10px;
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }

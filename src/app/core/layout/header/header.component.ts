@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@core/services';
 import { ResponseBase, ResponseList, ResponseObject } from '@core/types';
+import { AccountService } from '@features/account';
 import { CarrelloApiService, CarrelloDTO } from '@features/carrello';
 import { CarrelloRigaApiService } from '@features/carrello-riga';
+import { CategoriaApiService, CategoriaDTO } from '@features/categoria';
 import { PiattaformaApiService, PiattaformaDTO } from '@features/piattaforma';
-import { CategoriaApiService } from '../../../api/categoria-api.service';
-import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -14,14 +15,21 @@ import { AuthService } from '../../../auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
   piattaforme: PiattaformaDTO[] = [];
-  categorie: any[] = [];
-  carrello!: CarrelloDTO;
+  categorie: CategoriaDTO[] = [];
+  carrello: CarrelloDTO = {
+    id: 0,
+    accountId: 0,
+    righe: [],
+    totaleQuantita: 0,
+    totale: 0,
+  };
 
   constructor(
+    private authService: AuthService,
+    private accountService: AccountService,
     private piattaformaApiService: PiattaformaApiService,
     private categoriaApiService: CategoriaApiService,
     private carrelloApiService: CarrelloApiService,
-    private authService: AuthService,
     private carrelloRigaApiService: CarrelloRigaApiService
   ) {}
 
@@ -46,17 +54,19 @@ export class HeaderComponent implements OnInit {
   }
 
   private loadCategorie() {
-    this.categoriaApiService.getAll().subscribe((response: any) => {
-      if (response.returnCode) {
-        this.categorie = response.dati;
-      }
-    });
+    this.categoriaApiService
+      .listActive()
+      .subscribe((response: ResponseList<CategoriaDTO>) => {
+        if (response.returnCode) {
+          this.categorie = response.dati;
+        }
+      });
   }
 
   public loadCarrello() {
     if (this.authService.isLogged()) {
       this.carrelloApiService
-        .getCarrelloByAccountId(this.authService.getAccountId())
+        .getCarrelloByAccountId(this.accountService.getAccountId())
         .subscribe((response: ResponseObject<CarrelloDTO>) => {
           if (response.returnCode) {
             this.carrello = response.dati;

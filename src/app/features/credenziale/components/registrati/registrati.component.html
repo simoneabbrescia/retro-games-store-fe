@@ -25,14 +25,14 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
         <mat-stepper linear>
           <!-- STEP 1: Dati personali + Indirizzo -->
-          <mat-step [stepControl]="registerForm.get('personal')!" label="Dati personali e indirizzo">
-            <div formGroupName="personal" class="form-grid">
+          <mat-step [stepControl]="registerForm.get('account')!" label="Dati personali e indirizzo">
+            <div formGroupName="account" class="form-grid">
               <div class="row col-2">
                 <mat-form-field appearance="outline">
                   <mat-label>Nome</mat-label>
                   <input matInput formControlName="nome" required />
                   <mat-error
-                    *ngIf="registerForm.get('personal.nome')?.invalid && registerForm.get('personal.nome')?.touched">
+                    *ngIf="registerForm.get('account.nome')?.invalid && registerForm.get('account.nome')?.touched">
                     Inserisci il nome
                   </mat-error>
                 </mat-form-field>
@@ -41,7 +41,7 @@
                   <mat-label>Cognome</mat-label>
                   <input matInput formControlName="cognome" required />
                   <mat-error
-                    *ngIf="registerForm.get('personal.cognome')?.invalid && registerForm.get('personal.cognome')?.touched">
+                    *ngIf="registerForm.get('account.cognome')?.invalid && registerForm.get('account.cognome')?.touched">
                     Inserisci il cognome
                   </mat-error>
                 </mat-form-field>
@@ -50,8 +50,7 @@
               <mat-form-field appearance="outline" class="full">
                 <mat-label>Via</mat-label>
                 <input matInput formControlName="via" required />
-                <mat-error
-                  *ngIf="registerForm.get('personal.via')?.invalid && registerForm.get('personal.via')?.touched">
+                <mat-error *ngIf="registerForm.get('account.via')?.invalid && registerForm.get('account.via')?.touched">
                   Inserisci l’indirizzo
                 </mat-error>
               </mat-form-field>
@@ -61,7 +60,7 @@
                   <mat-label>Città</mat-label>
                   <input matInput formControlName="citta" required />
                   <mat-error
-                    *ngIf="registerForm.get('personal.citta')?.invalid && registerForm.get('personal.citta')?.touched">
+                    *ngIf="registerForm.get('account.citta')?.invalid && registerForm.get('account.citta')?.touched">
                     Inserisci la città
                   </mat-error>
                 </mat-form-field>
@@ -70,7 +69,7 @@
                   <mat-label>CAP</mat-label>
                   <input matInput formControlName="cap" inputmode="numeric" required />
                   <mat-error
-                    *ngIf="registerForm.get('personal.cap')?.invalid && registerForm.get('personal.cap')?.touched">
+                    *ngIf="registerForm.get('account.cap')?.invalid && registerForm.get('account.cap')?.touched">
                     Inserisci un CAP valido
                   </mat-error>
                 </mat-form-field>
@@ -79,7 +78,7 @@
                   <mat-label>Nazione</mat-label>
                   <input matInput formControlName="nazione" required />
                   <mat-error
-                    *ngIf="registerForm.get('personal.nazione')?.invalid && registerForm.get('personal.nazione')?.touched">
+                    *ngIf="registerForm.get('account.nazione')?.invalid && registerForm.get('account.nazione')?.touched">
                     Inserisci la nazione
                   </mat-error>
                 </mat-form-field>
@@ -87,7 +86,7 @@
             </div>
 
             <div class="step-actions">
-              <button mat-flat-button color="primary" matStepperNext [disabled]="registerForm.get('personal')?.invalid">
+              <button mat-flat-button color="primary" matStepperNext [disabled]="registerForm.get('account')?.invalid">
                 Continua
               </button>
             </div>

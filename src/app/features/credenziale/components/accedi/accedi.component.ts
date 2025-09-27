@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AccountService } from '@features/account';
 import { CredenzialeApiService } from '@features/credenziale';
-import { AuthService } from '../../../../auth/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-accedi',
@@ -16,8 +17,9 @@ export class AccediComponent implements OnInit {
   isSubmitting: boolean = false;
 
   constructor(
-    private router: Router,
     private auth: AuthService,
+    private accountService: AccountService,
+    private router: Router,
     private credenziale: CredenzialeApiService
   ) {}
 
@@ -70,7 +72,7 @@ export class AccediComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.auth.resetAll(); // Reset stato precedente
+    this.auth.reset(); // Reset stato precedente
     this.accediForm.markAllAsTouched(); // Mostra errori sui singoli campi
 
     // Blocca se il form non è valido
@@ -86,10 +88,10 @@ export class AccediComponent implements OnInit {
         // Controllo returnCode dal backend
         if (res.returnCode) {
           // Login riuscito
-          this.auth.setAccountId(res.dati.accountId); // Salva accountId
+          this.accountService.setAccountId(res.dati.accountId); // Salva accountId
           this.auth.setAuthenticated();
 
-          this.router.navigate(['home']);
+          this.router.navigate(['/home']);
         } else {
           this.errorMsg = 'Credenziali errate';
           this.isSubmitting = false;

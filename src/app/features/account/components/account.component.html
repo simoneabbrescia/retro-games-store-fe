@@ -3,19 +3,19 @@
 </button>
 
 <mat-menu #profileMenu="matMenu">
-  <ng-container *ngIf="account?.id; else notLoggedIn">
+  <ng-container *ngIf="account()?.id; else notLoggedIn">
     <div class="menu-section">
       <p class="menu-title">Informazioni account</p>
-      <div class="info-row">{{ account.nome }} {{ account.cognome }}</div>
-      <div class="info-row" *ngIf="account.indirizzo">
-        {{ account.indirizzo.via }}, {{ account.indirizzo.citta }} ({{ account.indirizzo.cap }})
+      <div class="info-row">{{ account()?.nome }} {{ account()?.cognome }}</div>
+      <div class="info-row" *ngIf="account()?.indirizzo">
+        {{ account()?.indirizzo?.via }}, {{ account()?.indirizzo?.citta }} ({{ account()?.indirizzo?.cap }})
       </div>
-      <div class="info-row">Ruolo: {{ account.ruolo }}</div>
+      <div class="info-row">Ruolo: {{ account()?.ruolo }}</div>
       <mat-divider></mat-divider>
     </div>
 
     <button mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon> Esci dal profilo
+      <mat-icon>logout</mat-icon> Esci
     </button>
   </ng-container>
 

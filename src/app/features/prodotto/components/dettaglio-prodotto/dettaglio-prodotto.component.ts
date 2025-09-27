@@ -6,7 +6,7 @@ import { HeaderComponent } from '@core/layout';
 import { ResponseBase, ResponseObject } from '@core/types';
 import { CarrelloRigaApiService } from '@features/carrello-riga';
 import { ProdottoApiService, ProdottoDTO } from '@features/prodotto';
-import { AuthService } from '../../../../auth/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-dettaglio-prodotto',
@@ -56,7 +56,7 @@ export class DettaglioProdottoComponent implements OnInit {
   public addToCart() {
     if (!this.authService.isLogged()) {
       alert('Devi effettuare il login per aggiungere prodotti al carrello.');
-      this.router.navigate(['accedi']);
+      this.router.navigate(['/accedi']);
       return;
     }
     const body = {
@@ -87,7 +87,7 @@ export class DettaglioProdottoComponent implements OnInit {
   }
 
   public goBack() {
-    this.router.navigate(['home']);
+    this.router.navigate(['/home']);
   }
 
   public onProductSelectPlatformChange(selectedId: any) {

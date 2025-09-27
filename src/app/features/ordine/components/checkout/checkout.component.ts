@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ResponseList, ResponseObject } from '@core/types';
-import { CarrelloApiService, CarrelloDTO } from '@features/carrello';
-import { OrdineDTO } from '@features/ordine/data-access/dtos/ordine-response.dto';
-import { OrdineApiService } from '@features/ordine/data-access/ordine-api.service';
+import { AccountDTO, AccountService } from '@features/account';
+import { CarrelloDTO, CarrelloService } from '@features/carrello';
+import { OrdineApiService, OrdineDTO } from '@features/ordine';
 import {
   TipoMetodoPagamentoApiService,
   TipoMetodoPagamentoDTO,
 } from '@features/tipo-metodo-pagamento';
-import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-checkout',
@@ -18,42 +17,31 @@ import { AuthService } from '../../../../auth/auth.service';
 })
 export class CheckoutComponent implements OnInit {
   carrello!: CarrelloDTO;
-  account: any = {};
-  metodiPagamento: any[] = [];
-  checkoutForm!: FormGroup; // indirizzo
-  pagamentoForm!: FormGroup; // pagamento
+  account!: AccountDTO;
+  tipiMetodoPagamento: TipoMetodoPagamentoDTO[] = [];
+  checkoutForm!: FormGroup; // Indirizzo di spedizione
+  pagamentoForm!: FormGroup; // Pagamento
   ordineId: number | undefined;
 
   constructor(
-    private carrelloApiService: CarrelloApiService,
-    private authService: AuthService,
+    private accountService: AccountService,
+    private carrelloService: CarrelloService,
+    private ordineApiService: OrdineApiService,
     private tipoMetodoPagamentoApiService: TipoMetodoPagamentoApiService,
-    private fb: FormBuilder,
-    private ordineApiService: OrdineApiService
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
     this.loadAddressForm();
     this.loadPaymentForm();
-    this.loadPaymentMethods();
-    this.loadCarrello();
+    this.loadPaymentMethodType();
+    this.refreshCarrello();
   }
 
-  private loadCarrello() {
-    this.carrelloApiService
-      .getCarrelloByAccountId(this.authService.getAccountId())
-      .subscribe({
-        next: (response: ResponseObject<CarrelloDTO>) => {
-          if (response.returnCode) {
-            this.carrello = response.dati;
-          } else {
-            console.error('Errore nel recupero del carrello:', response.msg);
-          }
-        },
-        error: (err: ResponseObject<CarrelloDTO>) => {
-          console.error('Errore nel recupero del carrello:', err);
-        },
-      });
+  private refreshCarrello(): void {
+    this.carrelloService.loadCarrello((c) => {
+      this.carrello = c;
+    });
   }
 
   private loadAddressForm() {
@@ -81,13 +69,13 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  private loadPaymentMethods() {
+  private loadPaymentMethodType() {
     this.tipoMetodoPagamentoApiService.listActive().subscribe({
       next: (response: ResponseList<TipoMetodoPagamentoDTO>) => {
         if (response.returnCode) {
-          this.metodiPagamento = response.dati;
-          if (this.metodiPagamento.length > 0) {
-            const initialMetodo = this.metodiPagamento[0].id;
+          this.tipiMetodoPagamento = response.dati;
+          if (this.tipiMetodoPagamento.length > 0) {
+            const initialMetodo = this.tipiMetodoPagamento[0].id;
             this.pagamentoForm.get('metodo')?.setValue(initialMetodo);
             // Allinea i validators allo stato iniziale
             this.updatePaymentValidators(initialMetodo);
@@ -113,7 +101,7 @@ export class CheckoutComponent implements OnInit {
   public onAddressStepContinue() {
     this.ordineApiService
       .createOrder({
-        accountId: this.authService.getAccountId(),
+        accountId: this.accountService.getAccountId(),
       })
       .subscribe({
         next: (response: ResponseObject<OrdineDTO>) => {

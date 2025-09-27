@@ -13,6 +13,7 @@ import {
   ShoppingInfoComponent,
 } from '@core/layout';
 import { MaterialModule } from '@core/material';
+import { AccountComponent } from '@features/account';
 import { CarrelloComponent } from '@features/carrello';
 import { ContattiComponent } from '@features/contatti';
 import { AccediComponent, RegistratiComponent } from '@features/credenziale';
@@ -23,7 +24,6 @@ import { DettaglioProdottoComponent } from '@features/prodotto';
 import { TerminiComponent } from '@features/termini/termini.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AccountComponent } from './pagine/account/account.component';
 
 @NgModule({
   declarations: [

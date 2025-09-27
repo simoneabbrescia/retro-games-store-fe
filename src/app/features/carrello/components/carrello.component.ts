@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ResponseObject } from '@core/types';
-import { CarrelloApiService, CarrelloDTO } from '@features/carrello';
+import { CarrelloDTO, CarrelloService } from '@features/carrello';
 import { CarrelloRigaApiService } from '@features/carrello-riga';
-import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-carrello',
@@ -12,34 +9,21 @@ import { AuthService } from '../../../auth/auth.service';
   styleUrl: './carrello.component.css',
 })
 export class CarrelloComponent implements OnInit {
-  public carrello: any = {};
+  public carrello!: CarrelloDTO;
 
   constructor(
-    private carrelloApiService: CarrelloApiService,
-    private authService: AuthService,
-    public router: Router,
+    private carrelloService: CarrelloService,
     private carrelloRigaApiService: CarrelloRigaApiService
   ) {}
 
   ngOnInit(): void {
-    this.loadCarrello();
+    this.refreshCarrello();
   }
 
-  private loadCarrello() {
-    this.carrelloApiService
-      .getCarrelloByAccountId(this.authService.getAccountId())
-      .subscribe({
-        next: (response: ResponseObject<CarrelloDTO>) => {
-          if (response.returnCode) {
-            this.carrello = response.dati;
-          } else {
-            console.error('Errore nel caricamento del carrello:', response.msg);
-          }
-        },
-        error: (err: ResponseObject<CarrelloDTO>) => {
-          console.error('Errore durante il caricamento del carrello:', err);
-        },
-      });
+  private refreshCarrello(): void {
+    this.carrelloService.loadCarrello((c) => {
+      this.carrello = c;
+    });
   }
 
   removeFromCart(rigaId: number) {
@@ -49,7 +33,7 @@ export class CarrelloComponent implements OnInit {
     this.carrelloRigaApiService.removeProductFromCart(body).subscribe({
       next: (response: any) => {
         if (response.returnCode) {
-          this.loadCarrello();
+          this.refreshCarrello();
         } else {
           console.error(
             'Errore durante la rimozione dal carrello:',
@@ -72,7 +56,7 @@ export class CarrelloComponent implements OnInit {
     this.carrelloRigaApiService.addProductToCart(body).subscribe({
       next: (response: any) => {
         if (response.returnCode) {
-          this.loadCarrello();
+          this.refreshCarrello();
         } else {
           console.error("Errore durante l'aggiunta al carrello:", response.msg);
         }
@@ -84,8 +68,9 @@ export class CarrelloComponent implements OnInit {
   }
 
   decreaseFromCart(quantitaDisponibile: number, rigaId: number) {
-    if (quantitaDisponibile === 1) this.removeFromCart(rigaId);
-    else {
+    if (quantitaDisponibile === 1) {
+      this.removeFromCart(rigaId);
+    } else {
       const body = {
         id: rigaId,
         quantita: quantitaDisponibile - 1,
@@ -93,7 +78,7 @@ export class CarrelloComponent implements OnInit {
       this.carrelloRigaApiService.updateRow(body).subscribe({
         next: (response: any) => {
           if (response.returnCode) {
-            this.loadCarrello();
+            this.refreshCarrello();
           } else {
             console.error(
               "Errore durante l'aggiornamento della riga:",

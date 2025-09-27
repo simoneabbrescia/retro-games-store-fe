@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HeaderComponent } from '@core/layout/header/header.component';
 import { ResponseBase, ResponseList } from '@core/types';
 import { ProdottoApiService, ProdottoDTO } from '@features/prodotto';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { CarrelloRigaApiService } from '../../carrello-riga/data-access/carrello-riga-api.service';
 
 @Component({

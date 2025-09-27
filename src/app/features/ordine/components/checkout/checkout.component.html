@@ -61,7 +61,7 @@
             <h2 class="h2">Metodo di pagamento</h2>
 
             <mat-radio-group class="pay-group" aria-label="Scegli un metodo" formControlName="metodo" required>
-              <mat-radio-button *ngFor="let metodo of metodiPagamento" [value]="metodo.id">
+              <mat-radio-button *ngFor="let metodo of tipiMetodoPagamento" [value]="metodo.id">
                 {{ metodo.nome }}
               </mat-radio-button>
             </mat-radio-group>

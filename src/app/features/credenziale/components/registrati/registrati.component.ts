@@ -1,9 +1,20 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CredenzialeApiService } from '@features/credenziale/data-access/credenziale-api.service';
-import { AccountApiService } from 'app/api/account-api.service';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from '@core/services/auth.service';
+import { ResponseObject } from '@core/types';
+import {
+  AccountApiService,
+  AccountDTO,
+  AccountReq,
+  AccountService,
+} from '@features/account';
+import {
+  CredenzialeApiService,
+  CredenzialeDTO,
+  CredenzialeReq,
+} from '@features/credenziale';
+import { RegisterFormAccount } from '../types/register-form.model';
 
 @Component({
   selector: 'app-registrati',
@@ -14,9 +25,10 @@ import { AuthService } from 'app/auth/auth.service';
 export class RegistratiComponent implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  private accountApi = inject(AccountApiService);
-  private credenzialeApi = inject(CredenzialeApiService);
   private authService = inject(AuthService);
+  private accountService = inject(AccountService);
+  private accountApiService = inject(AccountApiService);
+  private credenzialeApiService = inject(CredenzialeApiService);
 
   /** UI state */
   errorMsg = '';
@@ -24,23 +36,26 @@ export class RegistratiComponent implements OnInit {
 
   /** Form principale con 2 gruppi (per stepper linear) */
   registerForm = this.fb.group({
-    personal: this.fb.group({
-      nome: ['', Validators.required],
-      cognome: ['', Validators.required],
-      via: ['', Validators.required],
-      citta: ['', Validators.required],
-      cap: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
-      nazione: ['Italia', Validators.required],
+    account: this.fb.group({
+      nome: this.fb.nonNullable.control('', Validators.required),
+      cognome: this.fb.nonNullable.control('', Validators.required),
+      via: this.fb.nonNullable.control('', Validators.required),
+      citta: this.fb.nonNullable.control('', Validators.required),
+      cap: this.fb.nonNullable.control('', [
+        Validators.required,
+        Validators.pattern('^[0-9]{5}$'),
+      ]),
+      nazione: this.fb.nonNullable.control('Italia', Validators.required),
     }),
     credentials: this.fb.group({
-      email: [
-        '',
-        {
-          validators: [Validators.required, Validators.email],
-          updateOn: 'blur',
-        },
-      ],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      email: this.fb.nonNullable.control('', {
+        validators: [Validators.required, Validators.email],
+        updateOn: 'blur',
+      }),
+      password: this.fb.nonNullable.control('', [
+        Validators.required,
+        Validators.minLength(8),
+      ]),
     }),
   });
 
@@ -60,33 +75,30 @@ export class RegistratiComponent implements OnInit {
       return;
     }
 
-    const personal = this.registerForm.get('personal')!.value as any;
-    const credentials = this.registerForm.get('credentials')!.value as any;
+    const account = this.registerForm.get('account')!
+      .value as RegisterFormAccount;
+    const credentials = this.registerForm.get('credentials')!
+      .value as CredenzialeReq;
 
-    const accountBody = {
-      nome: personal.nome,
-      cognome: personal.cognome,
+    const accountBody: AccountReq = {
+      nome: account.nome,
+      cognome: account.cognome,
       indirizzo: {
-        via: personal.via,
-        citta: personal.citta,
-        cap: personal.cap,
-        paese: personal.nazione,
+        via: account.via,
+        citta: account.citta,
+        cap: account.cap,
+        paese: account.nazione,
       },
       ruoloId: 2,
     };
-    const credenzialeBody = {
-      email: credentials.email,
-      password: credentials.password,
-    };
-    let credenzialeId: number;
-    this.credenzialeApi.create(credenzialeBody).subscribe({
-      next: (response: any) => {
-        if (response.returnCode) {
-          credenzialeId = response.dati.id;
-          this.createAccount(accountBody, credenzialeId);
+
+    this.credenzialeApiService.create(credentials).subscribe({
+      next: (res: ResponseObject<CredenzialeDTO>) => {
+        if (res.returnCode) {
+          accountBody.credenzialeId = res.dati.id;
+          this.createAccount(accountBody);
         } else {
-          this.errorMsg =
-            response.msg || 'Registrazione non riuscita. Riprova.';
+          this.errorMsg = res.msg || 'Registrazione non riuscita. Riprova.';
           console.error(
             'Errore nella creazione della credenziale:',
             this.errorMsg
@@ -104,17 +116,16 @@ export class RegistratiComponent implements OnInit {
     });
   }
 
-  private createAccount(body: {}, credenzialeId: number) {
-    this.accountApi.create({ ...body, credenzialeId }).subscribe({
-      next: (response: any) => {
-        if (response.returnCode) {
+  private createAccount(req: AccountReq) {
+    this.accountApiService.create(req).subscribe({
+      next: (res: ResponseObject<AccountDTO>) => {
+        if (res.returnCode) {
           this.successMsg = 'Account creato con successo!';
-          this.authService.setAccountId(response.dati.accountId); // Salva accountId
+          this.accountService.setAccountId(res.dati.id); // Salva accountId
           this.authService.setAuthenticated();
-          setTimeout(() => this.router.navigate(['home']), 1000);
+          setTimeout(() => this.router.navigate(['/home']), 1000);
         } else {
-          this.errorMsg =
-            response.msg || 'Registrazione non riuscita. Riprova.';
+          this.errorMsg = res.msg || 'Registrazione non riuscita. Riprova.';
           console.error("Errore nella creazione dell'account:", this.errorMsg);
         }
       },

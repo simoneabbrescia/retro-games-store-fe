@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from '@core/guards';
 import { CarrelloComponent } from '@features/carrello';
 import { ContattiComponent } from '@features/contatti';
 import { AccediComponent, RegistratiComponent } from '@features/credenziale';
 import { FaqComponent } from '@features/faq';
 import { HomeComponent } from '@features/home';
-import { authGuard } from './auth/auth.guard';
 import { CheckoutComponent } from './features/ordine/components/checkout/checkout.component';
 import { DettaglioProdottoComponent } from './features/prodotto/components/dettaglio-prodotto/dettaglio-prodotto.component';
 import { TerminiComponent } from './features/termini/termini.component';

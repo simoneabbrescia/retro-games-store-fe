@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { AccountService } from '@features/account';
 
 @Injectable({
   providedIn: 'root',
@@ -13,33 +14,37 @@ export class AuthService {
   private _isAdmin = signal(false);
 
   // Signals pubblici in sola lettura
-  readonly isLogged = this._isLogged.asReadonly();
-  readonly isAdmin = this._isAdmin.asReadonly();
+  public readonly isLogged = this._isLogged.asReadonly();
+  public readonly isAdmin = this._isAdmin.asReadonly();
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private accountService: AccountService
+  ) {
     if (isPlatformBrowser(this.platformId)) {
       this._isLogged.set(sessionStorage.getItem(this.IS_LOGGED_KEY) === '1');
       this._isAdmin.set(sessionStorage.getItem(this.IS_ADMIN_KEY) === '1');
     }
   }
 
-  setAuthenticated(): void {
+  public setAuthenticated(): void {
     this.updateSessionStorage(this.IS_LOGGED_KEY, true);
     this.updateSessionStorage(this.IS_ADMIN_KEY, false);
     this._isLogged.set(true);
     this._isAdmin.set(false);
   }
 
-  setRoleAdmin(): void {
+  public setRoleAdmin(): void {
     this.updateSessionStorage(this.IS_ADMIN_KEY, true);
     this._isAdmin.set(true);
   }
 
-  resetAll(): void {
+  public reset(): void {
     this.updateSessionStorage(this.IS_LOGGED_KEY, false);
     this.updateSessionStorage(this.IS_ADMIN_KEY, false);
     this._isLogged.set(false);
     this._isAdmin.set(false);
+    this.accountService.clearAccount();
   }
 
   private updateSessionStorage(key: string, value: boolean): void {
@@ -48,18 +53,14 @@ export class AuthService {
     }
   }
 
-  logout() 
-  {
-    localStorage.removeItem('token');
-    localStorage.removeItem('accountId');
-  }
+  public logout(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.removeItem(this.IS_LOGGED_KEY);
+      sessionStorage.removeItem(this.IS_ADMIN_KEY);
+    }
 
-  accountId: number = 0;
-  public setAccountId(accountId: number): void {
-    this.accountId = accountId;
-  }
-
-  public getAccountId(): number {
-    return this.accountId;
+    this._isLogged.set(false);
+    this._isAdmin.set(false);
+    this.accountService.clearAccount();
   }
 }
