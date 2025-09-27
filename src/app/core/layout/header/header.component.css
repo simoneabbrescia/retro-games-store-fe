@@ -4,3 +4,8 @@
   gap: 12px;
   padding: 12px;
 }
+
+.button-disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
