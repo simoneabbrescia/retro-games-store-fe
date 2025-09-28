@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public isLoggedIn(): boolean {
-    return this.authService.isLogged();
+    return this.authService.isLogged;
   }
 
   private loadPiattaforme() {
@@ -64,7 +64,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public loadCarrello() {
-    if (this.authService.isLogged()) {
+    if (this.authService.isLogged) {
       this.carrelloApiService
         .getCarrelloByAccountId(this.accountService.getAccountId())
         .subscribe((response: ResponseObject<CarrelloDTO>) => {

@@ -7,15 +7,14 @@ import { AccountService } from '@features/account';
 })
 export class AuthService {
   private readonly IS_LOGGED_KEY = 'isLogged';
-  private readonly IS_ADMIN_KEY = 'isAdmin';
 
   // Signals interni (scrivibili solo dal service)
   private _isLogged = signal(false);
   private _isAdmin = signal(false);
 
   // Signals pubblici in sola lettura
-  public readonly isLogged = this._isLogged.asReadonly();
-  public readonly isAdmin = this._isAdmin.asReadonly();
+  public readonly isLoggedSig = this._isLogged.asReadonly();
+  public readonly isAdminSig = this._isAdmin.asReadonly();
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -23,27 +22,27 @@ export class AuthService {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this._isLogged.set(sessionStorage.getItem(this.IS_LOGGED_KEY) === '1');
-      this._isAdmin.set(sessionStorage.getItem(this.IS_ADMIN_KEY) === '1');
     }
   }
 
-  public setAuthenticated(): void {
-    this.updateSessionStorage(this.IS_LOGGED_KEY, true);
-    this.updateSessionStorage(this.IS_ADMIN_KEY, false);
-    this._isLogged.set(true);
-    this._isAdmin.set(false);
+  public get isLogged(): boolean {
+    return this._isLogged();
   }
 
-  public setRoleAdmin(): void {
-    this.updateSessionStorage(this.IS_ADMIN_KEY, true);
-    this._isAdmin.set(true);
+  public get isAdmin(): boolean {
+    return this._isAdmin();
+  }
+
+  public setAuthenticated(isAdmin = false): void {
+    this._isLogged.set(true);
+    this._isAdmin.set(isAdmin);
+    this.updateSessionStorage(this.IS_LOGGED_KEY, true);
   }
 
   public reset(): void {
-    this.updateSessionStorage(this.IS_LOGGED_KEY, false);
-    this.updateSessionStorage(this.IS_ADMIN_KEY, false);
     this._isLogged.set(false);
     this._isAdmin.set(false);
+    this.updateSessionStorage(this.IS_LOGGED_KEY, false);
     this.accountService.clearAccount();
   }
 
@@ -54,13 +53,6 @@ export class AuthService {
   }
 
   public logout(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.removeItem(this.IS_LOGGED_KEY);
-      sessionStorage.removeItem(this.IS_ADMIN_KEY);
-    }
-
-    this._isLogged.set(false);
-    this._isAdmin.set(false);
-    this.accountService.clearAccount();
+    this.reset();
   }
 }

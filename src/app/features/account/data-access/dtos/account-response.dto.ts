@@ -2,6 +2,7 @@ import { CarrelloDTO } from '@features/carrello';
 import { CredenzialeDTO } from '@features/credenziale';
 import { IndirizzoDTO } from '@features/indirizzo';
 import { MetodoPagamentoDTO } from '@features/metodo-pagamento';
+import { RuoloDTO } from '@features/ruolo';
 
 export interface AccountDTO {
   id: number;
@@ -9,7 +10,7 @@ export interface AccountDTO {
   cognome: string;
   indirizzo: IndirizzoDTO;
   metodiPagamento: MetodoPagamentoDTO[];
-  ruolo: string;
+  ruolo: RuoloDTO;
   credenziale: CredenzialeDTO;
   carrello: CarrelloDTO;
   attivo: boolean;

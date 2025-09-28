@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from '@core/guards';
+import { authAdminGuard, authGuard } from '@core/guards';
+import { DashboardComponent } from '@features/admin';
+import { AdminComponent } from '@features/admin/components/admin/admin.component';
 import { CarrelloComponent } from '@features/carrello';
 import { ContattiComponent } from '@features/contatti';
 import { AccediComponent, RegistratiComponent } from '@features/credenziale';
 import { FaqComponent } from '@features/faq';
 import { HomeComponent } from '@features/home';
-import { CheckoutComponent } from './features/ordine/components/checkout/checkout.component';
-import { DettaglioProdottoComponent } from './features/prodotto/components/dettaglio-prodotto/dettaglio-prodotto.component';
-import { TerminiComponent } from './features/termini/termini.component';
+import { CheckoutComponent } from '@features/ordine';
+import { DettaglioProdottoComponent } from '@features/prodotto';
+import { TerminiComponent } from '@features/termini/termini.component';
 
 const routes: Routes = [
   {
@@ -61,6 +63,18 @@ const routes: Routes = [
     path: 'termini',
     title: 'Termini',
     component: TerminiComponent,
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [authAdminGuard],
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      { path: 'dashboard', component: DashboardComponent },
+      // Altre sottorotte admin qui
+      // { path: 'gestione-account', component: GestioneAccountComponent },
+      // { path: 'categoria', component: CategoriaComponent },
+    ],
   },
 ];
 

@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CarrelloDTO, CarrelloService } from '@features/carrello';
+import {
+  CarrelloDTO,
+  CarrelloService,
+  createEmptyCarrello,
+} from '@features/carrello';
 import { CarrelloRigaApiService } from '@features/carrello-riga';
 
 @Component({
@@ -9,7 +13,7 @@ import { CarrelloRigaApiService } from '@features/carrello-riga';
   styleUrl: './carrello.component.css',
 })
 export class CarrelloComponent implements OnInit {
-  public carrello!: CarrelloDTO;
+  public carrello: CarrelloDTO = createEmptyCarrello();
 
   constructor(
     private carrelloService: CarrelloService,

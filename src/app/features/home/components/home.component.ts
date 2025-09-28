@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { HeaderComponent } from '@core/layout/header/header.component';
+import { HeaderComponent } from '@core/layout';
+import { AuthService } from '@core/services';
 import { ResponseBase, ResponseList } from '@core/types';
+import { CarrelloRigaApiService } from '@features/carrello-riga';
 import { ProdottoApiService, ProdottoDTO } from '@features/prodotto';
-import { AuthService } from '../../../core/services/auth.service';
-import { CarrelloRigaApiService } from '../../carrello-riga/data-access/carrello-riga-api.service';
 
 @Component({
   selector: 'app-home',
@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
   }
 
   public addToCart(prodotto: ProdottoDTO) {
-    if (!this.authService.isLogged()) {
+    if (!this.authService.isLogged) {
       alert('Devi effettuare il login per aggiungere prodotti al carrello.');
       this.router.navigate(['/accedi']);
       return;

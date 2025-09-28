@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { ResponseObject } from '@core/types';
 import { AccountService } from '@features/account';
 import { CarrelloApiService } from './carrello-api.service';
-import { CarrelloDTO } from './dtos/carrello-response.dto';
+import { CarrelloDTO, createEmptyCarrello } from './dtos/carrello-response.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarrelloService {
-  public carrello!: CarrelloDTO;
+  public carrello: CarrelloDTO = createEmptyCarrello();
 
   constructor(
     private accountService: AccountService,

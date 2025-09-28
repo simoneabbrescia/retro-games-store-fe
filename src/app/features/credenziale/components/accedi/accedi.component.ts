@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AccountService } from '@features/account';
-import { CredenzialeApiService } from '@features/credenziale';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '@core/services';
+import { CredenzialeReq, CredenzialeService } from '@features/credenziale';
 
 @Component({
   selector: 'app-accedi',
@@ -17,10 +16,9 @@ export class AccediComponent implements OnInit {
   isSubmitting: boolean = false;
 
   constructor(
-    private auth: AuthService,
-    private accountService: AccountService,
+    private authService: AuthService,
     private router: Router,
-    private credenziale: CredenzialeApiService
+    private credenzialeService: CredenzialeService
   ) {}
 
   ngOnInit(): void {
@@ -72,35 +70,29 @@ export class AccediComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.auth.reset(); // Reset stato precedente
+    this.authService.reset(); // Reset stato precedente
     this.accediForm.markAllAsTouched(); // Mostra errori sui singoli campi
 
-    // Blocca se il form non è valido
-    if (this.accediForm.invalid) {
-      return;
-    }
+    if (this.accediForm.invalid) return;
 
     this.isSubmitting = true;
-    const { email, password } = this.accediForm.value;
+    const req: CredenzialeReq = this.accediForm.value;
 
-    this.credenziale.login({ email, password }).subscribe({
-      next: (res: any) => {
-        // Controllo returnCode dal backend
-        if (res.returnCode) {
-          // Login riuscito
-          this.accountService.setAccountId(res.dati.accountId); // Salva accountId
-          this.auth.setAuthenticated();
+    this.credenzialeService.login(req).subscribe({
+      next: (res) => {
+        this.isSubmitting = false;
 
-          this.router.navigate(['/home']);
+        if (res.success) {
+          // Navigazione basata sul ruolo
+          this.router.navigate([res.isAdmin ? '/admin/dashboard' : '/home']);
         } else {
-          this.errorMsg = 'Credenziali errate';
-          this.isSubmitting = false;
+          // Messaggio di errore proveniente dal service
+          this.errorMsg = res.errorMsg;
         }
       },
-      error: (err) => {
-        // Errore backend
-        this.errorMsg = err?.error?.message || 'Errore server';
+      error: () => {
         this.isSubmitting = false;
+        this.errorMsg = 'Errore server';
       },
       complete: () => {
         // Pulizia finale

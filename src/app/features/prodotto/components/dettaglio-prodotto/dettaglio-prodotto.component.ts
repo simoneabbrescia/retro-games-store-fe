@@ -54,7 +54,7 @@ export class DettaglioProdottoComponent implements OnInit {
   }
 
   public addToCart() {
-    if (!this.authService.isLogged()) {
+    if (!this.authService.isLogged) {
       alert('Devi effettuare il login per aggiungere prodotti al carrello.');
       this.router.navigate(['/accedi']);
       return;

@@ -1,9 +1,17 @@
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '@core/services';
+import { AccountService } from '@features/account';
 
 export const authAdminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
+  const accountService = inject(AccountService);
+  const router = inject(Router);
 
-  return authService.isAdmin();
+  if (!authService.isLogged || !accountService.isAdmin) {
+    router.navigate(['/accedi']);
+    return false;
+  }
+
+  return true;
 };

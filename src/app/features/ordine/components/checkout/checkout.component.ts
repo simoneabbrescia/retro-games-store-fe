@@ -11,7 +11,11 @@ import {
   AccountDTO,
   AccountService,
 } from '@features/account';
-import { CarrelloDTO, CarrelloService } from '@features/carrello';
+import {
+  CarrelloDTO,
+  CarrelloService,
+  createEmptyCarrello,
+} from '@features/carrello';
 import { IndirizzoReq } from '@features/indirizzo';
 import {
   MetodoPagamentoApiService,
@@ -37,7 +41,7 @@ import {
 })
 export class CheckoutComponent implements OnInit {
   // DATA STATE
-  carrello!: CarrelloDTO;
+  carrello: CarrelloDTO = createEmptyCarrello();
   account!: AccountDTO;
   tipiMetodoPagamento: TipoMetodoPagamentoDTO[] = [];
   metodoPagamentoDefault?: MetodoPagamentoDTO;

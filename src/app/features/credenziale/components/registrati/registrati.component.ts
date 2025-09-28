@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '@core/services/auth.service';
+import { AuthService } from '@core/services';
 import { ResponseObject } from '@core/types';
 import {
   AccountApiService,
@@ -40,28 +40,22 @@ export class RegistratiComponent implements OnInit {
       nome: this.fb.nonNullable.control('', [
         Validators.required,
         Validators.minLength(2),
-        Validators.maxLength(50),
-        // Lettere (anche accentate), spazi, apostrofo, trattino
-        Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/),
+        Validators.maxLength(100),
       ]),
       cognome: this.fb.nonNullable.control('', [
         Validators.required,
         Validators.minLength(2),
-        Validators.maxLength(50),
-        Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/),
+        Validators.maxLength(100),
       ]),
       via: this.fb.nonNullable.control('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(80),
-        // Consenti numeri e simboli semplici di indirizzo
-        Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ0-9'°., /-]+$/),
+        Validators.maxLength(100),
       ]),
       citta: this.fb.nonNullable.control('', [
         Validators.required,
         Validators.minLength(2),
-        Validators.maxLength(60),
-        Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/),
+        Validators.maxLength(50),
       ]),
       cap: this.fb.nonNullable.control('', [
         Validators.required,
@@ -70,8 +64,7 @@ export class RegistratiComponent implements OnInit {
       nazione: this.fb.nonNullable.control('Italia', [
         Validators.required,
         Validators.minLength(2),
-        Validators.maxLength(56), // lunghezza massima nomi nazioni
-        Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/),
+        Validators.maxLength(50), // Lunghezza massima nomi nazioni
       ]),
     }),
     credentials: this.fb.group({
@@ -86,9 +79,7 @@ export class RegistratiComponent implements OnInit {
       password: this.fb.nonNullable.control('', [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(64),
-        // Almeno una minuscola, una maiuscola, un numero e un simbolo
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/),
+        Validators.maxLength(254),
       ]),
     }),
   });
