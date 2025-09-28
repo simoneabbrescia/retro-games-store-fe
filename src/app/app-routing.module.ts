@@ -10,6 +10,11 @@ import { FaqComponent } from '@features/faq';
 import { HomeComponent } from '@features/home';
 import { CheckoutComponent } from '@features/ordine';
 import { DettaglioProdottoComponent } from '@features/prodotto';
+import { ProfiloCredenzialiComponent } from '@features/profilo/components/profilo-credenziali/profilo-credenziali.component';
+import { ProfiloEliminaAccountComponent } from '@features/profilo/components/profilo-elimina-account/profilo-elimina-account.component';
+import { ProfiloInformazioniPersonaliComponent } from '@features/profilo/components/profilo-informazioni-personali/profilo-informazioni-personali.component';
+import { ProfiloMetodoPagamentoComponent } from '@features/profilo/components/profilo-metodo-pagamento/profilo-metodo-pagamento.component';
+import { ProfiloStoricoOrdiniComponent } from '@features/profilo/components/profilo-storico-ordini/profilo-storico-ordini.component';
 import { ProfiloComponent } from '@features/profilo/components/profilo/profilo.component';
 import { TerminiComponent } from '@features/termini/termini.component';
 
@@ -81,6 +86,14 @@ const routes: Routes = [
     path: 'profilo',
     component: ProfiloComponent,
     canActivate: [authGuard],
+    children: [
+      {path: '', pathMatch: 'full', redirectTo: 'informazioni-personali' },
+      { path: 'informazioni-personali', component: ProfiloInformazioniPersonaliComponent },
+      { path: 'credenziali', component: ProfiloCredenzialiComponent },
+      { path: 'metodo-pagamento', component: ProfiloMetodoPagamentoComponent },
+      { path: 'storico-ordini', component: ProfiloStoricoOrdiniComponent },
+      { path: 'elimina-account', component: ProfiloEliminaAccountComponent },
+    ]
   }
 ];
 

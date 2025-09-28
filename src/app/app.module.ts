@@ -27,6 +27,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdminComponent } from './features/admin/components/admin/admin.component';
 import { ProfiloComponent } from './features/profilo/components/profilo/profilo.component';
+import { ProfiloInformazioniPersonaliComponent } from './features/profilo/components/profilo-informazioni-personali/profilo-informazioni-personali.component';
+import { ProfiloMetodoPagamentoComponent } from './features/profilo/components/profilo-metodo-pagamento/profilo-metodo-pagamento.component';
+import { ProfiloStoricoOrdiniComponent } from './features/profilo/components/profilo-storico-ordini/profilo-storico-ordini.component';
+import { ProfiloCredenzialiComponent } from './features/profilo/components/profilo-credenziali/profilo-credenziali.component';
+import { ProfiloEliminaAccountComponent } from './features/profilo/components/profilo-elimina-account/profilo-elimina-account.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +52,11 @@ import { ProfiloComponent } from './features/profilo/components/profilo/profilo.
     DashboardComponent,
     AdminComponent,
     ProfiloComponent,
+    ProfiloInformazioniPersonaliComponent,
+    ProfiloMetodoPagamentoComponent,
+    ProfiloStoricoOrdiniComponent,
+    ProfiloCredenzialiComponent,
+    ProfiloEliminaAccountComponent,
   ],
   imports: [
     BrowserModule,

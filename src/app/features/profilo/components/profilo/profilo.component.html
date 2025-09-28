@@ -1,3 +1,71 @@
 <app-header></app-header>
 
+<div class="container profile-container">
+  <!-- HEADER PROFILO -->
+  <mat-card class="profile-header" appearance="outlined">
+    <div class="d-flex align-items-center gap-3">
+      <div class="avatar">
+        <span>{{this.getNameInitials()}}</span>
+      </div>
+      <div class="flex-grow-1">
+        <div class="d-flex align-items-center gap-2">
+          <h1 class="title m-0">{{this.account.nome}} {{this.account.cognome}}</h1>
+          <mat-chip color="primary" selected>{{this.account.ruolo.nome}}</mat-chip>
+        </div>
+        <div class="meta d-flex align-items-center gap-2">
+          <mat-icon>email</mat-icon>
+          <span>{{this.account.credenziale.email}}</span>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- NAV + CONTENT -->
+  <div class="row gx-3 gy-3 profile-layout">
+    <!-- SIDEBAR (desktop / tablet) -->
+    <div class="col-lg-3 d-none d-lg-block">
+      <mat-card appearance="outlined" class="nav-card">
+        <mat-nav-list>
+          <a mat-list-item routerLink="/profilo/informazioni-personali" routerLinkActive="active" aria-current="page">
+            <mat-icon matListItemIcon>person</mat-icon>
+            <span matListItemTitle>Informazioni personali</span>
+          </a>
+
+          <a mat-list-item routerLink="/profilo/metodo-pagamento" routerLinkActive="active">
+            <mat-icon matListItemIcon>credit_card</mat-icon>
+            <span matListItemTitle>Metodo di pagamento</span>
+          </a>
+
+          <a mat-list-item routerLink="/profilo/storico-ordini" routerLinkActive="active">
+            <mat-icon matListItemIcon>receipt_long</mat-icon>
+            <span matListItemTitle>Storico ordini</span>
+          </a>
+
+          <a mat-list-item routerLink="/profilo/credenziali" routerLinkActive="active">
+            <mat-icon matListItemIcon>key</mat-icon>
+            <span matListItemTitle>Credenziali</span>
+          </a>
+
+          <mat-divider></mat-divider>
+
+          <a mat-list-item (click)="onLogout()" routerLinkActive="active">
+            <mat-icon matListItemIcon>logout</mat-icon>
+            <span matListItemTitle>Logout</span>
+          </a>
+
+          <a mat-list-item routerLink="/profilo/elimina-account" routerLinkActive="active" class="danger">
+            <mat-icon matListItemIcon>delete_forever</mat-icon>
+            <span matListItemTitle>Elimina account</span>
+          </a>
+        </mat-nav-list>
+      </mat-card>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="col-lg-9">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
 <app-footer></app-footer>
