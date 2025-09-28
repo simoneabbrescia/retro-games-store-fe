@@ -152,6 +152,7 @@ export class CheckoutComponent implements OnInit {
       card: [''],
       email: [''],
       terms: [false, Validators.requiredTrue],
+      setDefault: [false],
     });
 
     this.pagamentoForm
@@ -253,6 +254,7 @@ export class CheckoutComponent implements OnInit {
           { duration: 5000, panelClass: ['snackbar-error'] }
         );
         console.error('[Checkout] Errore nel processo di checkout:', err);
+        this.router.navigate(['/home']);
       } finally {
         this.isSubmitting = false;
       }
