@@ -25,6 +25,7 @@ Author: Betacom S.r.l - Bari
 
   //===== mobile-menu-btn
   let navbarToggler = document.querySelector(".mobile-menu-btn");
+  if(navbarToggler)
   navbarToggler.addEventListener("click", function () {
     navbarToggler.classList.toggle("active");
   });

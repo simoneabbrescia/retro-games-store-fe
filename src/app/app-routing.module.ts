@@ -10,6 +10,7 @@ import { FaqComponent } from '@features/faq';
 import { HomeComponent } from '@features/home';
 import { CheckoutComponent } from '@features/ordine';
 import { DettaglioProdottoComponent } from '@features/prodotto';
+import { ProfiloComponent } from '@features/profilo/components/profilo/profilo.component';
 import { TerminiComponent } from '@features/termini/termini.component';
 
 const routes: Routes = [
@@ -76,6 +77,11 @@ const routes: Routes = [
       // { path: 'categoria', component: CategoriaComponent },
     ],
   },
+  {
+    path: 'profilo',
+    component: ProfiloComponent,
+    canActivate: [authGuard],
+  }
 ];
 
 @NgModule({

@@ -148,7 +148,7 @@ export class RegistratiComponent implements OnInit {
           this.successMsg = 'Account creato con successo!';
           this.accountService.setAccountId(res.dati.id); // Salva accountId
           this.authService.setAuthenticated();
-          setTimeout(() => this.router.navigate(['/home']), 1000);
+          setTimeout(() => this.router.navigate(['/profilo']), 1000);
         } else {
           this.errorMsg = res.msg || 'Registrazione non riuscita. Riprova.';
           console.error("Errore nella creazione dell'account:", this.errorMsg);

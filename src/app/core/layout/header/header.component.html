@@ -34,7 +34,7 @@
             <!-- Profilo -->
             <div class="navbar-cart" style="margin-right: 10px" *ngIf="isLoggedIn();">
               <div class="cart-items">
-                <a href="javascript:void(0)" class="main-btn">
+                <a [routerLink]="['/profilo']" class="main-btn">
                   <i class="lni lni-user"></i>
                 </a>
               </div>
@@ -42,7 +42,7 @@
 
             <div class="navbar-cart" *ngIf="isLoggedIn();">
               <div class="cart-items">
-                <a href="javascript:void(0)" class="main-btn">
+                <a [routerLink]="['/carrello']" class="main-btn">
                   <i class="lni lni-cart"></i>
                   <span class="total-items">{{ carrello.totaleQuantita }}</span>
                 </a>

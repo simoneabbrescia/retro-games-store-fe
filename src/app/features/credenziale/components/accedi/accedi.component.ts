@@ -84,7 +84,7 @@ export class AccediComponent implements OnInit {
 
         if (res.success) {
           // Navigazione basata sul ruolo
-          this.router.navigate([res.isAdmin ? '/admin/dashboard' : '/home']);
+          this.router.navigate([res.isAdmin ? '/admin/dashboard' : '/profilo']);
         } else {
           // Messaggio di errore proveniente dal service
           this.errorMsg = res.errorMsg;

@@ -124,8 +124,8 @@ export class CheckoutComponent implements OnInit {
 
   private initAddressForm(): void {
     this.checkoutForm = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(2)]],
-      cognome: ['', [Validators.required, Validators.minLength(2)]],
+      nome: [{ value: '', disabled: true }],
+      cognome: [{ value: '', disabled: true }],
       indirizzo: ['', [Validators.required, Validators.minLength(5)]],
       citta: ['', [Validators.required, Validators.minLength(2)]],
       cap: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
@@ -239,21 +239,18 @@ export class CheckoutComponent implements OnInit {
         // 3. Esegue pagamento
         await firstValueFrom(this.executePayment(metodoId, ordineId));
         // 4. Aggiorna stato ordine
-        this.ordineApiService.updateStatus({
-          id: ordineId,
-          statoOrdine: 'PAGATO',
-        });
+        await firstValueFrom(this.updateOrderStatus(ordineId, 'Pagato'));
         // 5. Successo
         this.snack.open('Ordine effettuato con successo!', 'Chiudi', {
           duration: 5000,
           panelClass: ['snackbar-success'],
         });
-        this.router.navigate(['/home']);
+        this.router.navigate(['/profilo']);
       } catch (err) {
         this.snack.open(
           'Si è verificato un errore nel processo di checkout. Riprova.',
           'Chiudi',
-          { duration: 6000 }
+          { duration: 5000, panelClass: ['snackbar-error'] }
         );
         console.error('[Checkout] Errore nel processo di checkout:', err);
       } finally {
@@ -275,32 +272,20 @@ export class CheckoutComponent implements OnInit {
       return of(this.metodoPagamentoDefault.id);
     }
 
-    const metodoValue = String(metodoFormValue);
     const req: MetodoPagamentoReq = {
-      accountId: this.accountService.getAccountId(),
-      tipoMetodoPagamentoId: +metodoValue,
-      token: this.extractPaymentToken(metodoValue),
-      metodoDefault: false,
-      attivo: true,
+      accountId: this.account.id,
+      tipoMetodoPagamentoId: metodoFormValue,
+      token: this.extractPaymentToken(metodoFormValue),
+      metodoDefault: this.pagamentoForm.get('setDefault')?.value || false,
     };
 
     return this.metodoPagamentoApiService.create(req).pipe(
       map((res: ResponseObject<MetodoPagamentoDTO>) => {
-        if (!res.returnCode) {
+        if (!res.returnCode)
           throw new Error('Creazione metodo di pagamento fallita: ' + res.msg);
-        }
         return res.dati.id;
       }),
       catchError((err) => {
-        this.snack.open(
-          'Errore nella creazione del metodo di pagamento.',
-          'Chiudi',
-          { duration: 5000 }
-        );
-        console.error(
-          '[Checkout] Errore nella creazione del metodo di pagamento:',
-          err
-        );
         return throwError(() => err);
       })
     );
@@ -311,6 +296,8 @@ export class CheckoutComponent implements OnInit {
       return String(this.pagamentoForm.get('card')!.value || '');
     if (metodoValue === this.PAYMENT_METHOD_PAYPAL_ID)
       return String(this.pagamentoForm.get('email')!.value || '');
+    if (metodoValue === this.PAYMENT_METHOD_BONIFICO_ID)
+      return 'BONIFICO_TOKEN';
     return '';
   }
 
@@ -319,7 +306,7 @@ export class CheckoutComponent implements OnInit {
     ordineId: number
   ): Observable<PagamentoDTO> {
     const body: PagamentoReq = {
-      ordineId,
+      ordineId: ordineId,
       metodoPagamentoId: metodoId,
       totale: this.carrello.totale,
     };
@@ -329,10 +316,6 @@ export class CheckoutComponent implements OnInit {
         return res.dati;
       }),
       catchError((err) => {
-        this.snack.open('Errore durante il pagamento. Riprova.', 'Chiudi', {
-          duration: 6000,
-        });
-        console.error('[Checkout] Errore nel pagamento:', err);
         return throwError(() => err);
       })
     );
@@ -359,12 +342,24 @@ export class CheckoutComponent implements OnInit {
         return res.dati.id;
       }),
       catchError((err) => {
-        this.snack.open(
-          "Si è verificato un errore durante la creazione dell'ordine.",
-          'Chiudi',
-          { duration: 6000 }
-        );
-        console.error("[Checkout] Errore nella creazione dell'ordine:", err);
+        return throwError(() => err);
+      })
+    );
+  }
+
+  private updateOrderStatus(ordineId: number, stato: string): Observable<void> {
+    const body: OrdineReq = {
+      id: ordineId,
+      statoOrdine: stato,
+    };
+    return this.ordineApiService.updateStatus(body).pipe(
+      map((res: any) => {
+        if (!res.returnCode)
+          throw new Error(
+            "Errore nell'aggiornamento dello stato dell'ordine: " + res.msg
+          );
+      }),
+      catchError((err) => {
         return throwError(() => err);
       })
     );

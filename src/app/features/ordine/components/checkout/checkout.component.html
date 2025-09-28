@@ -13,12 +13,12 @@
             <div class="row col-2">
               <mat-form-field appearance="outline">
                 <mat-label>Nome</mat-label>
-                <input matInput formControlName="nome" required>
+                <input matInput formControlName="nome">
               </mat-form-field>
 
               <mat-form-field appearance="outline">
                 <mat-label>Cognome</mat-label>
-                <input matInput formControlName="cognome" required>
+                <input matInput formControlName="cognome">
               </mat-form-field>
             </div>
 
@@ -50,8 +50,7 @@
           </form>
 
           <div class="step-actions">
-            <button mat-flat-button color="primary" matStepperNext [disabled]="checkoutForm.invalid"
-              >Continua</button>
+            <button mat-flat-button color="primary" matStepperNext [disabled]="checkoutForm.invalid">Continua</button>
           </div>
         </mat-step>
 
@@ -114,6 +113,10 @@
               </div>
             </div>
 
+            <mat-checkbox class="terms" formControlName="setDefault"
+              *ngIf="pagamentoForm.get('metodo')?.value !== PAYMENT_METHOD_SAVED_ID && pagamentoForm.get('metodo')?.value !== PAYMENT_METHOD_BONIFICO_ID">
+              Usa questo metodo di pagamento per i prossimi acquisti
+            </mat-checkbox>
             <mat-checkbox class="terms" formControlName="terms" required>
               Accetto termini e condizioni e l’informativa sulla privacy *
             </mat-checkbox>

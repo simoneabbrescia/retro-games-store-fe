@@ -26,6 +26,7 @@ import { TerminiComponent } from '@features/termini/termini.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdminComponent } from './features/admin/components/admin/admin.component';
+import { ProfiloComponent } from './features/profilo/components/profilo/profilo.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { AdminComponent } from './features/admin/components/admin/admin.componen
     AccountComponent,
     DashboardComponent,
     AdminComponent,
+    ProfiloComponent,
   ],
   imports: [
     BrowserModule,

@@ -15,6 +15,11 @@ body {
   --mdc-snackbar-supporting-text-color: #fff; /* testo bianco */
 }
 
+.mat-mdc-snack-bar-container.snackbar-error {
+  --mdc-snackbar-container-color: #f44336; /* rosso */
+  --mdc-snackbar-supporting-text-color: #fff; /* testo bianco */
+}
+
 .mat-mdc-button.mat-mdc-snack-bar-action:not(:disabled) {
   color: white !important;
 }

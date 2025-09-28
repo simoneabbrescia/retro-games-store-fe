@@ -53,3 +53,7 @@
   height: auto;
   object-fit: contain;
 }
+
+.product-image {
+  cursor: pointer;
+}
