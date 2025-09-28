@@ -1,0 +1,103 @@
+/* Container principale */
+.termini-container {
+  max-width: 880px;
+  margin: 64px auto;
+  padding: 48px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  color: #2d2d2d;
+  line-height: 1.75;
+}
+
+/* Titolo principale */
+.termini-container h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #1f2937;
+  border-left: 4px solid #4A90E2;
+  padding-left: 12px;
+}
+
+/* Sottotitoli */
+.termini-container h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  color: #374151;
+}
+
+/* Paragrafi */
+.termini-container p {
+  font-size: 16px;
+  color: #4b5563;
+  margin-bottom: 16px;
+}
+
+/* Linea divisoria */
+.termini-container hr {
+  margin: 40px 0;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Bottone "Torna indietro" */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 48px;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  background-color: #4A90E2;
+  color: #ffffff;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.25);
+}
+
+.back-btn:hover {
+  background-color: #3c7cc4;
+  transform: translateY(-1px);
+}
+
+.back-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.35);
+}
+
+.back-btn i {
+  font-style: normal;
+  font-size: 17px;
+  line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .termini-container {
+    padding: 32px 20px;
+  }
+
+  .termini-container h1 {
+    font-size: 26px;
+  }
+
+  .termini-container h2 {
+    font-size: 20px;
+  }
+
+  .termini-container p {
+    font-size: 15px;
+  }
+
+  .back-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
