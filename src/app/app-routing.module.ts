@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { authAdminGuard, authGuard } from '@core/guards';
-import { alreadyAuthGuard } from '@core/guards/already-auth.guard';
+import { alreadyAuthGuard, authAdminGuard, authGuard } from '@core/guards';
 import { AdminComponent, DashboardComponent } from '@features/admin';
 import { CarrelloComponent } from '@features/carrello';
 import { ContattiComponent } from '@features/contatti';
 import { AccediComponent, RegistratiComponent } from '@features/credenziale';
 import { FaqComponent } from '@features/faq';
 import { HomeComponent } from '@features/home';
-import { NonAutorizzatoComponent } from '@features/non-autorizzato/non-autorizzato.component';
+import { NonAutorizzatoComponent } from '@features/non-autorizzato';
 import { CheckoutComponent } from '@features/ordine';
 import { DettaglioProdottoComponent } from '@features/prodotto';
-import { ProfiloCredenzialiComponent } from '@features/profilo/components/profilo-credenziali/profilo-credenziali.component';
-import { ProfiloInformazioniPersonaliComponent } from '@features/profilo/components/profilo-informazioni-personali/profilo-informazioni-personali.component';
-import { ProfiloMetodoPagamentoComponent } from '@features/profilo/components/profilo-metodo-pagamento/profilo-metodo-pagamento.component';
-import { ProfiloStoricoOrdiniComponent } from '@features/profilo/components/profilo-storico-ordini/profilo-storico-ordini.component';
-import { ProfiloComponent } from '@features/profilo/components/profilo/profilo.component';
+import {
+  ProfiloComponent,
+  ProfiloCredenzialiComponent,
+  ProfiloInformazioniPersonaliComponent,
+  ProfiloMetodoPagamentoComponent,
+  ProfiloStoricoOrdiniComponent,
+} from '@features/profilo';
 import { TerminiComponent } from '@features/termini';
 
 const routes: Routes = [
@@ -98,13 +99,13 @@ const routes: Routes = [
       },
       { path: 'credenziali', component: ProfiloCredenzialiComponent },
       { path: 'metodo-pagamento', component: ProfiloMetodoPagamentoComponent },
-      { path: 'storico-ordini', component: ProfiloStoricoOrdiniComponent }
+      { path: 'storico-ordini', component: ProfiloStoricoOrdiniComponent },
     ],
   },
   {
     path: '401',
     title: 'Non Autorizzato',
-    component: NonAutorizzatoComponent
+    component: NonAutorizzatoComponent,
   },
 ];
 
