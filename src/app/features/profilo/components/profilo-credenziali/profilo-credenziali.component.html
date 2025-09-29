@@ -1,1 +1,45 @@
-<p>profilo-credenziali works!</p>
+<mat-card class="info-card" appearance="outlined">
+  <mat-card-header class="card-header">
+    <div mat-card-avatar class="avatar">
+      <mat-icon>key</mat-icon>
+    </div>
+    <mat-card-title>Credenziali</mat-card-title>
+    <mat-card-subtitle>Email e password</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="content">
+    <!-- Sezione anagrafica -->
+    <form [formGroup]="infoForm" (ngSubmit)="onSave()" [class.readonly]="!isEditing">
+      <div class="row g-2">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" [readonly]="!isEditing">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row g-2" style="padding-bottom: 16px;">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" [readonly]="!isEditing">
+            <!-- Hint sostituisce lo span per aderire allo stile Material -->
+            <mat-hint align="start" class="password-hint">Lasciare vuoto per mantenere la password attuale</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 mt-3">
+        <button *ngIf="!isEditing" mat-stroked-button color="primary" type="button" (click)="onEdit()">
+          <mat-icon>edit</mat-icon> Modifica
+        </button>
+
+        <ng-container *ngIf="isEditing">
+          <button mat-stroked-button color="warn" type="button" (click)="onCancel()">Annulla</button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="infoForm.invalid">Salva</button>
+        </ng-container>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

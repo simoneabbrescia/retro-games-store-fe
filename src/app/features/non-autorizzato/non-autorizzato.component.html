@@ -1,0 +1,23 @@
+<main class="container" role="main" aria-labelledby="error-title">
+  <mat-card class="card">
+    <div class="icon-wrap" aria-hidden="true">
+      <mat-icon class="icon">lock</mat-icon>
+    </div>
+
+    <h1 id="error-title" class="title">401 — Non autorizzato</h1>
+
+    <p class="subtitle">
+      Non disponi dei permessi per accedere a questa risorsa.
+    </p>
+
+    <div class="actions">
+      <a mat-flat-button color="primary" [routerLink]="loginLink()">
+        Vai al login
+      </a>
+
+      <button mat-raised-button type="button" (click)="back()">
+        Torna indietro
+      </button>
+    </div>
+  </mat-card>
+</main>

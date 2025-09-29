@@ -35,4 +35,11 @@ export class AccountApiService {
   update(body: AccountReq): Observable<ResponseBase> {
     return this.http.put<ResponseBase>(`${this.baseUrl}/update`, body);
   }
+
+  /**
+   * Disabilita un account
+   */
+  disable(body: AccountReq): Observable<ResponseBase> {
+    return this.http.put<ResponseBase>(`${this.baseUrl}/disable`, body);
+  }
 }

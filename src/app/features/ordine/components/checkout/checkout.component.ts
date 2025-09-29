@@ -238,15 +238,17 @@ export class CheckoutComponent implements OnInit {
         // 2. Recupera o crea metodo di pagamento
         const metodoId = await firstValueFrom(this.getOrCreatePaymentMethod());
         // 3. Esegue pagamento
-        await firstValueFrom(this.executePayment(metodoId, ordineId));
+        const pagamentoId = await firstValueFrom(this.executePayment(metodoId, ordineId));
         // 4. Aggiorna stato ordine
         await firstValueFrom(this.updateOrderStatus(ordineId, 'Pagato'));
+        // 4b. Aggiorna stato pagamento
+        await firstValueFrom(this.updatePaymentStatus(pagamentoId, 'Successo'));
         // 5. Successo
         this.snack.open('Ordine effettuato con successo!', 'Chiudi', {
           duration: 5000,
           panelClass: ['snackbar-success'],
         });
-        this.router.navigate(['/home']);
+        this.router.navigate(['/profilo/storico-ordini']);
       } catch (err) {
         this.snack.open(
           'Si è verificato un errore nel processo di checkout. Riprova.',
@@ -306,7 +308,7 @@ export class CheckoutComponent implements OnInit {
   private executePayment(
     metodoId: number,
     ordineId: number
-  ): Observable<PagamentoDTO> {
+  ): Observable<number> {
     const body: PagamentoReq = {
       ordineId: ordineId,
       metodoPagamentoId: metodoId,
@@ -315,7 +317,7 @@ export class CheckoutComponent implements OnInit {
     return this.pagamentoApiService.create(body).pipe(
       map((res: ResponseObject<PagamentoDTO>) => {
         if (!res.returnCode) throw new Error('Pagamento fallito: ' + res.msg);
-        return res.dati;
+        return res.dati.id;
       }),
       catchError((err) => {
         return throwError(() => err);
@@ -359,6 +361,24 @@ export class CheckoutComponent implements OnInit {
         if (!res.returnCode)
           throw new Error(
             "Errore nell'aggiornamento dello stato dell'ordine: " + res.msg
+          );
+      }),
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );
+  }
+
+  private updatePaymentStatus(paymentId: number, stato: string): Observable<void> {
+    const body: PagamentoReq = {
+      id: paymentId,
+      statoPagamento: stato,
+    };
+    return this.pagamentoApiService.updateStatus(body).pipe(
+      map((res: any) => {
+        if (!res.returnCode)
+          throw new Error(
+            "Errore nell'aggiornamento dello stato del pagamento: " + res.msg
           );
       }),
       catchError((err) => {

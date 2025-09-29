@@ -1,1 +1,70 @@
-<p>profilo-informazioni-personali works!</p>
+<mat-card class="info-card" appearance="outlined">
+  <mat-card-header class="card-header">
+    <div mat-card-avatar class="avatar">
+      <mat-icon>person</mat-icon>
+    </div>
+    <mat-card-title>Informazioni personali</mat-card-title>
+    <mat-card-subtitle>Dati anagrafici e indirizzo</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="content">
+    <!-- Sezione anagrafica -->
+    <form [formGroup]="infoForm" (ngSubmit)="onSave()" [class.readonly]="!isEditing">
+      <div class="row g-2">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="nome" [readonly]="!isEditing">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Cognome</mat-label>
+            <input matInput formControlName="cognome" [readonly]="!isEditing">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row g-2">
+        <div class="col-md-8">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Via</mat-label>
+            <input matInput formControlName="via" [readonly]="!isEditing">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Città</mat-label>
+            <input matInput formControlName="citta" [readonly]="!isEditing">
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>CAP</mat-label>
+            <input matInput formControlName="cap" [readonly]="!isEditing">
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Nazione</mat-label>
+            <input matInput formControlName="paese" [readonly]="!isEditing">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 mt-3">
+        <button *ngIf="!isEditing" mat-stroked-button color="primary" type="button" (click)="onEdit()">
+          <mat-icon>edit</mat-icon> Modifica
+        </button>
+
+        <ng-container *ngIf="isEditing">
+          <button mat-stroked-button color="warn" type="button" (click)="onCancel()">Annulla</button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="infoForm.invalid">Salva</button>
+        </ng-container>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,20 @@
+:host {
+  display: block;
+  max-width: 400px;
+}
+.message {
+  margin: 0;
+  line-height: 1.4;
+}
+.d-flex {
+  display: flex;
+}
+.align-center {
+  align-items: center;
+}
+.gap {
+  gap: 8px;
+}
+.dialog-container {
+  padding: 6px;
+}

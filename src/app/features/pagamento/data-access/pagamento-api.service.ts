@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResponseObject } from '@core/types';
+import { ResponseBase, ResponseObject } from '@core/types';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { PagamentoReq } from './dtos/pagamento-request.dto';
@@ -20,4 +20,8 @@ export class PagamentoApiService {
       req
     );
   }
+
+  updateStatus(req: PagamentoReq): Observable<ResponseBase> {
+      return this.http.put<ResponseBase>(`${this.baseUrl}/update-status`, req);
+    }
 }

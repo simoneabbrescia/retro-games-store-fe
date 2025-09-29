@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authAdminGuard, authGuard } from '@core/guards';
+import { alreadyAuthGuard } from '@core/guards/already-auth.guard';
 import { AdminComponent, DashboardComponent } from '@features/admin';
 import { CarrelloComponent } from '@features/carrello';
 import { ContattiComponent } from '@features/contatti';
 import { AccediComponent, RegistratiComponent } from '@features/credenziale';
 import { FaqComponent } from '@features/faq';
 import { HomeComponent } from '@features/home';
+import { NonAutorizzatoComponent } from '@features/non-autorizzato/non-autorizzato.component';
 import { CheckoutComponent } from '@features/ordine';
 import { DettaglioProdottoComponent } from '@features/prodotto';
 import { ProfiloCredenzialiComponent } from '@features/profilo/components/profilo-credenziali/profilo-credenziali.component';
-import { ProfiloEliminaAccountComponent } from '@features/profilo/components/profilo-elimina-account/profilo-elimina-account.component';
 import { ProfiloInformazioniPersonaliComponent } from '@features/profilo/components/profilo-informazioni-personali/profilo-informazioni-personali.component';
 import { ProfiloMetodoPagamentoComponent } from '@features/profilo/components/profilo-metodo-pagamento/profilo-metodo-pagamento.component';
 import { ProfiloStoricoOrdiniComponent } from '@features/profilo/components/profilo-storico-ordini/profilo-storico-ordini.component';
@@ -42,11 +43,13 @@ const routes: Routes = [
     path: 'accedi',
     title: 'Accedi',
     component: AccediComponent,
+    canActivate: [alreadyAuthGuard],
   },
   {
     path: 'registrati',
     title: 'Registrati',
     component: RegistratiComponent,
+    canActivate: [alreadyAuthGuard],
   },
   {
     path: 'prodotti/:id',
@@ -86,6 +89,7 @@ const routes: Routes = [
     path: 'profilo',
     component: ProfiloComponent,
     canActivate: [authGuard],
+    title: 'Profilo',
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'informazioni-personali' },
       {
@@ -94,9 +98,13 @@ const routes: Routes = [
       },
       { path: 'credenziali', component: ProfiloCredenzialiComponent },
       { path: 'metodo-pagamento', component: ProfiloMetodoPagamentoComponent },
-      { path: 'storico-ordini', component: ProfiloStoricoOrdiniComponent },
-      { path: 'elimina-account', component: ProfiloEliminaAccountComponent },
+      { path: 'storico-ordini', component: ProfiloStoricoOrdiniComponent }
     ],
+  },
+  {
+    path: '401',
+    title: 'Non Autorizzato',
+    component: NonAutorizzatoComponent
   },
 ];
 

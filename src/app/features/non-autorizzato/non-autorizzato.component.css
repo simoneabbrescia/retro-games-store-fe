@@ -1,0 +1,75 @@
+host {
+  display: block;
+  min-height: 100dvh;
+  background: var(--mat-sys-surface, #fafafa);
+}
+.container {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.card {
+  width: min(720px, 100%);
+  text-align: center;
+  padding: 24px;
+  border-radius: 20px;
+}
+.icon-wrap {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 8px;
+  border-radius: 999px;
+  background: color-mix(
+    in oklab,
+    var(--mat-sys-primary, #6750a4) 12%,
+    transparent
+  );
+}
+.icon {
+  font-size: 32px;
+  line-height: 24px;
+  padding-right: 30px;
+  color: var(--mat-sys-primary, #6750a4);
+  overflow: visible;
+}
+.title {
+  margin: 8px 0 6px;
+  font-size: clamp(1.25rem, 1.6rem + 0.5vw, 2rem);
+  font-weight: 700;
+}
+.subtitle {
+  margin: 0 0 12px;
+  color: rgba(0, 0, 0, 0.72);
+}
+.url {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.06);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 16px 0 8px;
+}
+.hint {
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+@media (prefers-color-scheme: dark) {
+  :host {
+    background: var(--mat-sys-surface-container-low, #121212);
+  }
+  .subtitle,
+  .hint {
+    color: rgba(255, 255, 255, 0.75);
+  }
+  .url {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}

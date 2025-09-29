@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResponseObject } from '@core/types';
+import { ResponseBase, ResponseObject } from '@core/types';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { CredenzialeReq } from './dtos/credenziale-request.dto';
@@ -26,5 +26,13 @@ export class CredenzialeApiService {
       `${this.baseUrl}/login`,
       req
     );
+  }
+
+  updateEmail(req: CredenzialeReq): Observable<ResponseBase> {
+    return this.http.put<ResponseBase>(`${this.baseUrl}/update-email`, req);
+  }
+
+  updatePassword(req: CredenzialeReq): Observable<ResponseBase> {
+    return this.http.put<ResponseBase>(`${this.baseUrl}/update-password`, req);
   }
 }

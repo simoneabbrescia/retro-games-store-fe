@@ -9,12 +9,12 @@
       </div>
       <div class="flex-grow-1">
         <div class="d-flex align-items-center gap-2">
-          <h1 class="title m-0">{{this.account.nome}} {{this.account.cognome}}</h1>
-          <mat-chip color="primary" selected>{{this.account.ruolo.nome}}</mat-chip>
+          <h1 class="title m-0">{{this.account?.nome}} {{this.account?.cognome}}</h1>
+          <mat-chip color="primary" selected>{{this.account?.ruolo?.nome}}</mat-chip>
         </div>
         <div class="meta d-flex align-items-center gap-2">
           <mat-icon>email</mat-icon>
-          <span>{{this.account.credenziale.email}}</span>
+          <span>{{this.account?.credenziale?.email}}</span>
         </div>
       </div>
     </div>
@@ -48,12 +48,12 @@
 
           <mat-divider></mat-divider>
 
-          <a mat-list-item (click)="onLogout()" routerLinkActive="active">
+          <a mat-list-item (click)="onLogout()">
             <mat-icon matListItemIcon>logout</mat-icon>
-            <span matListItemTitle>Logout</span>
+            <span matListItemTitle>Esci</span>
           </a>
 
-          <a mat-list-item routerLink="/profilo/elimina-account" routerLinkActive="active" class="danger">
+          <a mat-list-item (click)="onDeleteAccount()" class="danger">
             <mat-icon matListItemIcon>delete_forever</mat-icon>
             <span matListItemTitle>Elimina account</span>
           </a>
