@@ -37,7 +37,7 @@ import {
   selector: 'app-checkout',
   standalone: false,
   templateUrl: './checkout.component.html',
-  styleUrl: './checkout.component.css',
+  styleUrls: ['./checkout.component.css'],
 })
 export class CheckoutComponent implements OnInit {
   // DATA STATE
@@ -246,7 +246,7 @@ export class CheckoutComponent implements OnInit {
           duration: 5000,
           panelClass: ['snackbar-success'],
         });
-        this.router.navigate(['/profilo']);
+        this.router.navigate(['/home']);
       } catch (err) {
         this.snack.open(
           'Si è verificato un errore nel processo di checkout. Riprova.',

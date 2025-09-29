@@ -23,7 +23,7 @@ export class CredenzialeService {
         if (!res.returnCode) {
           return of({ success: false, errorMsg: 'Credenziali errate' });
         }
-        // Carico account
+        // Carica account e aggiorna stato admin
         return this.accountService.setAccountId(res.dati.accountId).pipe(
           map(() => {
             const isAdmin = this.accountService.isAdmin;

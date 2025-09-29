@@ -7,6 +7,7 @@ import { AccountService } from '@features/account';
 })
 export class AuthService {
   private readonly IS_LOGGED_KEY = 'isLogged';
+  private readonly IS_ADMIN_KEY = 'isAdmin';
 
   // Signals interni (scrivibili solo dal service)
   private _isLogged = signal(false);
@@ -22,6 +23,7 @@ export class AuthService {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this._isLogged.set(sessionStorage.getItem(this.IS_LOGGED_KEY) === '1');
+      this._isAdmin.set(sessionStorage.getItem(this.IS_ADMIN_KEY) === '1');
     }
   }
 
@@ -37,12 +39,14 @@ export class AuthService {
     this._isLogged.set(true);
     this._isAdmin.set(isAdmin);
     this.updateSessionStorage(this.IS_LOGGED_KEY, true);
+    this.updateSessionStorage(this.IS_ADMIN_KEY, isAdmin);
   }
 
   public reset(): void {
     this._isLogged.set(false);
     this._isAdmin.set(false);
     this.updateSessionStorage(this.IS_LOGGED_KEY, false);
+    this.updateSessionStorage(this.IS_ADMIN_KEY, false);
     this.accountService.clearAccount();
   }
 

@@ -8,7 +8,7 @@ import { CredenzialeReq, CredenzialeService } from '@features/credenziale';
   selector: 'app-accedi',
   standalone: false,
   templateUrl: './accedi.component.html',
-  styleUrl: './accedi.component.css',
+  styleUrls: ['./accedi.component.css'],
 })
 export class AccediComponent implements OnInit {
   accediForm!: FormGroup;
@@ -84,7 +84,7 @@ export class AccediComponent implements OnInit {
 
         if (res.success) {
           // Navigazione basata sul ruolo
-          this.router.navigate([res.isAdmin ? '/admin/dashboard' : '/profilo']);
+          this.router.navigate([res.isAdmin ? '/admin/dashboard' : '/home']);
         } else {
           // Messaggio di errore proveniente dal service
           this.errorMsg = res.errorMsg;

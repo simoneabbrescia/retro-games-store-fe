@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authAdminGuard, authGuard } from '@core/guards';
-import { DashboardComponent } from '@features/admin';
-import { AdminComponent } from '@features/admin/components/admin/admin.component';
+import { AdminComponent, DashboardComponent } from '@features/admin';
 import { CarrelloComponent } from '@features/carrello';
 import { ContattiComponent } from '@features/contatti';
 import { AccediComponent, RegistratiComponent } from '@features/credenziale';
@@ -16,7 +15,7 @@ import { ProfiloInformazioniPersonaliComponent } from '@features/profilo/compone
 import { ProfiloMetodoPagamentoComponent } from '@features/profilo/components/profilo-metodo-pagamento/profilo-metodo-pagamento.component';
 import { ProfiloStoricoOrdiniComponent } from '@features/profilo/components/profilo-storico-ordini/profilo-storico-ordini.component';
 import { ProfiloComponent } from '@features/profilo/components/profilo/profilo.component';
-import { TerminiComponent } from '@features/termini/termini.component';
+import { TerminiComponent } from '@features/termini';
 
 const routes: Routes = [
   {
@@ -72,6 +71,7 @@ const routes: Routes = [
   },
   {
     path: 'admin',
+    title: 'Admin',
     component: AdminComponent,
     canActivate: [authAdminGuard],
     children: [
@@ -87,14 +87,17 @@ const routes: Routes = [
     component: ProfiloComponent,
     canActivate: [authGuard],
     children: [
-      {path: '', pathMatch: 'full', redirectTo: 'informazioni-personali' },
-      { path: 'informazioni-personali', component: ProfiloInformazioniPersonaliComponent },
+      { path: '', pathMatch: 'full', redirectTo: 'informazioni-personali' },
+      {
+        path: 'informazioni-personali',
+        component: ProfiloInformazioniPersonaliComponent,
+      },
       { path: 'credenziali', component: ProfiloCredenzialiComponent },
       { path: 'metodo-pagamento', component: ProfiloMetodoPagamentoComponent },
       { path: 'storico-ordini', component: ProfiloStoricoOrdiniComponent },
       { path: 'elimina-account', component: ProfiloEliminaAccountComponent },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
