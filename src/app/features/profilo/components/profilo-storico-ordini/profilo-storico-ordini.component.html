@@ -1,1 +1,121 @@
-<p>profilo-storico-ordini works!</p>
+<mat-card class="orders-card" appearance="outlined">
+  <mat-card-header>
+    <div mat-card-avatar class="avatar">
+      <mat-icon>receipt_long</mat-icon>
+    </div>
+    <mat-card-title>Storico ordini</mat-card-title>
+    <mat-card-subtitle *ngIf="ordini!.length">Hai {{ ordini.length }} ordin{{ ordini.length === 1 ? 'e' : 'i'
+      }}</mat-card-subtitle>
+    <mat-card-subtitle *ngIf="!ordini || !ordini.length">Nessun ordine effettuato</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <!-- Stato vuoto -->
+    <div class="empty" *ngIf="!ordini || !ordini.length">
+      <mat-icon>inventory_2</mat-icon>
+      <p>Non ci sono ordini al momento.</p>
+      <a mat-stroked-button color="primary" routerLink="/catalogo">Vai al catalogo</a>
+    </div>
+
+    <!-- Lista ordini -->
+    <mat-accordion multi *ngIf="ordini!.length">
+      <mat-expansion-panel class="order-panel" *ngFor="let o of ordini">
+        <mat-expansion-panel-header>
+          <div class="header-grid">
+            <div class="h-left">
+              <div class="id">
+                <span class="muted">Ordine</span>
+                <strong>#{{ o.id }}</strong>
+              </div>
+              <mat-chip [ngClass]="o.statoOrdine | lowercase" selected>{{ o.statoOrdine }}</mat-chip>
+            </div>
+
+            <div class="h-center">
+              <div class="total">
+                <span class="muted">Totale</span>
+                <strong>{{ o.totale | currency:'EUR':'symbol':'1.2-2' }}</strong>
+              </div>
+              <div class="qty">
+                <span class="muted">Articoli</span>
+                <strong>{{ o.totaleQuantita }}</strong>
+              </div>
+            </div>
+
+            <div class="h-right">
+              <div class="pay">
+                <mat-icon>payments</mat-icon>
+                <span class="pay-label">
+                  {{ o.pagamento!.metodoPagamento!.tipo!.nome === 'Carta (Visa, Mastercard, AMEX)' ? 'Carta' : o.pagamento!.metodoPagamento!.tipo!.nome }}
+                  <ng-container *ngIf="o.pagamento!.metodoPagamento!.token && o.pagamento!.metodoPagamento!.tipo!.nome !== 'Bonifico bancario'">
+                    ({{ o.pagamento.metodoPagamento.token }})
+                  </ng-container>
+                </span>
+              </div>
+              <div class="addr">
+                <mat-icon>local_shipping</mat-icon>
+                <span class="addr-label">
+                  {{ o.indirizzoSpedizione!.via }}, {{ o.indirizzoSpedizione!.citta }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel-header>
+
+        <div class="panel-content">
+          <!-- Righe ordine -->
+          <div class="items">
+            <div class="item" *ngFor="let r of o.righe">
+              <div class="thumb">
+                <img style="cursor: pointer;" [src]="r.prodotto!.imgUrl" [alt]="r.prodotto!.nome" loading="lazy" [routerLink]="['/prodotti', r.prodotto!.id]">
+              </div>
+              <div class="info">
+                <div style="cursor: pointer;" class="name" [routerLink]="['/prodotti', r.prodotto!.id]">{{ r.prodotto!.nome }}</div>
+                <div class="meta">
+                  <span class="chip">{{ r.prodotto!.categoria }}</span>
+                  <span class="qty">Qtà: {{ r.quantita }}</span>
+                </div>
+              </div>
+              <div class="prices">
+                <div class="u">
+                  <span class="muted">Prezzo </span>
+                  <strong> {{ r.prezzoUnitario | currency:'EUR':'symbol':'1.2-2' }}</strong>
+                </div>
+                <div class="s">
+                  <span class="muted">Subtotale </span>
+                  <strong> {{ r.subTotale | currency:'EUR':'symbol':'1.2-2' }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <!-- Riepilogo & spedizione -->
+          <div class="footer-grid">
+            <div class="shipping">
+              <h4 class="sub">Indirizzo di spedizione</h4>
+              <p class="addr-block">
+                {{ o.indirizzoSpedizione!.via }}<br>
+                {{ o.indirizzoSpedizione!.cap }} — {{ o.indirizzoSpedizione!.citta }} ({{ o.indirizzoSpedizione!.paese
+                }})
+              </p>
+            </div>
+
+            <div class="summary">
+              <div class="row">
+                <span>Articoli</span>
+                <span>{{ o.totaleQuantita }}</span>
+              </div>
+              <div class="row grand">
+                <span>Totale</span>
+                <span>{{ o.totale | currency:'EUR':'symbol':'1.2-2' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,299 @@
+/* Card generale */
+.info-card {
+  border-radius: 16px;
+  overflow: hidden; /* mantiene gli angoli puliti */
+  background: var(--mat-sys-surface, #fff);
+}
+
+/* Header: compattiamo e stacchiamo il bottone dall'angolo */
+.card-header {
+  position: relative;
+  padding: 14px 16px; /* meno altezza */
+}
+.header-actions {
+  position: absolute;
+  top: 10px; /* prima era troppo su */
+  right: 10px;
+}
+.btn-edit.mat-mdc-outlined-button {
+  height: 36px; /* stessa altezza degli input Material */
+  padding: 0 12px;
+}
+
+/* Divider con respiro */
+mat-divider {
+  margin: 8px 0 16px; /* stacca visualmente le sezioni */
+}
+
+/* Sezioni: left-align (prima erano centrate) e spazi coerenti */
+.section {
+  padding: 4px 0 8px;
+}
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  padding-left: 0px;
+}
+
+/* Gutter Bootstrap più “fit” dentro Material */
+.row.g-3 {
+  --bs-gutter-x: 16px;
+  --bs-gutter-y: 16px;
+}
+
+/* Colonne responsive migliori sui blocchi indirizzo */
+@media (max-width: 992px) {
+  .col-md-6,
+  .col-md-3 {
+    width: 100%;
+  }
+}
+
+/* Micro-tuning del titolo card per non sembrare “grigio spento” */
+mat-card-title {
+  color: var(--mat-sys-on-surface, #0f172a);
+  font-weight: 800;
+}
+mat-card-subtitle {
+  color: rgba(0, 0, 0, 0.72);
+}
+
+.info-card {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.card-header {
+  position: relative;
+  padding-right: 120px; /* spazio per il pulsante Modifica */
+}
+
+.avatar {
+  background: var(--mat-sys-primary, #3b82f6);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+.avatar .mat-icon {
+  color: #fff;
+}
+
+.header-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+.btn-edit mat-icon {
+  margin-right: 6px;
+}
+
+.content {
+  position: relative;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.9;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeIn 0.35s ease;
+}
+
+.summary-row {
+  --row-bg: rgba(255, 255, 255, 0.55);
+  position: relative;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 14px 16px 13px 18px;
+  background: var(--row-bg);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 14px;
+  line-height: 1.25;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+}
+
+.summary-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0)
+  );
+  opacity: 0;
+  transition: opacity 0.35s;
+  pointer-events: none;
+}
+
+.summary-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  border-radius: 4px;
+  background: linear-gradient(
+    180deg,
+    var(--accent),
+    color-mix(in srgb, var(--accent) 60%, #ffffff)
+  );
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.summary-row:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+  transform: translateY(-2px);
+}
+
+.summary-row:hover::before {
+  opacity: 1;
+}
+
+.summary-label {
+  min-width: 64px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  margin-top: 2px;
+  color: color-mix(in srgb, var(--accent) 70%, #1e293b);
+}
+
+.summary-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.summary-value.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Roboto Mono",
+    monospace;
+  letter-spacing: 0.4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.empty {
+  padding: 14px 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  font-size: 14px;
+  color: #64748b;
+  background: linear-gradient(140deg, #f8fafc 0%, #f1f5f9 100%);
+  font-weight: 500;
+}
+
+.actions {
+  margin-top: 4px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tipo-radio {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 4px 0 2px;
+  animation: fadeIn 0.3s ease;
+}
+
+.tipo-radio mat-radio-button {
+  padding: 4px 10px 4px 4px;
+  border-radius: 22px;
+  transition: background 0.25s;
+}
+
+.tipo-radio mat-radio-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.field-block {
+  animation: slideFade 0.35s ease;
+}
+
+.mat-mdc-form-field {
+  --mdc-outlined-text-field-container-shape: 14px;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 4px 2px 2px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start; /* prima era flex-end */
+  margin-top: 4px;
+}
+
+.edit-actions button {
+  min-width: 120px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 20px 16px 22px;
+    gap: 22px;
+  }
+  .summary-row {
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 14px 13px 16px;
+  }
+  .edit-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

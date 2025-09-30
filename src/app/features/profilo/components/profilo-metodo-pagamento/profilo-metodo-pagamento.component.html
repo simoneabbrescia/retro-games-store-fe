@@ -1,1 +1,92 @@
-<p>profilo-metodo-pagamento works!</p>
+<mat-card class="info-card" appearance="outlined">
+  <mat-card-header class="card-header">
+    <div mat-card-avatar class="avatar">
+      <mat-icon>credit_card</mat-icon>
+    </div>
+    <mat-card-title>Metodo di pagamento</mat-card-title>
+    <mat-card-subtitle>
+      Visualizza o aggiorna il tuo metodo (Carta o PayPal)
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="content">
+    <!-- VIEW MODE -->
+    <div *ngIf="!isEditing" class="summary" data-testid="payment-summary">
+      <ng-container *ngIf="metodoPagamentoDefault; else noMetodo">
+        <div class="summary-row">
+          <div class="summary-label">Tipo</div>
+          <div class="summary-value">{{ metodoLabel }}</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-label">
+            {{ metodoLabel === 'Carta (Visa, Mastercard, AMEX)' ? 'Numero' : 'Email' }}
+          </div>
+          <div class="summary-value mono">{{ this.metodoPagamentoDefault.token }}</div>
+        </div>
+      </ng-container>
+      <ng-template #noMetodo>
+        <div class="empty">Nessun metodo salvato.</div>
+      </ng-template>
+      <div class="actions">
+        <button mat-stroked-button color="primary" type="button" (click)="onEdit()">
+          <mat-icon>edit</mat-icon>
+          {{ metodoPagamentoDefault ? 'Modifica' : 'Aggiungi' }}
+        </button>
+        <button
+          *ngIf="metodoPagamentoDefault"
+          mat-stroked-button
+          color="red"
+          type="button"
+          (click)="onDelete()"
+          [disabled]="isDeleting"
+        >
+          <mat-icon>delete</mat-icon>
+          {{ isDeleting ? 'Elimino...' : 'Elimina' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- EDIT MODE -->
+    <form *ngIf="isEditing" [formGroup]="pagamentoForm" (ngSubmit)="salvaMetodo()" class="edit-form" novalidate>
+      <mat-radio-group class="tipo-radio" aria-label="Tipo di metodo" formControlName="metodo" required>
+        <mat-radio-button [value]="PAYMENT_METHOD_CARD_ID">
+          Carta
+        </mat-radio-button>
+        <mat-radio-button [value]="PAYMENT_METHOD_PAYPAL_ID">
+          PayPal
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <div class="field-block" *ngIf="pagamentoForm.get('metodo')?.value === PAYMENT_METHOD_CARD_ID">
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Numero carta</mat-label>
+          <input matInput inputmode="numeric" autocomplete="cc-number" maxlength="19" formControlName="card" required />
+          <mat-error *ngIf="pagamentoForm.get('card')?.hasError('required')">
+            Obbligatorio
+          </mat-error>
+          <mat-error *ngIf="pagamentoForm.get('card')?.hasError('pattern')">
+            Formato non valido
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="field-block" *ngIf="pagamentoForm.get('metodo')?.value === PAYMENT_METHOD_PAYPAL_ID">
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Email PayPal</mat-label>
+          <input matInput type="email" autocomplete="email" formControlName="email" required />
+          <mat-error *ngIf="pagamentoForm.get('email')?.hasError('required')">Obbligatoria</mat-error>
+          <mat-error *ngIf="pagamentoForm.get('email')?.hasError('email')">Formato non valido</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="edit-actions">
+        <button mat-stroked-button type="button" color="warn" (click)="onCancel()" [disabled]="isSaving">
+          Annulla
+        </button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="pagamentoForm.invalid || isSaving">
+          {{ isSaving ? 'Salvataggio...' : 'Salva' }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

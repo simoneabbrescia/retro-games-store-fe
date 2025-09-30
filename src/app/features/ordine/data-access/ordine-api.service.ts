@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ResponseBase, ResponseObject } from '@core/types';
 import { environment } from 'environments/environment';
@@ -23,5 +23,13 @@ export class OrdineApiService {
 
   updateStatus(req: OrdineReq): Observable<ResponseBase> {
     return this.http.put<ResponseBase>(`${this.baseUrl}/update-status`, req);
+  }
+
+  getAllByAccountId(accountId: number): Observable<ResponseObject<OrdineDTO[]>> {
+    const httpParams = new HttpParams().set('accountId', accountId.toString());
+    return this.http.get<ResponseObject<OrdineDTO[]>>(
+      `${this.baseUrl}/list-by-account`,
+      { params: httpParams }
+    );
   }
 }
