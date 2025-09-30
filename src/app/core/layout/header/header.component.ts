@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '@core/services';
 import { ResponseBase, ResponseList, ResponseObject } from '@core/types';
 import { AccountService } from '@features/account';
@@ -6,6 +6,10 @@ import { CarrelloApiService, CarrelloDTO } from '@features/carrello';
 import { CarrelloRigaApiService } from '@features/carrello-riga';
 import { CategoriaApiService, CategoriaDTO } from '@features/categoria';
 import { PiattaformaApiService, PiattaformaDTO } from '@features/piattaforma';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -30,7 +34,9 @@ export class HeaderComponent implements OnInit {
     private piattaformaApiService: PiattaformaApiService,
     private categoriaApiService: CategoriaApiService,
     private carrelloApiService: CarrelloApiService,
-    private carrelloRigaApiService: CarrelloRigaApiService
+    private carrelloRigaApiService: CarrelloRigaApiService,
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -98,5 +104,27 @@ export class HeaderComponent implements OnInit {
           );
         },
       });
+  }
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin;
+  }
+
+  public onLogout(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Logout',
+        message: "Sei sicuro di voler uscire dall'account?",
+        confirmText: 'Esci',
+        cancelText: 'Annulla',
+        icon: 'logout',
+      },
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.authService.logout();
+        this.router.navigate(['/accedi']);
+      }
+    });
   }
 }

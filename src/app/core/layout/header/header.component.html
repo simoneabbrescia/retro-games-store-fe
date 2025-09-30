@@ -31,6 +31,15 @@
           <div class="middle-right-area" style="justify-content: flex-end">
             <div class="nav-hotline"></div>
 
+            <!-- Admin -->
+             <div class="navbar-cart" style="margin-right: 10px" *ngIf="isLoggedIn() && isAdmin();">
+              <div class="cart-items">
+                <a [routerLink]="['/admin']" class="main-btn">
+                  <i class="lni lni-shield"></i>
+                </a>
+              </div>
+            </div>
+
             <!-- Profilo -->
             <div class="navbar-cart" style="margin-right: 10px" *ngIf="isLoggedIn();">
               <div class="cart-items">
@@ -153,6 +162,16 @@
               </li>
               <li class="nav-item" style="height: 100%">
                 <a routerLink="/registrati" class="nav-link px-2">Registrati</a>
+              </li>
+            </ul>
+          </div>
+          <div class="w-100 d-flex justify-content-end align-items-center" *ngIf="isLoggedIn();">
+            <ul class="navbar-nav flex-row align-items-center">
+              <li class="nav-item ms-auto" style="height: 100%; margin-right: 0px">
+                <a (click)="onLogout()" class="nav-link px-2" style="cursor: pointer">
+                  <mat-icon matListItemIcon style="margin-right:5px;">logout</mat-icon>
+                  Esci
+                </a>
               </li>
             </ul>
           </div>
