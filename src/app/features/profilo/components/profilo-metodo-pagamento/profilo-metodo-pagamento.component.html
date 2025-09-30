@@ -19,7 +19,7 @@
         </div>
         <div class="summary-row">
           <div class="summary-label">
-            {{ metodoLabel === 'Carta (Visa, Mastercard, AMEX)' ? 'Numero' : 'Email' }}
+            {{ metodoPagamentoDefault.tipo.id === +PAYMENT_METHOD_CARD_ID ? 'Numero' : 'Email' }}
           </div>
           <div class="summary-value mono">{{ this.metodoPagamentoDefault.token }}</div>
         </div>

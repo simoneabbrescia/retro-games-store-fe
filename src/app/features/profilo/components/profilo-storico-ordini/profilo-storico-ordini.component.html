@@ -47,7 +47,7 @@
               <div class="pay">
                 <mat-icon>payments</mat-icon>
                 <span class="pay-label">
-                  {{ o.pagamento!.metodoPagamento!.tipo!.nome === 'Carta (Visa, Mastercard, AMEX)' ? 'Carta' : o.pagamento!.metodoPagamento!.tipo!.nome }}
+                  {{ o.pagamento!.metodoPagamento!.tipo!.id === 1 ? 'Carta' : o.pagamento!.metodoPagamento!.tipo!.nome }}
                   <ng-container *ngIf="o.pagamento!.metodoPagamento!.token && o.pagamento!.metodoPagamento!.tipo!.nome !== 'Bonifico bancario'">
                     ({{ o.pagamento.metodoPagamento.token }})
                   </ng-container>
