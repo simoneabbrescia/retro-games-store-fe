@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResponseBase, ResponseObject } from '@core/types';
+import { ResponseBase, ResponseList, ResponseObject } from '@core/types';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { MetodoPagamentoReq } from './dtos/metodo-pagamento-request.dto';
@@ -23,11 +23,11 @@ export class MetodoPagamentoApiService {
     );
   }
 
-  getAllByAccountId(
+  listActiveByAccountId(
     accountId: number
-  ): Observable<ResponseObject<MetodoPagamentoDTO[]>> {
+  ): Observable<ResponseList<MetodoPagamentoDTO>> {
     const httpParams = new HttpParams().set('accountId', accountId.toString());
-    return this.http.get<ResponseObject<MetodoPagamentoDTO[]>>(
+    return this.http.get<ResponseList<MetodoPagamentoDTO>>(
       `${this.baseUrl}/list-active-by-account-id`,
       { params: httpParams }
     );

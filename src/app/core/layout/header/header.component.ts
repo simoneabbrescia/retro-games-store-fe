@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AuthService } from '@core/services';
 import { ResponseBase, ResponseList, ResponseObject } from '@core/types';
 import { AccountService } from '@features/account';
@@ -6,10 +8,7 @@ import { CarrelloApiService, CarrelloDTO } from '@features/carrello';
 import { CarrelloRigaApiService } from '@features/carrello-riga';
 import { CategoriaApiService, CategoriaDTO } from '@features/categoria';
 import { PiattaformaApiService, PiattaformaDTO } from '@features/piattaforma';
-import { MatMenuTrigger } from '@angular/material/menu';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -107,7 +106,7 @@ export class HeaderComponent implements OnInit {
   }
 
   isAdmin(): boolean {
-    return this.authService.isAdmin;
+    return this.accountService.isAdmin;
   }
 
   public onLogout(): void {

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResponseBase, ResponseObject } from '@core/types';
+import { ResponseBase, ResponseList, ResponseObject } from '@core/types';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { OrdineReq } from './dtos/ordine-request.dto';
@@ -25,9 +25,9 @@ export class OrdineApiService {
     return this.http.put<ResponseBase>(`${this.baseUrl}/update-status`, req);
   }
 
-  getAllByAccountId(accountId: number): Observable<ResponseObject<OrdineDTO[]>> {
+  listByAccount(accountId: number): Observable<ResponseList<OrdineDTO>> {
     const httpParams = new HttpParams().set('accountId', accountId.toString());
-    return this.http.get<ResponseObject<OrdineDTO[]>>(
+    return this.http.get<ResponseList<OrdineDTO>>(
       `${this.baseUrl}/list-by-account`,
       { params: httpParams }
     );

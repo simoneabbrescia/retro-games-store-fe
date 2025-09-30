@@ -24,13 +24,13 @@ export class ProfiloStoricoOrdiniComponent implements OnInit {
 
   private loadOrdini(): void {
     this.ordineApiService
-      .getAllByAccountId(this.accountService.getAccountId())
+      .listByAccount(this.accountService.getAccountId())
       .subscribe({
-        next: (response: ResponseList<OrdineDTO>) => {
-          this.ordini = response.dati;
+        next: (res: ResponseList<OrdineDTO>) => {
+          this.ordini = res.dati;
         },
-        error: (error) => {
-          console.error('Error loading orders:', error);
+        error: (err: any) => {
+          console.error('Error loading orders:', err);
         },
       });
   }
