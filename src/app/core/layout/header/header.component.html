@@ -17,10 +17,10 @@
             <!-- Navbar Search Start -->
             <div class="navbar-search search-style-5">
               <div class="search-input">
-                <input type="text" placeholder="Cerca" />
+                <input type="text" placeholder="Cerca" [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" />
               </div>
               <div class="search-btn">
-                <button><i class="lni lni-search-alt"></i></button>
+                <button (click)="onSearch()"><i class="lni lni-search-alt"></i></button>
               </div>
             </div>
             <!-- Navbar Search Ends -->
@@ -32,7 +32,7 @@
             <div class="nav-hotline"></div>
 
             <!-- Admin -->
-             <div class="navbar-cart" style="margin-right: 10px" *ngIf="isLoggedIn() && isAdmin();">
+            <div class="navbar-cart" style="margin-right: 10px" *ngIf="isLoggedIn() && isAdmin();">
               <div class="cart-items">
                 <a [routerLink]="['/admin']" class="main-btn">
                   <i class="lni lni-shield"></i>
@@ -111,13 +111,20 @@
               Categorie
             </span>
             <ul class="sub-category">
+              <li>
+                <a href="javascript:void(0)" (click)="onFiltroClick()">
+                  Mostra tutto
+                </a>
+              </li>
               <li *ngFor="let categoria of categorie" [value]="categoria.id">
-                <a [routerLink]="['/']" [queryParams]="{ c: categoria.id }">{{ categoria.nome }}
+                <a href="javascript:void(0)" (click)="onFiltroClick(categoria.id)">{{
+                  categoria.nome }}
                   <i class="lni lni-chevron-right" *ngIf="categoria.nome.toLowerCase() === 'videogiochi'"></i>
                 </a>
                 <ul class="inner-sub-category" *ngIf="categoria.nome.toLowerCase() === 'videogiochi'">
                   <li *ngFor="let piattaforma of piattaforme">
-                    <a [routerLink]="['/']" [queryParams]="{ c: categoria.id, p: piattaforma.id }">{{ piattaforma.nome
+                    <a href="javascript:void(0)" (click)="onFiltroClick(categoria.id, piattaforma.id)">{{
+                      piattaforma.nome
                       }}</a>
                   </li>
                 </ul>

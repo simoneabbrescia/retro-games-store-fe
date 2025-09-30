@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services';
@@ -26,6 +26,12 @@ export class HeaderComponent implements OnInit {
     totaleQuantita: 0,
     totale: 0,
   };
+  searchTerm: string = '';
+  @Output() search = new EventEmitter<string>();
+  @Output() filtroSelezionato = new EventEmitter<{
+    categoriaId?: number;
+    piattaformaId?: number;
+  }>();
 
   constructor(
     private authService: AuthService,
@@ -46,6 +52,10 @@ export class HeaderComponent implements OnInit {
 
   public isLoggedIn(): boolean {
     return this.authService.isLogged;
+  }
+
+  isAdmin(): boolean {
+    return this.accountService.isAdmin;
   }
 
   private loadPiattaforme() {
@@ -105,10 +115,6 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  isAdmin(): boolean {
-    return this.accountService.isAdmin;
-  }
-
   public onLogout(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -125,5 +131,17 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(['/accedi']);
       }
     });
+  }
+
+  onSearch() {
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      this.search.emit(this.searchTerm.trim());
+    } else {
+      this.search.emit(''); // Reset catalogo se vuoto
+    }
+  }
+
+  onFiltroClick(cId?: number, pId?: number) {
+    this.filtroSelezionato.emit({ categoriaId: cId, piattaformaId: pId });
   }
 }

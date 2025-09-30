@@ -26,4 +26,31 @@ export class ProdottoApiService {
       { params }
     );
   }
+
+  listByFilter(
+    id?: number,
+    nome?: string,
+    categoriaId?: number,
+    piattaformaId?: number
+  ): Observable<ResponseList<ProdottoDTO>> {
+    let params = new HttpParams();
+
+    if (id) {
+      params = params.set('id', id.toString());
+    }
+    if (nome) {
+      params = params.set('nome', nome);
+    }
+    if (categoriaId) {
+      params = params.set('categoriaId', categoriaId);
+    }
+    if (piattaformaId) {
+      params = params.set('piattaformaId', piattaformaId);
+    }
+
+    return this.http.get<ResponseList<ProdottoDTO>>(
+      `${this.baseUrl}/list-by-filter`,
+      { params }
+    );
+  }
 }

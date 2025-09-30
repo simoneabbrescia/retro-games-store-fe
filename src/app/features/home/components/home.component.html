@@ -6,7 +6,9 @@
   </p>
 <![endif]-->
 
-<app-header></app-header>
+<app-header (search)="onSearch($event)"
+  (filtroSelezionato)="onFiltroCliccato($event.categoriaId, $event.piattaformaId)">
+</app-header>
 
 <!-- Start Catalog Area -->
 <section class="trending-product section">
